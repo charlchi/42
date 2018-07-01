@@ -1,0 +1,119 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BUFF_SIZE	gnl/get_next_line.h	20;"	d
+CC	Makefile	/^CC =	gcc$/;"	m
+CC	libft/Makefile	/^CC =	gcc$/;"	m
+FILES	Makefile	/^FILES = *.c gnl\/*.c libft\/*.c$/;"	m
+FILES	libft/Makefile	/^FILES = ft_memalloc.c ft_putnbr_fd.c ft_strjoin.c ft_strrev.c \\$/;"	m
+FLAGS	Makefile	/^FLAGS =	-Wall -Wextra -Werror$/;"	m
+FLAGS	libft/Makefile	/^FLAGS =	-Wall -Wextra -Werror$/;"	m
+GET_NEXT_LINE_H	gnl/get_next_line.h	14;"	d
+INC	Makefile	/^INC = -Ilibft -Ignl$/;"	m
+LEMIN_H	lemin.h	14;"	d
+LIBFT_H	libft/libft.h	14;"	d
+LONG_MAX	libft/libft.h	21;"	d
+LONG_MIN	libft/libft.h	25;"	d
+NAME	Makefile	/^NAME =	lemin$/;"	m
+NAME	libft/Makefile	/^NAME =	libft.a$/;"	m
+OBJ	Makefile	/^OBJ = a.out$/;"	m
+OBJ	libft/Makefile	/^OBJ =	ft_memalloc.o ft_putnbr_fd.o ft_strjoin.o ft_strrev.o \\$/;"	m
+add_links	lemin_readlinks.c	/^void	add_links(t_info *info, char **l)$/;"	f
+ants	lemin.h	/^	int		ants;$/;"	m	struct:s_info
+content	libft/libft.h	/^	void			*content;$/;"	m	struct:s_list
+content_size	libft/libft.h	/^	size_t			content_size;$/;"	m	struct:s_list
+end	lemin.h	/^	int		end;$/;"	m	struct:s_info
+exit_error	main.c	/^void		exit_error(void)$/;"	f
+ft_atoi	libft/ft_atoi.c	/^int		ft_atoi(const char *nptr)$/;"	f
+ft_bzero	libft/ft_bzero.c	/^void		ft_bzero(void *s, size_t n)$/;"	f
+ft_countint	libft/ft_countint.c	/^int	ft_countint(int n)$/;"	f
+ft_isalnum	libft/ft_isalnum.c	/^int		ft_isalnum(int c)$/;"	f
+ft_isalpha	libft/ft_isalpha.c	/^int		ft_isalpha(int c)$/;"	f
+ft_isascii	libft/ft_isascii.c	/^int		ft_isascii(int c)$/;"	f
+ft_isblank	libft/ft_isblank.c	/^int		ft_isblank(int c)$/;"	f
+ft_isdigit	libft/ft_isdigit.c	/^int		ft_isdigit(int c)$/;"	f
+ft_isprint	libft/ft_isprint.c	/^int		ft_isprint(int c)$/;"	f
+ft_issign	libft/ft_issign.c	/^int		ft_issign(const char *nptr, int *neg, unsigned long *cutoff)$/;"	f
+ft_isspace	libft/ft_isspace.c	/^int		ft_isspace(int c)$/;"	f
+ft_iswhite	libft/ft_iswhite.c	/^int		ft_iswhite(int c)$/;"	f
+ft_itoa	libft/ft_itoa.c	/^char	*ft_itoa(int val)$/;"	f
+ft_lstadd	libft/ft_lstadd.c	/^void	ft_lstadd(t_list **alst, t_list *new)$/;"	f
+ft_lstdel	libft/ft_lstdel.c	/^void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))$/;"	f
+ft_lstdelone	libft/ft_lstdelone.c	/^void	ft_lstdelone(t_list **alst, void (*del)(void *, size_t))$/;"	f
+ft_lstiter	libft/ft_lstiter.c	/^void	ft_lstiter(t_list *lst, void (*f)(t_list *elem))$/;"	f
+ft_lstmap	libft/ft_lstmap.c	/^t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))$/;"	f
+ft_lstnew	libft/ft_lstnew.c	/^t_list		*ft_lstnew(void const *content, size_t content_size)$/;"	f
+ft_memalloc	libft/ft_memalloc.c	/^void	*ft_memalloc(size_t size)$/;"	f
+ft_memccpy	libft/ft_memccpy.c	/^void	*ft_memccpy(void *dst, const void *src, int c, size_t n)$/;"	f
+ft_memchr	libft/ft_memchr.c	/^void	*ft_memchr(const void *s, int c, size_t n)$/;"	f
+ft_memcmp	libft/ft_memcmp.c	/^int			ft_memcmp(const void *v1, const void *v2, size_t n)$/;"	f
+ft_memcpy	libft/ft_memcpy.c	/^void	*ft_memcpy(void *dst, const void *src, size_t n)$/;"	f
+ft_memdel	libft/ft_memdel.c	/^void		ft_memdel(void **ap)$/;"	f
+ft_memmove	libft/ft_memmove.c	/^void	*ft_memmove(void *dst, const void *src, size_t len)$/;"	f
+ft_memset	libft/ft_memset.c	/^void	*ft_memset(void *b, int c, size_t len)$/;"	f
+ft_putbyte_fd	libft/ft_putbyte_fd.c	/^void	ft_putbyte_fd(int c, int fd)$/;"	f
+ft_putchar	libft/ft_putchar.c	/^void	ft_putchar(int c)$/;"	f
+ft_putchar_fd	libft/ft_putchar_fd.c	/^void		ft_putchar_fd(int c, int fd)$/;"	f
+ft_putendl	libft/ft_putendl.c	/^void	ft_putendl(char const *s)$/;"	f
+ft_putendl_fd	libft/ft_putendl_fd.c	/^void	ft_putendl_fd(char const *s, int fd)$/;"	f
+ft_putnbr	libft/ft_putnbr.c	/^void	ft_putnbr(int val)$/;"	f
+ft_putnbr_fd	libft/ft_putnbr_fd.c	/^void		ft_putnbr_fd(int val, int fd)$/;"	f
+ft_putstr	libft/ft_putstr.c	/^void	ft_putstr(char const *str)$/;"	f
+ft_putstr_fd	libft/ft_putstr_fd.c	/^void		ft_putstr_fd(char const *s, int fd)$/;"	f
+ft_strcat	libft/ft_strcat.c	/^char		*ft_strcat(char *dest, const char *src)$/;"	f
+ft_strchr	libft/ft_strchr.c	/^char	*ft_strchr(const char *s, int c)$/;"	f
+ft_strclr	libft/ft_strclr.c	/^void		ft_strclr(char *s)$/;"	f
+ft_strcmp	libft/ft_strcmp.c	/^int		ft_strcmp(const char *ss1, const char *ss2)$/;"	f
+ft_strcpy	libft/ft_strcpy.c	/^char	*ft_strcpy(char *dest, char const *src)$/;"	f
+ft_strdel	libft/ft_strdel.c	/^void		ft_strdel(char **as)$/;"	f
+ft_strdup	libft/ft_strdup.c	/^char	*ft_strdup(const char *s1)$/;"	f
+ft_strequ	libft/ft_strequ.c	/^int		ft_strequ(char const *s1, char const *s2)$/;"	f
+ft_striter	libft/ft_striter.c	/^void		ft_striter(char *s, void (*f)(char *))$/;"	f
+ft_striteri	libft/ft_striteri.c	/^void		ft_striteri(char *s, void (*f)(unsigned int, char *))$/;"	f
+ft_strjoin	libft/ft_strjoin.c	/^char		*ft_strjoin(char const *s1, char const *s2)$/;"	f
+ft_strlcat	libft/ft_strlcat.c	/^unsigned int	ft_strlcat(char *dst, const char *src, unsigned int siz)$/;"	f
+ft_strlcpy	libft/ft_strlcpy.c	/^unsigned int	ft_strlcpy(char *dest, const char *src, unsigned int size)$/;"	f
+ft_strlen	libft/ft_strlen.c	/^int	ft_strlen(const char *str)$/;"	f
+ft_strmap	libft/ft_strmap.c	/^char		*ft_strmap(char const *s, char (*f)(char))$/;"	f
+ft_strmapi	libft/ft_strmapi.c	/^char		*ft_strmapi(char const *s, char (*f)(unsigned int, char))$/;"	f
+ft_strncat	libft/ft_strncat.c	/^char		*ft_strncat(char *dest, const char *src, size_t n)$/;"	f
+ft_strncmp	libft/ft_strncmp.c	/^int		ft_strncmp(const char *ss1, const char *ss2, size_t n)$/;"	f
+ft_strncpy	libft/ft_strncpy.c	/^char		*ft_strncpy(char *dest, const char *src, size_t n)$/;"	f
+ft_strnequ	libft/ft_strnequ.c	/^int		ft_strnequ(char const *s1, char const *s2, size_t n)$/;"	f
+ft_strnew	libft/ft_strnew.c	/^char		*ft_strnew(size_t size)$/;"	f
+ft_strnstr	libft/ft_strnstr.c	/^char	*ft_strnstr(const char *str, const char *to_find, size_t len)$/;"	f
+ft_strrchr	libft/ft_strrchr.c	/^char	*ft_strrchr(const char *s, int c)$/;"	f
+ft_strrev	libft/ft_strrev.c	/^void	ft_strrev(char **str)$/;"	f
+ft_strsplit	libft/ft_strsplit.c	/^char	**ft_strsplit(char const *s, char c)$/;"	f
+ft_strstr	libft/ft_strstr.c	/^char	*ft_strstr(const char *str, const char *to_find)$/;"	f
+ft_strstrlen	libft/ft_strstrlen.c	/^int		ft_strstrlen(char **str)$/;"	f
+ft_strsub	libft/ft_strsub.c	/^char	*ft_strsub(char const *s, unsigned int start, size_t len)$/;"	f
+ft_strtrim	libft/ft_strtrim.c	/^char	*ft_strtrim(char const *s)$/;"	f
+ft_strwordchr	libft/ft_strwordchr.c	/^char	*ft_strwordchr(char const *s, char c)$/;"	f
+ft_strwordcnt	libft/ft_strwordcnt.c	/^int		ft_strwordcnt(char const *s, char c)$/;"	f
+ft_tolower	libft/ft_tolower.c	/^int		ft_tolower(int c)$/;"	f
+ft_toupper	libft/ft_toupper.c	/^int		ft_toupper(int c)$/;"	f
+get_next_line	gnl/get_next_line.c	/^int		get_next_line(const int f, char **l)$/;"	f
+get_room_index	lemin_readlinks.c	/^int     get_room_index(t_info *info, char *name)$/;"	f
+gnl_strcpy	gnl/get_next_line.c	/^int		gnl_strcpy(char *src, char *dst)$/;"	f
+gnl_strlen	gnl/get_next_line.c	/^int		gnl_strlen(char *src)$/;"	f
+graph	lemin.h	/^	int		**graph;$/;"	m	struct:s_info
+main	main.c	/^int			main(void)$/;"	f
+n	lemin.h	/^	int		n;$/;"	m	struct:s_info
+name	lemin.h	/^	char	**name;$/;"	m	struct:s_info
+next	libft/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list::s_list
+read_links	lemin_readlinks.c	/^void	read_links(t_info *info, char **l)$/;"	f
+read_nants	lemin_readinit.c	/^void	read_nants(t_info *info, char **l)$/;"	f
+read_room_add	lemin_readinit.c	/^void	read_room_add(t_info *info, char **str)$/;"	f
+read_rooms	lemin_readinit.c	/^void	read_rooms(t_info *info, char **l)$/;"	f
+s_info	lemin.h	/^typedef struct	s_info$/;"	s
+s_list	libft/libft.h	/^typedef struct	s_list$/;"	s
+search_graph	main.c	/^void		search_graph(int *b, int *dis, int d, t_info *info, int n)$/;"	f
+start	lemin.h	/^	int		start;$/;"	m	struct:s_info
+t_info	lemin.h	/^}				t_info;$/;"	t	typeref:struct:s_info
+t_list	libft/libft.h	/^}				t_list;$/;"	t	typeref:struct:s_list
+x	lemin.h	/^	int		*x;$/;"	m	struct:s_info
+y	lemin.h	/^	int		*y;$/;"	m	struct:s_info
