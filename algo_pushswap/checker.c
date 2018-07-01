@@ -72,4 +72,6 @@ int main(int argc, char **argv)
 		// error
 	if (!valid_args(argc, argv))
 		// error
+	// push args to stack starting from (argc) to (0 + 1)
+	
 }

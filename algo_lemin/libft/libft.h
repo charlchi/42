@@ -6,7 +6,7 @@
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/24 13:54:55 by cmoller           #+#    #+#             */
-/*   Updated: 2018/05/30 14:44:40 by cmoller          ###   ########.fr       */
+/*   Updated: 2018/06/12 12:44:45 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
-# include "get_next_line.h"
 
 # ifndef LONG_MAX
 #  define LONG_MAX ((long)(ULONG_MAX >> 1))
@@ -26,7 +25,6 @@
 #  define LONG_MIN ((long)(~LONG_MAX))
 # endif
 
-char			*get_next_line(int fd)
 void			*ft_memset(void *s, int c, size_t n);
 void			ft_bzero(void *s, size_t n);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
@@ -89,6 +87,7 @@ void			ft_putchar_fd(int c, int fd);
 void			ft_putstr_fd(char const *s, int fd);
 void			ft_putendl_fd(char const *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
+int				ft_strstrlen(char **str);
 
 typedef struct	s_list
 {
