@@ -37,7 +37,8 @@ int main(int argc, char **argv)
 	while (get_next_line(0, &l))
 	{
 		// create function that checks whether line contains cmds
-		while (i < )
+		// void	is_cmd(char *l, char **cmds);
+		is_cmd(l, cmds);
 		
 	}
 }
