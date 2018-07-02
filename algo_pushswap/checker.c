@@ -1,31 +1,43 @@
 
-#include "pushswap.h"
+#include <pushswap.h>
 
 int main(int argc, char **argv)
 {
-	int			i;
-	char		*l;
 	t_stack		a;
 	t_stack		b;
 
-	if (argc < 2)
+	// check errors function check_errors(argc, argv)
+	if (argc < 2){}
 		// error
-	if (!valid_args(argc, argv))
+	if (!valid_args(argc, argv)){}
 		// error
-	// push all args onto stack after error checking
+	// add malloc guards
 	a.table = (int *)malloc(sizeof(int) * (argc - 1));
 	b.table = (int *)malloc(sizeof(int) * (argc - 1));
 	a.top = 0;
 	b.top = 0;
+
+	// push all args onto stack after error checking
+	int			i;
 	i = argc - 1;
 	while (i > 0)
 	{
 		st_push(&a, ft_atoi(argv[i]));
 		i--;
 	}
-	// read from std
+	// read from stdin
+	
+	char		*l;
+	char		**cmds;
+	int			contains = 0;
+	int			i;
+	// get_commands();
+	if (!(cmds = ft_strsplit("sa sb ss pa pb pb ra rb rr rra rrb rrr", ' '))){}
+		// error-
 	while (get_next_line(0, &l))
 	{
+		// create function that checks whether line contains cmds
+		while (i < )
 		
 	}
 }
