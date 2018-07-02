@@ -6,7 +6,7 @@
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 13:15:54 by cmoller           #+#    #+#             */
-/*   Updated: 2018/05/26 18:31:29 by cmoller          ###   ########.fr       */
+/*   Updated: 2018/06/18 14:22:44 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,14 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
-# define BUFF_SIZE 12
+# define BUFF_SIZE 8
 
-int		get_next_line(const int fd, char **line);
+typedef struct	s_fd
+{
+	int		fd;
+	char	b[BUFF_SIZE + 1];
+}				t_fd;
+
+int				get_next_line(const int fd, char **l);
 
 #endif
