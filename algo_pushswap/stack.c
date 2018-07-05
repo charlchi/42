@@ -1,11 +1,16 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    stack.c                                            :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cmoller <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/05/18 13:23:13 by cmoller           #+#    #+#              #
+#    Updated: 2018/07/02 12:45:54 by cmoller          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-#include "stack.h"
-
-int		st_pop(t_stack *stack);
-void	st_push(t_stack *stack, int val);
-void	st_swap(t_stack *stack);
-void	st_rot(t_stack *stack);
-void	st_revrot(t_stack *stack);
+#include "pushswap.h"
 
 void	st_push(t_stack *stack, int val)
 {
