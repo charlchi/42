@@ -40,28 +40,6 @@ int			main(void)
 	return (0);
 }
 
-int n;
-int x[100000];
-int y[100000]
-
-"............"
-"............"
-"............"
-"...ooooooo.."
-"...oxxxxxo.."
-"...oxxxxxo.."
-"...oxxxxxo.."
-"...oxxxxxo.."
-"...oxxxxxo.."
-"...oxxxxxo.."
-"...ooooooo.."
-"............"
-"............"
-"......K*...."    "**"
-"......**...."    "**"
-"............"
-
-
 void		get_opieces(t_filler *f, t_piece *p, t_opieces *op, t_opieces *eop)
 {
 	int		i;
