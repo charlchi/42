@@ -1,102 +1,67 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    checker.c                                          :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cmoller <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/05/18 13:23:13 by cmoller           #+#    #+#              #
+#    Updated: 2018/07/02 12:45:54 by cmoller          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-#include <pushswap.h>
+#include "pushswap.h"
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
+	char		**cmds;
 	t_stack		a;
 	t_stack		b;
 
-	// check errors function check_errors(argc, argv)
-	if (argc < 2){}
-		// error
-	if (!valid_args(argc, argv)){}
-		// error
-	// add malloc guards
-	a.table = (int *)malloc(sizeof(int) * (argc - 1));
-	b.table = (int *)malloc(sizeof(int) * (argc - 1));
-	a.top = 0;
-	b.top = 0;
+	parse_args(&a, &b, argc, argv);
+	if (!(cmds = ft_strsplit("sa sb ss pa pb pb ra rb rr rra rrb rrr", ' ')))
+		exit_error();
+	run_checker(&a, &b, cmds);
+	if (is_sorted(a.table) && is_empty(b))
+		print("OK\n");
+	else 
+		print("KO\n");
+	free_checker();
+	return (0);
+}
 
-	// push all args onto stack after error checking
-	int			i;
-	i = argc - 1;
-	while (i > 0)
-	{
-		st_push(&a, ft_atoi(argv[i]));
-		i--;
-	}
-	// read from stdin
-	
-	char		*l;
-	char		**cmds;
-	int			contains = 0;
-	int			i;
-	// get_commands();
-	if (!(cmds = ft_strsplit("sa sb ss pa pb pb ra rb rr rra rrb rrr", ' '))){}
-		// error-
+void	run_checker(t_stack *a, t_stack *a, char **cmds)
+{
+	char	*l;
+
 	while (get_next_line(0, &l))
 	{
-		// create function that checks whether line contains cmds
-		// void	is_cmd(char *l, char **cmds);
-		is_cmd(l, cmds);
-		
+		if ((cmd = get_cmd(l, cmds)))
+			do_cmd(a, b, cmd); //TODO
+		else if (ft_strcmp(l, "") == 0)
+			exit_error();
+		}
 	}
+
 }
 
-int		valid_args(int argc, char **argv)
-{
-	if (valid_nums(argc, argv) == 0)
-		return (0);
-	if (valid_dups(argc, argv) == 0)
-		return (0);
-	return (1);
-}
-
-// TODO add to libft stringarr numeric check
-int		valid_nums(int argc, char **argv)
+// TODO put in another file
+int		get_cmd(char *l, char **cmds)
 {
 	int		i;
-	int		j;
-	char	c;
 
-	i = 1;
-	while (i < argc)
+	i = 0;
+	while (cmds[i])
 	{
-		j = 0;
-		while (argv[i][j])
-		{
-			c = argv[i][j];
-
-			if (!(ft_isdigit(c)))
-				if (!(j == 0 && (c == '-' || c == '+')))
-					return (0);
-			j++;
-		}
-		if (j == 0)
-			return (0);
+		if (ft_strcmp(l, cmds[i]) == 0)
+			return (i + 1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
-// TODO add to libft stringarr dupliccates check
-int		valid_dups(int argc, char **argv)
+// TODO put in another file
+void	init_stacks(t_stack *a, t_stack *b, int size)
 {
-	int		i;
-	int		j;
-	
-	i = 1;
-	while (i < argc - 1)
-	{
-		j = i + 1;
-		while (j < argc)
-		{
-			if (ft_strcmp(argv[i], argv[j] < 0))
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	return (1);
-}
 
+}
