@@ -1,14 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    stack.c                                            :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: cmoller <marvin@42.fr>                     +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/05/18 13:23:13 by cmoller           #+#    #+#              #
-#    Updated: 2018/07/02 12:45:54 by cmoller          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 #include "pushswap.h"
 
@@ -16,6 +5,11 @@ void	st_push(t_stack *stack, int val)
 {
 	stack->top++;
 	stack->table[stack->top] = val;
+}
+
+int		st_peek(t_stack *stack)
+{
+	return (stack->table[stack->top]);
 }
 
 int		st_pop(t_stack *stack)
@@ -40,36 +34,28 @@ void	st_swap(t_stack *stack)
 	}	
 }
 
-void	st_rot(t_stack *stack)
+void	st_rot(t_stack *stack, int rev)
 {
 	int		*table;
 	int		prev;
 	int		i;
 
 	table = stack->table;
-	prev = table[stack->top];
-	i = stack->top;
-	while (i > 0)
+	if (rev)
 	{
-		table[i] = table[i - 1];
-		i--;
+		prev = table[0];
+		i = -1;
+		while (++i < stack->top - 1)
+			table[i] = table[i + 1];
+		table[i] = prev;
 	}
-	table[0] = prev;
-}
-
-void	st_revrot(t_stack *stack)
-{
-	int		*table;
-	int		prev;
-	int		i;
-
-	table = stack->table;
-	prev = table[0];
-	i = 0;
-	while (i < stack->top - 1)
+	else
 	{
-		table[i] = table[i + 1];
-		i++;
+		table = stack->table;
+		prev = table[stack->top];
+		i = stack->top + 1;
+		while (--i > 0)
+			table[i] = table[i - 1];
+		table[0] = prev;
 	}
-	table[i] = prev;
 }

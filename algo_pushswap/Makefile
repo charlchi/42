@@ -1,3 +1,4 @@
+
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
@@ -10,24 +11,33 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME =	push_swap
-FLAGS =	-Wall -Wextra -Werror
-CC =	gcc
-OBJ =	ft_memalloc.o ft_putnbr_fd.o ft_strjoin.o ft_strrev.o \
-FILES = ft_memalloc.c ft_putnbr_fd.c ft_strjoin.c ft_strrev.c \
+NAME =		push_swap
+FLAGS =		-Wall -Wextra -Werror
+CC =		gcc
+CH_OBJ =	checker.o parser.o pushswap.o stack.o util.o 
+CH_FILES =	checker.c parser.c pushswap.c stack.c util.c 
+PS_OBJ =	algo.o parser.o pushswap.o stack.o util.o 
+PS_FILES =	algo.c parser.c pushswap.c stack.c util.c 
 
 # compile libft in directory ../libft
 # mv libft.a from that directory to algo_pushswap
 # compile push swap executable with libft.a linked to it
 
-all: 		$(NAME)
+all: 		checker push_swap
 
-$(OBJ):
-			$(CC) $(FLAGS) -c $(FILES)
+$(CH_OBJ):
+			$(CC) $(FLAGS) -c $(CH_FILES)
+
+$(PS_OBJ):
+			$(CC) $(FLAGS) -c $(PS_FILES)
 
 $(NAME):	$(OBJ)
-			ar rc $(NAME) $(OBJ)
-			ranlib $(NAME)
+			
+checker:	$(CH_OBJ)
+			$(CC) $(FLAGS) $(CH_OBJ) -o checker 
+
+push_swap:		$(PS_OBJ)
+			$(CC) $(FLAGS) $(PS_OBJ) -o push_swap 
 
 clean:
 			/bin/rm -f *.o
@@ -37,6 +47,3 @@ fclean: 	clean
 
 re: 		fclean all
 
-so: 		$(OBJ)
-			gcc -g -fPIC -Wall -Werror -Wextra -pedantic *.c -shared -o libft.so
-# keep this ^^ if you actually want to work from home

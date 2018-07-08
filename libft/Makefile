@@ -26,7 +26,7 @@ OBJ =	ft_memalloc.o ft_putnbr_fd.o ft_strjoin.o ft_strrev.o \
 		ft_isspace.o ft_putendl_fd.o ft_striter.o ft_strnstr.o \
 		ft_itoa.o ft_putnbr.o ft_striteri.o ft_strrchr.o ft_countint.o \
 		ft_lstadd.o ft_lstdel.o ft_lstdelone.o ft_lstiter.o ft_lstmap.o \
-		ft_putbyte_fd.o ft_lstnew.o ft_iswhite.o
+		ft_putbyte_fd.o ft_lstnew.o ft_iswhite.o ft_strstrfree.o
 FILES = ft_memalloc.c ft_putnbr_fd.c ft_strjoin.c ft_strrev.c \
 		ft_memccpy.c ft_putstr.c ft_strlcat.c ft_strsplit.c \
 		ft_atoi.c ft_memchr.c ft_putstr_fd.c ft_strlcpy.c ft_strstr.c \
@@ -41,7 +41,7 @@ FILES = ft_memalloc.c ft_putnbr_fd.c ft_strjoin.c ft_strrev.c \
 		ft_isspace.c ft_putendl_fd.c ft_striter.c ft_strnstr.c \
 		ft_itoa.c ft_putnbr.c ft_striteri.c ft_strrchr.c ft_countint.c \
 		ft_lstadd.c ft_lstdel.c ft_lstdelone.c ft_lstiter.c ft_lstmap.c \
-		ft_putbyte_fd.c ft_lstnew.c ft_iswhite.c
+		ft_putbyte_fd.c ft_lstnew.c ft_iswhite.c ft_strstrfree.c
 
 all: 		$(NAME)
 
