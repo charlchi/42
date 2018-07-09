@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pushswap.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/07/09 09:10:21 by cmoller           #+#    #+#             */
+/*   Updated: 2018/07/09 09:11:36 by cmoller          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #ifndef PUSHSWAP_H
 # define PUSHSWAP_H
 
-#include <stdio.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "libft.h"
+# include "../libft/libft.h"
 
 # define PS_SA 1
 # define PS_SB 2
@@ -31,12 +43,10 @@ void		st_push(t_stack *stack, int val);
 void		st_swap(t_stack *stack);
 void		st_rot(t_stack *stack, int rev);
 
-// checker
 void		run_checker(t_stack *a, t_stack *b);
 int			get_cmd(char *l, char **cmds);
 
-// general functions
-int 		is_sorted(int *table, int length);
+int			is_sorted(int *table, int length);
 void		do_cmd(t_stack *a, t_stack *b, int cmd);
 void		pushswap_cmd(t_stack *a, t_stack *b, int cmd);
 void		rot_cmd(t_stack *a, t_stack *b, int cmd);
@@ -45,17 +55,22 @@ int			valid_nums(int argc, char **argv);
 int			valid_dups(int argc, char **argv);
 void		print_stack(t_stack *stack);
 void		exit_error(void);
+void		copy_stack(t_stack *st, t_stack *cp);
+void		init_stack(t_stack *stack, int size);
 
-// push_swap
-typedef struct	s_search;
+typedef struct	s_search
 {
 	int		n;
 	int		*ops;
-	t_stack	*a;
-	t_stack	*b;
+	t_stack	a;
+	t_stack	b;
 }				t_search;
 
-void	algo_min(t_search *search);
-void	algo1_algo(t_search *search);
+t_search	*malloc_search(t_stack *a, t_stack *b);
+void		search_do_op(t_search *search, int op);
+void		print_smallest_ops(t_search **ss);
+void		free_searches(t_search **searches);
+t_search	*min_algo(t_stack *a, t_stack *b);
+int			get_min_stack(t_stack *stack);
 
 #endif

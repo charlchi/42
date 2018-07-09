@@ -1,9 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/07/09 08:54:07 by cmoller           #+#    #+#             */
+/*   Updated: 2018/07/09 09:09:47 by cmoller          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "pushswap.h"
-
+/*
 int		main(int argc, char **argv)
 {
-
 	t_stack		a;
 	t_stack		b;
 
@@ -31,7 +41,7 @@ void	run_checker(t_stack *a, t_stack *b)
 	}
 	if (is_sorted(a->table, a->top) && b->top == -1)
 		write(1, "OK\n", 3);
-	else 
+	else
 		write(1, "KO\n", 3);
 	ft_strstrfree(cmds);
 }
@@ -49,3 +59,4 @@ int		get_cmd(char *l, char **cmds)
 	}
 	return (0);
 }
+*/

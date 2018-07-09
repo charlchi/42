@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   util.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/07/09 09:11:49 by cmoller           #+#    #+#             */
+/*   Updated: 2018/07/09 09:12:18 by cmoller          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "pushswap.h"
 
 void	init_stack(t_stack *stack, int size)
 {
-	if (!(stack->table = malloc(sizeof(int) * size)))
+	if (!(stack->table = (int *)malloc(sizeof(int) * size)))
 		exit_error();
 	stack->top = -1;
 }
@@ -21,7 +32,7 @@ void	copy_stack(t_stack *st, t_stack *cp)
 	cp->top = st->top;
 }
 
-int 	is_sorted(int *table, int length)
+int		is_sorted(int *table, int length)
 {
 	int		i;
 
