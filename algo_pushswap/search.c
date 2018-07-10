@@ -6,7 +6,7 @@
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/09 09:11:07 by cmoller           #+#    #+#             */
-/*   Updated: 2018/07/09 09:11:21 by cmoller          ###   ########.fr       */
+/*   Updated: 2018/07/10 15:38:00 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 t_search	*malloc_search(t_stack *a, t_stack *b)
 {
-	t_search	*ret;
+	t_search	*s;
 
-	ret = (t_search *)malloc(sizeof(t_search));
-	ret->n = 0;
-	ret->ops = (int *)malloc(sizeof(int) * 10000);
-	init_stack(&ret->a, a->top + 1);
-	init_stack(&ret->b, a->top + 1);
-	copy_stack(a, &ret->a);
-	return (ret);
+	s = (t_search *)malloc(sizeof(t_search));
+	s->n = 0;
+	s->ops = (int *)malloc(sizeof(int) * 10000);
+	init_stack(&s->a, a->top + 1);
+	init_stack(&s->b, a->top + 1);
+	copy_stack(a, &s->a);
+	return (s);
 }
 
 void		search_do_op(t_search *search, int op)
@@ -41,15 +41,16 @@ void		print_smallest_ops(t_search **ss)
 	min = ss[0];
 	i = 0;
 	while (ss[++i])
-		if (ss[i]->n < min->n)
+		if (ss[i]->n < min->n && ss[i]->n != -1)
 			min = ss[i];
 	if (!(cmds = ft_strsplit("sa sb ss pa pb ra rb rr rra rrb rrr", ' ')))
 		exit_error();
-	i = -1;
-	while (++i < min->n)
+	i = 0;
+	while (i < min->n)
 	{
 		write(1, cmds[min->ops[i] - 1], ft_strlen(cmds[min->ops[i] - 1]));
 		write(1, "\n", 1);
+		i++;
 	}
 	free(cmds);
 }
@@ -60,11 +61,15 @@ void		free_searches(t_search **searches)
 
 	i = 0;
 	while (searches[i])
-	{
-		free(searches[i]->ops);
-		free(searches[i]->a.table);
-		free(searches[i]->b.table);
-		i++;
-	}
+		free_search(searches[i++]);
 	free(searches);
 }
+
+void		free_search(t_search *search)
+{	
+	free(search->ops);
+	free(search->a.table);
+	free(search->b.table);
+	free(search);
+}
+
