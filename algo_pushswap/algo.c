@@ -22,13 +22,15 @@ int		main(int argc, char **argv)
 	parse_args(&a, &b, argc, argv);
 	if (argc == 2)
 		return (0);
-	
 	searches = (t_search **)malloc(sizeof(t_search *) * 3);
 	searches[0] = min_algo(&a, &b);
 	searches[1] = recursive_algo(&a, &b);
 	searches[2] = NULL;
 	print_smallest_ops(searches);
+
+//TODO REMOVE
 	print_stack(&searches[0]->a);
+
 	free_searches(searches);
 	free(a.table);
 	free(b.table);
