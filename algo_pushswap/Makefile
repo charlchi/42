@@ -1,4 +1,3 @@
-
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
@@ -7,43 +6,37 @@
 #    By: cmoller <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/18 13:23:13 by cmoller           #+#    #+#              #
-#    Updated: 2018/07/02 12:45:54 by cmoller          ###   ########.fr        #
+#    Updated: 2018/07/11 09:52:12 by cmoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+FLAGS =	-Wall -Wextra -Werror
+CC = gcc
+PS_NAME =	push_swap
+PS_SRC = $(filter-out checker.c, $(wildcard *.c)) $(wildcard ../libft/*.c)
+PS_OBJ = $(PS_SRC:.c=.o)
+CH_NAME =	checker
+CH_SRC = $(filter-out algo.c, $(wildcard *.c)) $(wildcard ../libft/*.c)
+CH_OBJ = $(CH_SRC:.c=.o)
 
-NAME =		push_swap
-FLAGS =		-Wall -Wextra -Werror
-CC =		gcc
-CH_OBJ =	checker.o parser.o pushswap.o stack.o util.o 
-CH_FILES =	checker.c parser.c pushswap.c stack.c util.c 
-PS_OBJ =	algo.o parser.o pushswap.o stack.o util.o 
-PS_FILES =	algo.c parser.c pushswap.c stack.c util.c 
+%.o:		%.c
+			$(CC) $(FLAGS) -c $< -o $@
 
-# compile libft in directory ../libft
-# mv libft.a from that directory to algo_pushswap
-# compile push swap executable with libft.a linked to it
+all: 		$(PS_NAME) $(CH_NAME)
 
-all: 		checker push_swap
+$(CH_NAME):	$(CH_OBJ)
+			$(CC) $(CH_OBJ) -o $(CH_NAME)
 
-$(CH_OBJ):
-			$(CC) $(FLAGS) -c $(CH_FILES)
-
-$(PS_OBJ):
-			$(CC) $(FLAGS) -c $(PS_FILES)
-
-$(NAME):	$(OBJ)
-			
-checker:	$(CH_OBJ)
-			$(CC) $(FLAGS) $(CH_OBJ) -o checker 
-
-push_swap:		$(PS_OBJ)
-			$(CC) $(FLAGS) $(PS_OBJ) -o push_swap 
+$(PS_NAME):	$(PS_OBJ)
+			$(CC) $(PS_OBJ) -o $(PS_NAME)
 
 clean:
-			/bin/rm -f *.o
+			/bin/rm -f $(CH_NAME)
+			/bin/rm -f $(PS_NAME)
 
 fclean: 	clean
-			/bin/rm -f $(NAME)
+			/bin/rm -f $(CH_NAME)
+			/bin/rm -f $(PS_NAME)
+			/bin/rm -f *.o
 
 re: 		fclean all
-
+	
