@@ -36,7 +36,6 @@ t_search	*recursive_algo(t_stack *ap)
 	}
 	else 
 		s->n = -1;
-	//test
 	return (s);
 }
 
