@@ -12,7 +12,7 @@
 
 #include "pushswap.h"
 
-t_search	*malloc_search(t_stack *a, t_stack *b)
+t_search	*malloc_search(t_stack *a)
 {
 	t_search	*s;
 

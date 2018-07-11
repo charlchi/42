@@ -66,14 +66,14 @@ typedef struct	s_search
 	t_stack	b;
 }				t_search;
 
-t_search	*malloc_search(t_stack *a, t_stack *b);
+t_search	*malloc_search(t_stack *a);
 void		search_do_op(t_search *search, int op);
 void		print_smallest_ops(t_search **ss);
 void		free_searches(t_search **searches);
 void		free_search(t_search *search);
 t_search	*min_algo(t_stack *a, t_stack *b);
 int			get_min_stack(t_stack *stack);
-t_search	*recursive_algo(t_stack *ap, t_stack *bp);
+t_search	*recursive_algo(t_stack *ap);
 void		find_permutation(t_search *s, int depth, int maxdepth);
 int			test_permutation(t_search *s);
 #endif

@@ -14,7 +14,6 @@
 
 int		main(int argc, char **argv)
 {
-	int			*ops;
 	t_search	**searches;
 	t_stack		a;
 	t_stack		b;
@@ -24,13 +23,12 @@ int		main(int argc, char **argv)
 		return (0);
 	searches = (t_search **)malloc(sizeof(t_search *) * 3);
 	searches[0] = min_algo(&a, &b);
-	searches[1] = recursive_algo(&a, &b);
+	searches[1] = recursive_algo(&a);
 	searches[2] = NULL;
 	print_smallest_ops(searches);
 
 //TODO REMOVE
-	print_stack(&searches[0]->a);
-
+	//print_stack(&searches[0]->a);
 	free_searches(searches);
 	free(a.table);
 	free(b.table);
