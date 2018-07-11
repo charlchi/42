@@ -36,15 +36,10 @@ void	add_links(t_info *info, char **l)
 	str = ft_strsplit(*l, '-');
 	if (ft_strstrlen(str) != 2)
 		exit_error();
-	printf("get_room_index:    %s %s\n", str[0], str[1]);
 	i = get_room_index(info, str[0]);
 	j = get_room_index(info, str[1]);
-	printf("got room_indeces   %d %d\n", i, j);
-	printf("graph[i][j]   %d %d\n", i, j);
-	printf("graph[j][i]   %d %d\n", j, i);
 	info->graph[i][j] = 1;
 	info->graph[j][i] = 1;
-	printf("exiting add_links\n");
 }
 
 int     get_room_index(t_info *info, char *name)
