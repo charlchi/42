@@ -42,14 +42,11 @@ void	read_rooms(t_info *info, char **l)
 	char	**str;
 	int		ret;
 
-	printf("test %s \n", *l);
 	info->n = 0;
 	while ((get_next_line(0, l)) > 0)
 	{
-		printf("test %s \n", *l);
 		str = ft_strsplit(*l, ' ');
 		ret = ft_strstrlen(str);
-		printf("managed to split [%s]\n", *l);
 		if (ret == 1)
 		{
 			if (str[0][0] != '#' || str[0][0] == 'L')
@@ -68,9 +65,7 @@ void	read_rooms(t_info *info, char **l)
 
 void	read_room_add(t_info *info, char **str)
 {
-	//info->name[info->n] = ft_strdup(str[0]);
 	ft_strcpy(info->name[info->n], str[0]);
-	printf("adding room %s %s\n", info->name[info->n], str[0]);
 	info->x[info->n] = ft_atoi(str[1]);
 	info->y[info->n] = ft_atoi(str[2]);
 	info->n++;
