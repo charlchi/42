@@ -14,44 +14,57 @@
 
 int gsorted = 0;
 
-t_search	*recursive_algo(t_stack *ap, t_stack *bp)
+t_search	*recursive_algo(t_stack *ap)
 {
-	int			i;
+	int			depth;
+	int			maxdepth;
 	t_search	*s;
 
-	s = malloc_search(ap, bp);
+	s = malloc_search(ap);
 
-	i = 0;
-	while (i < 6 && gsorted == 0)
+	depth = 1;
+	maxdepth = 11;
+	while (depth <= maxdepth && gsorted == 0)
 	{
-		find_permutation(s, 0, i);
-		i++;
+		find_permutation(s, 0, depth);
+		depth++;
 	}
 	
-	if (gsorted == 1)
-		printf("found one\n");
+	if (gsorted > 0)
+	{
+		//printf("found solution len %d %d\n", s->n, gsorted);
+	}
 	else 
 		s->n = -1;
 	return (s);
 }
 
+// TODO What about command list permutations?
+// or permutations of rules that generate commands lists?
+// look into this
+
 // test all permutations of length len
 void		find_permutation(t_search *s, int depth, int maxdepth)
 {
 	int			i;
-
-	s->n = depth;
-	if (depth < maxdepth)
+	
+	if (depth < maxdepth && gsorted == 0)
 	{
-		//printf("%d\n", depth);
 		i = 1;
-		while (i <= PS_RRR)
+		s->n = depth + 1;
+		//while (i <= PS_RRR)
+		while (i <= PS_PB)
 		{
-			s->ops[depth] = i;
-			find_permutation(s, depth + 1, maxdepth);
-			if (test_permutation(s)){
-				gsorted = 1;
-				printf("found one of length")
+			
+			if (depth - 1 < maxdepth && gsorted == 0)
+			{
+				s->ops[depth] = i;
+				find_permutation(s, depth + 1, maxdepth);
+			}
+			if (gsorted == 0 && test_permutation(s))
+			{
+				gsorted++;
+				break;
 			}
 			i++;
 		}
@@ -65,17 +78,24 @@ int			test_permutation(t_search *s)
 	t_search	*test;
 
 	i = 0;
-	test = malloc_search(&s->a, &s->b); // really just copying the stacks here
+	test = malloc_search(&s->a); // really just copying the stacks here
 	while (i < s->n)
-	{
-		printf("%d\t", s->ops[i]);
 		search_do_op(test, s->ops[i++]);
-	}
-	printf("\n");
-	//print_stack(&test->a);
-	sorted = (is_sorted(test->a.table, test->a.top + 1) && (test->b.top == -1));
-	free_search(test);
+	sorted = is_sorted(test->a.table, test->a.top) && (test->b.top == -1);
+	
 	if (sorted)
+	{/*
+		i = 0;
+		while (i < s->n)
+			printf("op[%d] ", test->ops[i++]);
+		printf("\n");
+		i = 0;
+		while (i <= s->a.top)
+			printf("%d ", test->a.table[i++]);
+		printf("\n");
+		free_search(test);*/
 		return (1);
+	}
+	free_search(test);
 	return (0);
 }

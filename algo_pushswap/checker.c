@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "pushswap.h"
-/*
+
 int		main(int argc, char **argv)
 {
 	t_stack		a;
@@ -59,4 +59,3 @@ int		get_cmd(char *l, char **cmds)
 	}
 	return (0);
 }
-*/
