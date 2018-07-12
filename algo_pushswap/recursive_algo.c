@@ -13,6 +13,7 @@
 #include "pushswap.h"
 
 int gsorted = 0;
+t_search *gsolsearch; 
 
 t_search	*recursive_algo(t_stack *ap)
 {
@@ -21,21 +22,25 @@ t_search	*recursive_algo(t_stack *ap)
 	t_search	*s;
 
 	s = malloc_search(ap);
-
+	gsolsearch = malloc_search(ap);
 	depth = 1;
-	maxdepth = 11;
+	maxdepth = 8;
 	while (depth <= maxdepth && gsorted == 0)
 	{
+		//printf("_____________depth %d_______________\n", depth);
 		find_permutation(s, 0, depth);
 		depth++;
 	}
 	
 	if (gsorted > 0)
 	{
+		free_search(s);
+		return (gsolsearch);
 		//printf("found solution len %d %d\n", s->n, gsorted);
 	}
 	else 
 		s->n = -1;
+	free_search(gsolsearch);
 	return (s);
 }
 
@@ -52,10 +57,9 @@ void		find_permutation(t_search *s, int depth, int maxdepth)
 	{
 		i = 1;
 		s->n = depth + 1;
-		//while (i <= PS_RRR)
-		while (i <= PS_PB)
+		while (i <= PS_RRR)
+		//while (i <= PS_RA)
 		{
-			
 			if (depth - 1 < maxdepth && gsorted == 0)
 			{
 				s->ops[depth] = i;
@@ -63,7 +67,9 @@ void		find_permutation(t_search *s, int depth, int maxdepth)
 			}
 			if (gsorted == 0 && test_permutation(s))
 			{
+				//printf("found sorted\n");
 				gsorted++;
+				copy_search(s, gsolsearch);
 				break;
 			}
 			i++;
