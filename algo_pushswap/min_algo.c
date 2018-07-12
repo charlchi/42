@@ -12,14 +12,22 @@
 
 #include "pushswap.h"
 
+<<<<<<< HEAD
 t_search	*min_algo(t_stack *ap)
+=======
+t_search	*min_algo(t_stack *ap, t_stack *bp)
+>>>>>>> f6684ba070e64290b4eba2333a72ccfe3700dfda
 {
 	int			min;
 	t_search	*s;
 	t_stack		*a;
 	t_stack		*b;
 
+<<<<<<< HEAD
 	s = malloc_search(ap);
+=======
+	s = malloc_search(ap, bp);
+>>>>>>> f6684ba070e64290b4eba2333a72ccfe3700dfda
 	a = &s->a;
 	b = &s->b;
 	while (a->top >= 0)
