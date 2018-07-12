@@ -25,6 +25,7 @@ t_search	*malloc_search(t_stack *a)
 	return (s);
 }
 
+<<<<<<< HEAD
 void copy_search(t_search *src, t_search *dst)
 {
 	int			i;
@@ -38,6 +39,8 @@ void copy_search(t_search *src, t_search *dst)
 	}
 }
 
+=======
+>>>>>>> f6684ba070e64290b4eba2333a72ccfe3700dfda
 void		search_do_op(t_search *search, int op)
 {
 	search->ops[search->n] = op;
