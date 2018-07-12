@@ -12,48 +12,76 @@
 
 #include "pushswap.h"
 
-<<<<<<< HEAD
 t_search	*min_algo(t_stack *ap)
-=======
-t_search	*min_algo(t_stack *ap, t_stack *bp)
->>>>>>> f6684ba070e64290b4eba2333a72ccfe3700dfda
 {
 	int			min;
+	int			max;
+	int			max_i;
+	int		min_i;
 	t_search	*s;
 	t_stack		*a;
 	t_stack		*b;
 
-<<<<<<< HEAD
 	s = malloc_search(ap);
-=======
-	s = malloc_search(ap, bp);
->>>>>>> f6684ba070e64290b4eba2333a72ccfe3700dfda
 	a = &s->a;
 	b = &s->b;
 	while (a->top >= 0)
-	{
-		min = get_min_stack(a);
-		while (st_peek(a) != min)
-			search_do_op(s, PS_RA);
 		search_do_op(s, PS_PB);
-	}
 	while (b->top >= 0)
+	{
+		max = get_max_stack(b, &max_i);
+		if (max_i >= b->top - max_i)
+			while (st_peek(b) != max)
+				search_do_op(s, PS_RB);
+		else
+			while (st_peek(b) != max)
+				search_do_op(s, PS_RRB);
 		search_do_op(s, PS_PA);
+	}
+	//print_stack(&s->a);
 	return (s);
 }
 
-int			get_min_stack(t_stack *stack)
+int			get_min_stack(t_stack *stack, int *ip)
 {
 	int			i;
 	int			min;
+	int			min_i;
 
 	min = stack->table[0];
+	min_i = 0;
 	i = 1;
 	while (i <= stack->top)
 	{
 		if (stack->table[i] < min)
+		{
 			min = stack->table[i];
+			min_i = i;
+		}
 		i++;
 	}
+	*ip = min_i;
 	return (min);
+}
+
+int			get_max_stack(t_stack *stack, int *ip)
+{
+	int			i;
+	int			max;
+	int			max_i;
+
+	max = stack->table[0];
+	max_i = 0;
+	i = 1;
+	while (i <= stack->top)
+	{
+		if (stack->table[i] > max)
+		{
+			max = stack->table[i];
+			max_i = i;
+		}
+		i++;
+	}
+	*ip = max_i;
+	return (max);
 }

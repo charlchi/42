@@ -56,7 +56,7 @@ void	st_rot(t_stack *stack, int rev)
 	{
 		prev = table[0];
 		i = -1;
-		while (++i < stack->top - 1)
+		while (++i < stack->top)
 			table[i] = table[i + 1];
 		table[i] = prev;
 	}
