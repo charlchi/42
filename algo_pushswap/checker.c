@@ -14,13 +14,14 @@
 
 int		main(int argc, char **argv)
 {
-	t_stack		a;
-	t_stack		b;
+	t_env		env;
 
-	parse_args(&a, &b, argc, argv);
-	run_checker(&a, &b);
-	free(a.table);
-	free(b.table);
+	env.argc = argc;
+	env.argv = argv;
+	parse_args(&env);
+	run_checker(env.a, env.b);
+	free(env.a->table);
+	free(env.a->table);
 	return (0);
 }
 

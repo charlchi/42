@@ -35,7 +35,7 @@ void			read_links(t_info *info, char **l);
 int				get_room_index(t_info *info, char *name);
 void			add_links(t_info *info, char **l);
 void			search_graph(int *b, int *dis, int depth, t_info *info, int n);
-int				connencted(t_info *info, int i, int n);
+int				connected(t_info *info, int i, int n);
 void			exit_error(void);
 
 #endif

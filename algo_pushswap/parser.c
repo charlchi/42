@@ -12,40 +12,42 @@
 
 #include "pushswap.h"
 
-void	parse_args(t_stack *a, t_stack *b, int argc, char **argv)
+void	parse_args(t_env *env)
 {
 	int			i;
 
-	if (argc < 2)
+	if (env->argc < 2)
 		exit_error();
-	if (!valid_nums(argc, argv))
+	if (!valid_nums(env) || !valid_dups(env))
 		exit_error();
-	if (!valid_dups(argc, argv))
+	if (!(env->a = (t_stack *)malloc(sizeof(t_stack))))
 		exit_error();
-	init_stack(a, argc - 1);
-	init_stack(b, argc - 1);
-	i = argc - 1;
+	if (!(env->b = (t_stack *)malloc(sizeof(t_stack))))
+		exit_error();
+	init_stack(env->a, env->argc - 1);
+	init_stack(env->b, env->argc - 1);
+	i = env->argc - 1;
 	while (i > 0)
 	{
-		st_push(a, ft_atoi(argv[i]));
+		st_push(env->a, ft_atoi(env->argv[i]));
 		i--;
 	}
 }
 
-int		valid_nums(int argc, char **argv)
+int		valid_nums(t_env *env)
 {
 	int		i;
 	int		j;
 	char	c;
 
 	i = 1;
-	while (i < argc)
+	while (i < env->argc)
 	{
 		j = 0;
-		c = argv[i][j];
+		c = env->argv[i][j];
 		if (c == '-' || c == '+')
 			j++;
-		while ((c = argv[i][j]))
+		while ((c = env->argv[i][j]))
 		{
 			if (!(ft_isdigit(c)))
 				return (0);
@@ -58,18 +60,18 @@ int		valid_nums(int argc, char **argv)
 	return (1);
 }
 
-int		valid_dups(int argc, char **argv)
+int		valid_dups(t_env *env)
 {
 	int		i;
 	int		j;
 
 	i = 1;
-	while (i < argc - 1)
+	while (i < env->argc - 1)
 	{
 		j = i + 1;
-		while (j < argc)
+		while (j < env->argc)
 		{
-			if (ft_strcmp(argv[i], argv[j]) == 0)
+			if (ft_strcmp(env->argv[i], env->argv[j]) == 0)
 				return (0);
 			j++;
 		}
