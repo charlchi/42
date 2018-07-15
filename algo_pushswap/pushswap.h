@@ -37,26 +37,13 @@ typedef struct	s_stack
 	int top;
 }				t_stack;
 
-int			st_peek(t_stack *stack);
-int			st_pop(t_stack *stack);
-void		st_push(t_stack *stack, int val);
-void		st_swap(t_stack *stack);
-void		st_rot(t_stack *stack, int rev);
-
-void		run_checker(t_stack *a, t_stack *b);
-int			get_cmd(char *l, char **cmds);
-
-int			is_sorted(int *table, int length);
-void		do_cmd(t_stack *a, t_stack *b, int cmd);
-void		pushswap_cmd(t_stack *a, t_stack *b, int cmd);
-void		rot_cmd(t_stack *a, t_stack *b, int cmd);
-void		parse_args(t_stack *a, t_stack *b, int argc, char **argv);
-int			valid_nums(int argc, char **argv);
-int			valid_dups(int argc, char **argv);
-void		print_stack(t_stack *stack);
-void		exit_error(void);
-void		copy_stack(t_stack *st, t_stack *cp);
-void		init_stack(t_stack *stack, int size);
+typedef struct	s_env
+{
+	char	**argv;
+	int		argc;
+	t_stack	*a;
+	t_stack	*b;
+}				t_env;
 
 typedef struct	s_search
 {
@@ -65,6 +52,32 @@ typedef struct	s_search
 	t_stack	a;
 	t_stack	b;
 }				t_search;
+
+int			st_peek(t_stack *stack);
+int			st_pop(t_stack *stack);
+void		st_push(t_stack *stack, int val);
+void		st_swap(t_stack *stack);
+void		st_rot(t_stack *stack, int rev);
+
+void		parse_args(t_env *env);
+int			valid_nums(t_env *env);
+int			valid_dups(t_env *env);
+
+void		run_checker(t_stack *a, t_stack *b);
+int			get_cmd(char *l, char **cmds);
+
+int			is_sorted(int *table, int length);
+void		do_cmd(t_stack *a, t_stack *b, int cmd);
+void		pushswap_cmd(t_stack *a, t_stack *b, int cmd);
+void		rot_cmd(t_stack *a, t_stack *b, int cmd);
+
+
+void		print_stack(t_stack *stack);
+void		exit_error(void);
+void		copy_stack(t_stack *st, t_stack *cp);
+void		init_stack(t_stack *stack, int size);
+
+
 
 t_search	*malloc_search(t_stack *a);
 void		search_do_op(t_search *search, int op);

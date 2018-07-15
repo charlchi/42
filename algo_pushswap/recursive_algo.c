@@ -23,11 +23,11 @@ t_search	*recursive_algo(t_stack *ap)
 
 	s = malloc_search(ap);
 	gsolsearch = malloc_search(ap);
-	depth = 1;
+	depth = 0;
 	maxdepth = 5;
 	while (depth <= maxdepth && gsorted == 0)
 	{
-		//printf("_____________depth %d_______________\n", depth);
+		printf("_____________depth_______________ %d\n", depth);
 		find_permutation(s, 0, depth);
 		depth++;
 	}
@@ -56,24 +56,19 @@ void		find_permutation(t_search *s, int depth, int maxdepth)
 	{
 		i = 1;
 		s->n = depth + 1;
-		while (i <= PS_PB)
-		//while (i <= PS_RRR)
-		//while (i <= PS_RRR)
+		while (i <= PS_RRR)
 		{
-			
-			if (depth - 1 < maxdepth && gsorted == 0)
-			{
-				s->ops[depth] = i;
+			s->ops[depth] = i;
+			if (depth - 1 < maxdepth)
 				find_permutation(s, depth + 1, maxdepth);
-			}
-			if (gsorted == 0 && test_permutation(s))
+			if (depth == maxdepth - 1 && test_permutation(s))
 			{
-				//printf("found sorted\n");
+				printf("found sorted len %d\n", s->n);
 				gsorted++;
 				copy_search(s, gsolsearch);
-				gsorted++;
-				break;
+				return ;
 			}
+
 			i++;
 		}
 	}
@@ -99,8 +94,8 @@ int			test_permutation(t_search *s)
 		i = 0;
 		while (i <= s->a.top)
 			printf("%d ", test->a.table[i++]);
-		printf("\n");
-		free_search(test);*/
+		printf("\n");*/
+		free_search(test);
 		return (1);
 	}
 	free_search(test);

@@ -29,13 +29,23 @@ int			main(void)
 		exit_error();
 	if (!(mdis = (int *)malloc(sizeof(int) * info.n)))
 		exit_error();
-	int i = 0;
-	while (i < info.n)
-		mdis[i++] = 20000000;
-	printf("______________________Searching graph_____________________\n");
-	search_graph(path, mdis, 0, &info, info.end);
-	printf("______________________Done________________________________\n");
-	printf("Solutions found : %d\n", gsol);
+
+	gsol = 1;
+	while (gsol > 0)
+	{
+		gsol = 0;
+		int i = 0;
+		while (i < info.n)
+		{
+			path[i] = -1;
+			mdis[i++] = 50000000;
+		}
+		mdis[info.start] = 0;
+		search_graph(path, mdis, 0, &info, info.start);
+		printf("Solutions found : %d\n", gsol);
+	}
+
+
 	free(path);
 	return (0);
 }
@@ -44,53 +54,34 @@ void		search_graph(int *path, int *mdis, int d, t_info *info, int n)
 {
 	int		i;
 
-
-	
-	// path is the path this cycle has taken
-	// d is the length along that path
-	// mdis stores the minimum length we've found to this node
-
-	// check whether this node has been encoutnered in this loop
-	i = 0;
-	while (i < d)
-		if (path[i++] == n)
-			return ;
 	path[d] = n;
-	mdis[n] = d;
-
-	if (mdis[n] < d)
-		return;
-
-	//if (mdis[n] >= d)
-
-	if (n == info->start)
+	if (n == info->end)
 	{
 		gsol++;
-		//printf(".");
-		//fflush(0);
-		
-		//i = 0;
-		//printf("[");
-		//while (i < d)
-		//	printf("%s-", info->name[path[i++]]);
-		//printf("%s] : len %d\n", info->name[path[d]], d);
-	}
-	else if (d < info->n)
-	{
-		
-		i = 0;
-		while (i < info->n)
+		i = 1;
+		while (i <= d)
 		{
-			//if (i != n && info->graph[n][i] == 1 && mdis[n] >= mdis[i])
-			if (connencted(info, i, n)
-				&& (mdis[n] == 0 || d <= mdis[i]))
-				search_graph(path, mdis, d + 1, info, i);
+			info->graph[path[i]][path[i-1]] = 0;
+			info->graph[path[i-1]][path[i]] = 0;
 			i++;
 		}
 	}
+	else if (d < info->n)
+	{
+		i = -1;
+		while (++i < info->n)
+			if (connected(info, i, n))
+				if (d < mdis[i])
+					mdis[i] = d + 1;
+		i = -1;
+		while (++i < info->n)
+			if (connected(info, i, n) && d < mdis[i])
+				search_graph(path, mdis, d + 1, info, i);
+		
+	}
 }
 
-int			connencted(t_info *info, int i, int n)
+int			connected(t_info *info, int i, int n)
 {
 	if (i == n || info->graph[n][i] == 0)
 		return (0);

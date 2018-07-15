@@ -15,18 +15,19 @@
 int		main(int argc, char **argv)
 {
 	t_search	**searches;
-	t_stack		a;
-	t_stack		b;
+	t_env		env;
 
-	parse_args(&a, &b, argc, argv);
+	env.argc = argc;
+	env.argv = argv;
+	parse_args(&env);
 	if (argc == 2)
 		return (0);
-	if (!is_sorted(a.table, argc - 2))
+	if (!is_sorted(env.a->table, argc - 2))
 	{
 		searches = NULL;
 		searches = (t_search **)malloc(sizeof(t_search *) * 3);
-		searches[0] = min_algo(&a);
-		searches[1] = recursive_algo(&a);
+		searches[0] = min_algo(env.a);
+		searches[1] = recursive_algo(env.a);
 		searches[2] = NULL;
 		print_smallest_ops(searches);
 	}
@@ -34,7 +35,9 @@ int		main(int argc, char **argv)
 	//print_stack(&searches[0]->a);
 	if (searches)
 		free_searches(searches);
-	free(a.table);
-	free(b.table);
+	free(env.a->table);
+	free(env.b->table);
+	free(env.a);
+	free(env.b);
 	return (0);
 }

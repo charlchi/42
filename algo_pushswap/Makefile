@@ -30,13 +30,11 @@ $(PS_NAME):	$(PS_OBJ)
 			$(CC) $(PS_OBJ) -o $(PS_NAME)
 
 clean:
-			/bin/rm -f $(CH_NAME)
-			/bin/rm -f $(PS_NAME)
+			/bin/rm -f *.o
 
 fclean: 	clean
 			/bin/rm -f $(CH_NAME)
 			/bin/rm -f $(PS_NAME)
-			/bin/rm -f *.o
 
 re: 		fclean all
 	
