@@ -28,14 +28,6 @@ t_search	*min_algo(t_stack *ap)
 	while (b->top >= 0)
 	{
 		max = get_max_stack(b, &max_i);
-		if (st_peek(b) == max)
-			search_do_op(s, PS_PA);
-		if (max_i >= b->top - max_i)
-			search_do_op(s, PS_RB);
-		else 
-			search_do_op(s, PS_RRB);
-
-		/*
 		if (max_i >= b->top - max_i)
 			while (st_peek(b) != max)
 				search_do_op(s, PS_RB);
@@ -43,7 +35,7 @@ t_search	*min_algo(t_stack *ap)
 			while (st_peek(b) != max)
 				search_do_op(s, PS_RRB);
 		search_do_op(s, PS_PA);
-		*/
+		
 	}
 	return (s);
 }
