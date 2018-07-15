@@ -21,7 +21,9 @@ int		main(int argc, char **argv)
 	parse_args(&env);
 	run_checker(env.a, env.b);
 	free(env.a->table);
-	free(env.a->table);
+	free(env.b->table);
+	free(env.a);
+	free(env.b);
 	return (0);
 }
 

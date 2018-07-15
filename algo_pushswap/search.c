@@ -66,7 +66,7 @@ void		print_smallest_ops(t_search **ss)
 		i++;
 	}
 	printf("Number of commands: %d\n", min->n);
-	free(cmds);
+	ft_strstrfree(cmds);
 }
 
 void		free_searches(t_search **searches)
