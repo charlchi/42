@@ -15,26 +15,9 @@
 
 void	read_nants(t_info *info, char **l)
 {
-	//int		i;
-
 	get_next_line(0, l);
-	if ((info->ants = ft_atoi(*l)) == 0)
+	if (!ft_isdigit((*l)[0]) || (info->ants = ft_atoi(*l)) == 0)
 		exit_error();
-	// TODO FREE MALLOC
-	/*
-	if (!(info->x = (int *)malloc(sizeof(int) * info->ants)))
-		exit_error();
-	if (!(info->y = (int *)malloc(sizeof(int) * info->ants)))
-		exit_error();
-	if (!(info->graph = (int **)malloc(sizeof(int *) * info->ants)))
-		exit_error();
-	i = 0;
-	while (i < info->ants)
-		if (!(info->graph[i++] = (int *)malloc(sizeof(int) * info->ants)))
-			exit_error();
-	if (!(info->name = (char **)malloc(sizeof(char *) * info->ants)))
-		exit_error();
-	*/
 }
 
 void	read_rooms(t_info *info, char **l)
