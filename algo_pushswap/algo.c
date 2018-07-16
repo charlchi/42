@@ -22,17 +22,15 @@ int		main(int argc, char **argv)
 	parse_args(&env);
 	if (argc == 2)
 		return (0);
+	searches = NULL;
 	if (!is_sorted(env.a->table, argc - 2))
 	{
-		searches = NULL;
 		searches = (t_search **)malloc(sizeof(t_search *) * 3);
 		searches[0] = min_algo(env.a);
 		searches[1] = recursive_algo(env.a);
 		searches[2] = NULL;
 		print_smallest_ops(searches);
 	}
-	//TODO REMOVE
-	//print_stack(&searches[0]->a);
 	if (searches)
 		free_searches(searches);
 	free(env.a->table);

@@ -27,7 +27,6 @@ t_search	*recursive_algo(t_stack *ap)
 	maxdepth = 5;
 	while (depth <= maxdepth && gsorted == 0)
 	{
-		printf("_____________depth_______________ %d\n", depth);
 		find_permutation(s, 0, depth);
 		depth++;
 	}
@@ -43,11 +42,6 @@ t_search	*recursive_algo(t_stack *ap)
 	return (s);
 }
 
-// TODO What about command list permutations?
-// or permutations of rules that generate commands lists?
-// look into this
-
-// test all permutations of length len
 void		find_permutation(t_search *s, int depth, int maxdepth)
 {
 	int			i;

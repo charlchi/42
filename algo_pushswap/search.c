@@ -18,7 +18,7 @@ t_search	*malloc_search(t_stack *a)
 
 	s = (t_search *)malloc(sizeof(t_search));
 	s->n = 0;
-	s->ops = (int *)malloc(sizeof(int) * 100000);
+	s->ops = (int *)malloc(sizeof(int) * 1000000);
 	init_stack(&s->a, a->top + 1);
 	init_stack(&s->b, a->top + 1);
 	copy_stack(a, &s->a);
@@ -65,7 +65,6 @@ void		print_smallest_ops(t_search **ss)
 		write(1, "\n", 1);
 		i++;
 	}
-	printf("Number of commands: %d\n", min->n);
 	ft_strstrfree(cmds);
 }
 

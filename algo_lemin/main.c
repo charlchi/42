@@ -31,11 +31,11 @@ int			main(void)
 	while (search.len >= 0)
 	{
 		search.len = -1;
-		i = 0;
-		while (i < info.n)
+		i = -1;
+		while (++i < info.n)
 		{
 			search.path[i] = -1;
-			search.dis[i++] = 50000000;
+			search.dis[i] = 50000000;
 		}
 		search.dis[info.start] = 0;
 		search_graph(&search, &info, 0, info.start);
