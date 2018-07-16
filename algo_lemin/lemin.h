@@ -28,13 +28,20 @@ typedef struct	s_info
 
 }				t_info;
 
+typedef struct	s_search
+{
+	int		*path;
+	int		*dis;
+	int		len;
+}				t_search;
+
 void			read_nants(t_info *info, char **l);
 void			read_rooms(t_info *info, char **l);
 void			read_room_add(t_info *info, char **str);
 void			read_links(t_info *info, char **l);
 int				get_room_index(t_info *info, char *name);
 void			add_links(t_info *info, char **l);
-void			search_graph(int *b, int *dis, int depth, t_info *info, int n);
+void			search_graph(t_search *s, t_info *info, int d, int n);
 int				connected(t_info *info, int i, int n);
 void			exit_error(void);
 

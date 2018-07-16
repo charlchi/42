@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "lemin.h"
-#include <stdio.h>
-
 
 void	read_links(t_info *info, char **l)
 {
@@ -42,9 +40,9 @@ void	add_links(t_info *info, char **l)
 	info->graph[j][i] = 1;
 }
 
-int     get_room_index(t_info *info, char *name)
+int		get_room_index(t_info *info, char *name)
 {
-	int     i;
+	int		i;
 
 	i = 0;
 	while (i < info->n)
