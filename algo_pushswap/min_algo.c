@@ -40,6 +40,8 @@ t_search	*min_algo(t_stack *ap)
 	return (s);
 }
 
+
+
 int			get_min_stack(t_stack *stack, int *ip)
 {
 	int			i;
