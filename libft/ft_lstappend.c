@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_algo.c                                         :+:      :+:    :+:   */
+/*   ft_lstappend.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/09 11:22:44 by cmoller           #+#    #+#             */
-/*   Updated: 2018/07/09 11:23:15 by cmoller          ###   ########.fr       */
+/*   Created: 2018/05/24 13:24:18 by cmoller           #+#    #+#             */
+/*   Updated: 2018/05/24 15:36:19 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pushswap.h"
+#include "libft.h"
 
-t_search	*new_algo(t_stack *ap)
+void	ft_lstappend(t_list *lst, t_list *new)
 {
-	t_search	*s;
+	t_list	*end;
 
-	s = malloc_search(ap);
-
-
-	return (s);
+	end = lst;
+	while (end->next)
+	{
+		end = end->next;
+	}
+	end->next = new;
 }
-
-
-
-
-5   2
-1     4
-0      5
-7  1
-9 0
-3    3
-2     4
-8  1
-4    3
-6   2

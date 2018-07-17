@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef PUSHSWAP_H
 # define PUSHSWAP_H
 
@@ -53,42 +52,39 @@ typedef struct	s_search
 	t_stack	b;
 }				t_search;
 
-int			st_peek(t_stack *stack);
-int			st_pop(t_stack *stack);
-void		st_push(t_stack *stack, int val);
-void		st_swap(t_stack *stack);
-void		st_rot(t_stack *stack, int rev);
+int				st_peek(t_stack *stack);
+int				st_pop(t_stack *stack);
+void			st_push(t_stack *stack, int val);
+void			st_swap(t_stack *stack);
+void			st_rot(t_stack *stack, int rev);
 
-void		parse_args(t_env *env);
-int			valid_nums(t_env *env);
-int			valid_dups(t_env *env);
+void			parse_args(t_env *env);
+int				valid_nums(t_env *env);
+int				valid_dups(t_env *env);
 
-void		run_checker(t_stack *a, t_stack *b);
-int			get_cmd(char *l, char **cmds);
+void			run_checker(t_stack *a, t_stack *b);
+int				get_cmd(char *l, char **cmds);
+int				is_sorted(int *table, int length);
+void			do_cmd(t_stack *a, t_stack *b, int cmd);
+void			pushswap_cmd(t_stack *a, t_stack *b, int cmd);
+void			rot_cmd(t_stack *a, t_stack *b, int cmd);
+void			print_stack(t_stack *stack);
+void			exit_error(void);
+void			copy_stack(t_stack *st, t_stack *cp);
+void			init_stack(t_stack *stack, int size);
+t_search		*malloc_search(t_stack *a);
+void			search_do_op(t_search *search, int op);
+void			print_smallest_ops(t_search **ss);
+void			free_searches(t_search **searches);
+void			free_search(t_search *search);
 
-int			is_sorted(int *table, int length);
-void		do_cmd(t_stack *a, t_stack *b, int cmd);
-void		pushswap_cmd(t_stack *a, t_stack *b, int cmd);
-void		rot_cmd(t_stack *a, t_stack *b, int cmd);
+t_search		*min_algo(t_stack *a);
+int				get_min_stack(t_stack *stack, int *ip);
+int				get_max_stack(t_stack *stack, int *ip);
 
+t_search		*recursive_algo(t_stack *a);
+void			copy_search(t_search *src, t_search *dst);
+void			find_permutation(t_search *s, int depth, int maxdepth);
+int				test_permutation(t_search *s);
 
-void		print_stack(t_stack *stack);
-void		exit_error(void);
-void		copy_stack(t_stack *st, t_stack *cp);
-void		init_stack(t_stack *stack, int size);
-
-
-
-t_search	*malloc_search(t_stack *a);
-void		search_do_op(t_search *search, int op);
-void		print_smallest_ops(t_search **ss);
-void		free_searches(t_search **searches);
-void		free_search(t_search *search);
-t_search	*min_algo(t_stack *a);
-int			get_min_stack(t_stack *stack, int *ip);
-int			get_max_stack(t_stack *stack, int *ip);
-t_search	*recursive_algo(t_stack *a);
-void		copy_search(t_search *src, t_search *dst);
-void		find_permutation(t_search *s, int depth, int maxdepth);
-int			test_permutation(t_search *s);
 #endif
