@@ -1,26 +1,19 @@
-INC=/usr/include
-HT=x86_64
-DOCP=do_cp
-
-
-
-INCLIB=$(INC)/../lib
-
 CC=gcc
 
-CFLAGS= -I$(INC) -O3 -I../minilibx
+#ifeq ($(OS), Darwin)
+	LFLAGS = -lmlx -framework OpenGL -framework AppKit
+#else
+#	LFLAGS = -lmlx -lXext -lX11 -lm
+#endif
 
 NAME= fdf
-SRC = fdf.c
+SRC = $(wildcard *.c) $(wildcard ../libft/*.c)
 OBJ = $(SRC:.c=.o)
+
+%.o:		%.c
+			$(CC) $(FLAGS) -c $< -o $@
 
 all	:$(NAME)
 
 $(NAME)	:$(OBJ)
-	$(CC) -o $(NAME) $(OBJ) -L../minilibx -lmlx -L$(INCLIB) -lXext -lX11 -lm
-
-clean	:
-	rm -f $(NAME) $(OBJ) *~ core *.core
-
-
-re	: clean all
+	$(CC) -o $(NAME) $(OBJ) $(LFLAGS)
