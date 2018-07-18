@@ -14,46 +14,42 @@
 
 void	parse_args(t_env *env, int argc, char **argv)
 {
+	t_list	*argvlst;
 	char 	**str;
 	char	*l;
 
 	get_next_line(0, &l);
 	str = ft_strsplit(l, ' ');
 
-	env->argvlst = ft_lstnew(str);
-	env->width = ft_strstrlen(str);
-	env->height = 1;
+	argvlst = ft_lstnew(str);
+	env->mapw = ft_strstrlen(str);
+	env->maph = 1;
 	while (get_next_line(0, &l))
 	{
 		str = ft_strsplit(l, ' ');
-		ft_lstappend(env->argvlst, ft_lstnew(str));
-		if (ft_strstrlen(str) != env->width)
+		ft_lstappend(argvlst, ft_lstnew(str));
+		if (ft_strstrlen(str) != env->mapw)
 			exit(0);
-		env->height++;
+		env->maph++;
+		free(l);
 	}
-	printf("w:%d, h:%d\n", env->width, env->height);
-	if (!(env->map = malloc(sizeof(int *) * env->height)))
+	printf("________Width[%d] Height[%d]\n", env->mapw, env->maph);
+
+	if (!(env->map = malloc(sizeof(int *) * env->maph)))
 		exit(0);
 	int i = 0;
-	while (i < env->height)
-	{
-		if (!(env->map[i] = malloc(sizeof(int) * env->width)))
-			exit(0);
-		i++;
-	}
-
-	t_list *current = env->argvlst;
-	i = 0;
 	int j;
-	while (i < env->height)
+	t_list *current = argvlst;
+	while (current)
 	{
+		if (!(env->map[i] = malloc(sizeof(int) * env->mapw)))
+			exit(0);
 		j = 0;
-		while (j < env->width)
+		while (j < env->mapw)
 		{
 			env->map[i][j] = ft_atoi(((char **)current->content)[j]);
 			j++;
 		}
-		printf("\n");
 		current = current->next;
 		i++;
 	}
