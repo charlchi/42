@@ -17,7 +17,7 @@ int		draw_loop(void *p)
 	t_env		*env;
 
 	env = (t_env *)p;
-	mlx_clear_window(env->mlx, env->win);
+	//mlx_clear_window(env->mlx, env->win);
 	draw(p);
 	usleep(2000);
 	return (0);
