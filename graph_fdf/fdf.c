@@ -64,7 +64,7 @@ void	draw_line(float x1, float y1, float x2, float y2, int* img, t_env *env)
 		x = (int)x1 - (int)(step*dx);
 		y = (int)y1 - (int)(step*dy);
 		if (x>0&&x<env->width&&y>0&&y<env->height)
-			img[x + y * env->width] = 250;
+			img[x + y * env->width] = 0x00005050 + 0x00000001 * (-dy);
 		step += 0.01;
 	}
 }
@@ -91,7 +91,7 @@ int		draw(void *p)
 	{
 		dword[i++] = 0x00000000;
 	}
-	t_vec3 ro = vec3new(0.0, 5.0, -10.0);
+	//t_vec3 ro = vec3new(0.0, 0.0, -10.0);
 	t_vec3 pt;
 	float x[env->maph][env->mapw];
 	float y[env->maph][env->mapw];
@@ -103,12 +103,13 @@ int		draw(void *p)
 		while (++j < env->mapw)
 		{
 
-			float xo = ((float)j) / (float)env->mapw - 0.5;
+			float xo = (float)j / (float)env->mapw - 0.5;
 			xo = xo * (float)env->mapw/(float)env->maph;
-			float yo = ((float)i) / (float)env->maph - 0.5;
-			pt.x = (xo * cos(env->rot) - yo * sin(env->rot)) + env->x / (float)env->maph;
-			pt.z = (xo * sin(env->rot) - yo * cos(env->rot)) + env->y / (float)env->maph;
-			pt.y = -((float)env->map[i][j] + env->z) * env->scale + 0.06 * sin(g);
+			float yo = (float)i / (float)env->maph - 0.5;
+			pt.x = (xo * cos(env->rot) - yo * sin(env->rot)) + env->x / (float)env->mapw;
+			pt.z = (xo * sin(env->rot) + yo * cos(env->rot)) + env->y / (float)env->maph;
+			pt.y = env->z + (float)env->map[i][j] * -env->scale;
+			t_vec3 ro = vec3new(0.0, 0.0, -10.0);
 			vec3norm(&pt);
 			float len = vec3len(&ro) / cos(vec3angle(&pt, &ro));
 			vec3scale(&pt, len);
@@ -143,9 +144,9 @@ int		main(int argc, char **argv)
 		env->width = 800;
 	env->height = 800;
 	env->x = 0.0;
-	env->y = -env->maph;
-	env->z = -1.0;
-	env->scale = 0.02;
+	env->y = -env->mapw * 2.0;
+	env->z = 0.2;
+	env->scale = 0.01;
 	env->rot = 0.0;
 	printf("----------------------------------------------->done parsing args\n");
 	if (!(env->mlx = get_mlx()))
