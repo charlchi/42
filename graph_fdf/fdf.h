@@ -31,6 +31,11 @@ typedef struct	s_env
 	void	*win;
 	void	*img;
 	char	*imgdata;
+	float	x;
+	float	y;
+	float	z;
+	float	scale;
+	float	rot;
 }				t_env;
 
 void		parse_args(t_env *env, int argc, char **argv);
