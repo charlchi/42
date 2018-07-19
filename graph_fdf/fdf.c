@@ -12,9 +12,6 @@
 
 #include "fdf.h"
 
-//float g = 12770.0;
-float g = 100.0001;
-
 void	*get_mlx(void)
 {
 	static void		*mlx;
@@ -55,9 +52,26 @@ int		mainImage(int x, int y, t_env *env)
 	//return 0x01020304 * dist;
 }*/
 
+void	draw_line(float x1, float y1, float x2, float y2, int* img, t_env *env)
+{
+	float step = 0.0;
+	float dx = x1 - x2;
+	float dy = y1 - y2;
+	int x;
+	int y;
+	while (step <= 1.0)
+	{
+		x = (int)x1 - (int)(step*dx);
+		y = (int)y1 - (int)(step*dy);
+		if (x>0&&x<env->width&&y>0&&y<env->height)
+			img[x + y * env->width] = 250;
+		step += 0.01;
+	}
+}
+
+float g = 0.0;
 int		draw(void *p)
 {
-	g+=0.01155456;
 	t_env			*env;
 	char 			*data;
 	int				*dword;
@@ -65,46 +79,55 @@ int		draw(void *p)
 	int				sl;
 	int				endian;
 
+	g += 0.01;
 	env = (t_env *)p;
 	if (!env->img)
 		if (!(env->img = mlx_new_image(get_mlx(), env->width, env->height)))
 			exit(0);
 	data = mlx_get_data_addr(env->img, &bpp, &sl, &endian);
 	dword = (int *)data;
-	/*
-	 * do drawing here
-	 *
-	 */
 	int i = 0;
 	while (i < env->height * env->width)
 	{
 		dword[i++] = 0x00000000;
 	}
-	t_vec3 ro = vec3new(0.0, 0.0, -5.0);
+	t_vec3 ro = vec3new(0.0, 5.0, -10.0);
 	t_vec3 pt;
-	int x;
-	int y;
-	float step = g;
-	while (step < g + 1.4)
+	float x[env->maph][env->mapw];
+	float y[env->maph][env->mapw];
+	int j;
+	i = -1;
+	while (++i < env->maph)
 	{
-		pt.x = sin(g*step)* (sin(cos(2.8+(g+step)))) * ((sin(cos(2.8+(g+step))))* (sin(cos(2.8+(g+step)))));
-		pt.y = cos(step*g)* (sin(cos(2.8+(g+step)))) * cos(step*g) * cos(step*g);
-		pt.z = 5.0 - 1.0 * (sin(cos(2.8+(g+step))));
-		vec3norm(&pt);
-		float len = vec3len(&ro) / cos(vec3angle(&pt, &ro));
-		vec3scale(&pt, len); // point still between -0.5 and 0.5
-		x = env->width / 2 + (int)(pt.x * env->width * 0.5);
-		y = env->height / 2 + (int)(pt.y * env->height * 0.5);
-		if (x>0&&x<env->width&&y>0&&y<env->height)
+		j = -1;
+		while (++j < env->mapw)
 		{
-			dword[(x+0) + (y+0) * env->width] += 0x01020304 * pt.z;
-			dword[(x+0) + (y+1) * env->width] += 0x01020304 * pt.z;
-			dword[(x+1) + (y+0) * env->width] += 0x01020304 * pt.z;
-			dword[(x+1) + (y+1) * env->width] += 0x01020304 * pt.z;
+
+			float xo = ((float)j) / (float)env->mapw - 0.5;
+			xo = xo * (float)env->mapw/(float)env->maph;
+			float yo = ((float)i) / (float)env->maph - 0.5;
+			pt.x = (xo * cos(env->rot) - yo * sin(env->rot)) + env->x / (float)env->maph;
+			pt.z = (xo * sin(env->rot) - yo * cos(env->rot)) + env->y / (float)env->maph;
+			pt.y = -((float)env->map[i][j] + env->z) * env->scale + 0.06 * sin(g);
+			vec3norm(&pt);
+			float len = vec3len(&ro) / cos(vec3angle(&pt, &ro));
+			vec3scale(&pt, len);
+			x[i][j] = env->width  / 2 + (int)(pt.x * env->mapw);
+			y[i][j] = env->height / 2 + (int)(pt.y * env->maph);
 		}
-		step += 0.001;
 	}
-	// clear screen
+	i = -1;
+	while (++i < env->maph - 1)
+	{
+		j = -1;
+		while (++j < env->mapw - 1)
+		{
+			draw_line(x[i][j], y[i][j], x[i+1][j], y[i+1][j], dword, env);
+			draw_line(x[i][j], y[i][j], x[i][j+1], y[i][j+1], dword, env);
+			draw_line(x[i+1][j], y[i+1][j], x[i+1][j+1], y[i+1][j+1], dword, env);
+			draw_line(x[i][j+1], y[i][j+1], x[i+1][j+1], y[i+1][j+1], dword, env);
+		}
+	}
 
 	mlx_put_image_to_window(get_mlx(), env->win, env->img,0,0);
 	return (0);
@@ -116,9 +139,14 @@ int		main(int argc, char **argv)
 
 
 	env = malloc(sizeof(t_env));
-	env->width = 800;
-	env->height = 800;
 	parse_args(env, argc, argv);
+		env->width = 800;
+	env->height = 800;
+	env->x = 0.0;
+	env->y = -env->maph;
+	env->z = -1.0;
+	env->scale = 0.02;
+	env->rot = 0.0;
 	printf("----------------------------------------------->done parsing args\n");
 	if (!(env->mlx = get_mlx()))
 		exit(0);
@@ -126,7 +154,8 @@ int		main(int argc, char **argv)
 		exit(0);
 	if (!(env->img = mlx_new_image(get_mlx(), env->width, env->height)))
 		exit(0);
-	mlx_mouse_hook(env->win, mouse_hook, 0);
+	printf("----------------------------------------------->mlx init\n");
+	mlx_mouse_hook(env->win, mouse_hook, env);
 	mlx_key_hook(env->win, key_hook, env);
 	mlx_loop_hook(env->mlx, draw_loop, env);
 	printf("----------------------------------------------->looping\n");
