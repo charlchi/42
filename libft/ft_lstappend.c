@@ -12,14 +12,21 @@
 
 #include "libft.h"
 
-void	ft_lstappend(t_list *lst, t_list *new)
+void	ft_lstappend(t_list **lst, t_list *new)
 {
 	t_list	*end;
 
-	end = lst;
-	while (end->next)
+	if (!*lst)
 	{
-		end = end->next;
+		*lst = new;
 	}
-	end->next = new;
+	else
+	{
+		end = *lst;
+		while (end->next)
+		{
+			end = end->next;
+		}
+		end->next = new;
+	}
 }

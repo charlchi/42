@@ -87,4 +87,18 @@ void			copy_search(t_search *src, t_search *dst);
 void			find_permutation(t_search *s, int depth, int maxdepth);
 int				test_permutation(t_search *s);
 
+typedef struct	s_partition
+{
+	int		n;
+	int		*stack;
+}				t_partition;
+
+t_search	*new_algo(t_stack *ap);
+void		partition_to_b(t_partition *bp, t_search *s);
+void		partition_back_a(t_partition *ap, t_partition *bp, t_search *s);
+void		partition_back_b(t_partition *ap, t_partition *bp, t_search *s);
+int			has_larger(int mid, t_stack *a);
+int			has_smallereq(int mid, t_stack *a);
+int			find_middle(t_stack *a, int n);
+void		bubble_sort(int *tab, int size);
 #endif

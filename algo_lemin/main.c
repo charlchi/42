@@ -6,7 +6,7 @@
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/08 12:39:29 by cmoller           #+#    #+#             */
-/*   Updated: 2018/07/04 08:55:51 by cmoller          ###   ########.fr       */
+/*   Updated: 2018/07/20 13:37:36 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int			main(void)
 		exit_error();
 	if (!(search.dis = (int *)malloc(sizeof(int) * info.n)))
 		exit_error();
+	info.paths = NULL;
 	search.len = 0;
 	while (search.len >= 0)
 	{
@@ -42,6 +43,25 @@ int			main(void)
 		if (search.len >= 0)
 			printf("Solutions found : len %d\n", search.len);
 	}
+	i = 0;
+	int j;
+	t_list *path;
+	t_search *ps;
+	path = info.paths;
+	while (path)
+	{
+		ps = (t_search *)path->content;
+		j = 0;
+		while (j < ps->len)
+		{
+			printf("%d ", ps->path[j]);
+			j++;
+		}
+		printf("\n");
+		path = path->next;
+		i++;
+	}
+	printf("%d\n", i);
 	free(search.path);
 	free(search.dis);
 	return (0);
@@ -49,12 +69,23 @@ int			main(void)
 
 void		search_graph(t_search *s, t_info *info, int d, int n)
 {
-	int		i;
+	int			i;
+	t_search	*sol;
+	t_list		*elem;
 
 	s->path[d] = n;
 	if (n == info->end)
 	{
+		sol = (t_search *)malloc(sizeof(t_search));
+		sol->path = (int *)malloc(sizeof(int) * d);
+		ft_memcpy(sol->path, s->path, sizeof(int) * d);
+		sol->dis = (int *)malloc(sizeof(int) * d);
+		ft_memcpy(sol->dis, s->dis, sizeof(int) * d);
+		sol->len = d;
 		s->len = d;
+		elem = (t_list *)malloc(sizeof(t_list));
+		elem->content = sol;
+		ft_lstappend(&info->paths, elem);
 		i = 0;
 		while (++i <= d)
 		{

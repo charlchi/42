@@ -35,7 +35,6 @@ t_search	*min_algo(t_stack *ap)
 			while (st_peek(b) != max)
 				search_do_op(s, PS_RRB);
 		search_do_op(s, PS_PA);
-		
 	}
 	return (s);
 }

@@ -20,7 +20,6 @@ void	parse_args(t_env *env, int argc, char **argv)
 
 	get_next_line(0, &l);
 	str = ft_strsplit(l, ' ');
-
 	argvlst = ft_lstnew(str);
 	env->mapw = ft_strstrlen(str);
 	env->maph = 1;
@@ -33,24 +32,32 @@ void	parse_args(t_env *env, int argc, char **argv)
 		env->maph++;
 		free(l);
 	}
-	printf("________Width[%d] Height[%d]\n", env->mapw, env->maph);
+	parse(argvlst, env);
+}
+
+void	parse(t_list *argvlst, t_env *env)
+{
+	t_list	*current;
+	t_list	*prev;
+	int		i;
+	int		j;
 
 	if (!(env->map = malloc(sizeof(int *) * env->maph)))
-		exit(0);
-	int i = 0;
-	int j;
-	t_list *current = argvlst;
+		exit_error("OOM");
+	current = argvlst;
+	i = 0;
 	while (current)
 	{
 		if (!(env->map[i] = malloc(sizeof(int) * env->mapw)))
 			exit(0);
-		j = 0;
-		while (j < env->mapw)
-		{
+		j = -1;
+		while (++j < env->mapw)
 			env->map[i][j] = ft_atoi(((char **)current->content)[j]);
-			j++;
-		}
+		prev = current;
 		current = current->next;
+		ft_strstrfree(prev->content);
+		free(prev);
 		i++;
 	}
+	printf("%d %d\n", env->mapw, env->maph);
 }

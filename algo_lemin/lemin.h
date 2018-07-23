@@ -25,6 +25,7 @@ typedef struct	s_info
 	int		x[1100];
 	int		y[1100];
 	int		graph[1100][1100];
+	t_list	*paths;
 
 }				t_info;
 
