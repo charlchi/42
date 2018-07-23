@@ -25,12 +25,22 @@ int		main(int argc, char **argv)
 	searches = NULL;
 	if (!is_sorted(env.a->table, argc - 2))
 	{
+		searches = (t_search **)malloc(sizeof(t_search *) * 4);
+		searches[0] = new_algo(env.a);
+		searches[1] = min_algo(env.a);
+		searches[2] = recursive_algo(env.a);
+		searches[3] = NULL;
+		print_smallest_ops(searches);
+	}
+	/*if (!is_sorted(env.a->table, argc - 2))
+	{
 		searches = (t_search **)malloc(sizeof(t_search *) * 3);
 		searches[0] = min_algo(env.a);
 		searches[1] = recursive_algo(env.a);
 		searches[2] = NULL;
+		//searches[3] = NULL;
 		print_smallest_ops(searches);
-	}
+	}*/
 	if (searches)
 		free_searches(searches);
 	free(env.a->table);
