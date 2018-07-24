@@ -18,6 +18,8 @@ void	read_nants(t_info *info, char **l)
 	get_next_line(0, l);
 	if (!ft_isdigit((*l)[0]) || (info->ants = ft_atoi(*l)) == 0)
 		exit_error();
+	ft_putnbr(info->ants);
+	ft_putchar('\n');
 }
 
 void	read_rooms(t_info *info, char **l)
@@ -26,24 +28,41 @@ void	read_rooms(t_info *info, char **l)
 	int		ret;
 
 	info->n = 0;
+	info->start = -1;
+	info->end = -1;
 	while ((get_next_line(0, l)) > 0)
 	{
 		str = ft_strsplit(*l, ' ');
 		ret = ft_strstrlen(str);
 		if (ret == 1)
 		{
-			if (str[0][0] != '#' || str[0][0] == 'L')
-				break ;
-			if (ft_strcmp(str[0], "##start") == 0)
-				info->start = info->n;
-			if (ft_strcmp(str[0], "##end") == 0)
-				info->end = info->n;
+			if (!read_comment(info, str))
+				break;
 		}
 		else if (ret == 3)
 			read_room_add(info, str);
 		else
 			break ;
 	}
+	if (info->n == 0 || info->start == -1 || info->end == -1)
+		exit_error();
+}
+
+int		read_comment(t_info *info, char** str)
+{
+	if (str[0][0] != '#' || str[0][0] == 'L')
+		return (0);
+	if (ft_strcmp(str[0], "##start") == 0)
+	{
+		info->start = info->n;
+		ft_putendl("##start");
+	}
+	if (ft_strcmp(str[0], "##end") == 0)
+	{
+		info->end = info->n;
+		ft_putendl("##end");
+	}
+	return (1);
 }
 
 void	read_room_add(t_info *info, char **str)
@@ -51,5 +70,10 @@ void	read_room_add(t_info *info, char **str)
 	ft_strcpy(info->name[info->n], str[0]);
 	info->x[info->n] = ft_atoi(str[1]);
 	info->y[info->n] = ft_atoi(str[2]);
+	ft_putstr(str[0]);
+	ft_putchar(' ');
+	ft_putstr(str[1]);
+	ft_putchar(' ');
+	ft_putendl(str[2]);
 	info->n++;
 }
