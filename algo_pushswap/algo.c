@@ -26,7 +26,7 @@ int		main(int argc, char **argv)
 	if (!is_sorted(env.a->table, argc - 2))
 	{
 		searches = (t_search **)malloc(sizeof(t_search *) * 4);
-		searches[0] = new_algo(env.a);
+		searches[0] = quicksort_algo(env.a);
 		searches[1] = min_algo(env.a);
 		searches[2] = recursive_algo(env.a);
 		searches[3] = NULL;

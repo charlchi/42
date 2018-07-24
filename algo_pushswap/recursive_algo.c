@@ -13,53 +13,52 @@
 #include "pushswap.h"
 
 int gsorted = 0;
-t_search *gsolsearch; 
+
 
 t_search	*recursive_algo(t_stack *ap)
 {
 	int			depth;
 	int			maxdepth;
 	t_search	*s;
+	t_search	*gsol; 
 
 	s = malloc_search(ap);
-	gsolsearch = malloc_search(ap);
+	gsol = malloc_search(ap);
 	depth = 0;
-	maxdepth = 5;
-	while (depth <= maxdepth && gsorted == 0)
+	maxdepth = 7;
+	while (depth <= maxdepth && gsol->n == 0)
 	{
-		find_permutation(s, 0, depth);
+		find_permutation(gsol, s, 0, depth);
 		depth++;
 	}
-	if (gsorted > 0)
+	if (gsol->n > 0)
 	{
 		free_search(s);
-		return (gsolsearch);
-		//printf("found solution len %d %d\n", s->n, gsorted);
+		return (gsol);
 	}
 	else 
 		s->n = -1;
-	free_search(gsolsearch);
+	free_search(gsol);
 	return (s);
 }
 
-void		find_permutation(t_search *s, int depth, int maxdepth)
+void		find_permutation(t_search *gsol, t_search *s, int depth, int max)
 {
 	int			i;
 	
-	if (depth < maxdepth && gsorted == 0)
+	if (depth < max && gsorted == 0)
 	{
 		i = 1;
 		s->n = depth + 1;
 		while (i <= PS_RRR)
 		{
 			s->ops[depth] = i;
-			if (depth - 1 < maxdepth)
-				find_permutation(s, depth + 1, maxdepth);
-			if (depth == maxdepth - 1 && test_permutation(s))
+			if (depth - 1 < max)
+				find_permutation(gsol, s, depth + 1, max);
+			if (depth == max - 1 && test_permutation(s))
 			{
-				printf("found sorted len %d\n", s->n);
 				gsorted++;
-				copy_search(s, gsolsearch);
+				copy_search(s, gsol);
 				return ;
 			}
 
@@ -80,15 +79,7 @@ int			test_permutation(t_search *s)
 		search_do_op(test, s->ops[i++]);
 	sorted = is_sorted(test->a.table, test->a.top) && (test->b.top == -1);
 	if (sorted)
-	{/*
-		i = 0;
-		while (i < s->n)
-			printf("op[%d] ", test->ops[i++]);
-		printf("\n");
-		i = 0;
-		while (i <= s->a.top)
-			printf("%d ", test->a.table[i++]);
-		printf("\n");*/
+	{
 		free_search(test);
 		return (1);
 	}
