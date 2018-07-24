@@ -60,7 +60,7 @@ void	draw_line(float x1, float y1, float x2, float y2, int* img, t_env *env)
 		x = (int)x1 - (int)(step*dx);
 		y = (int)y1 - (int)(step*dy);
 		if (x>0&&x<env->w&&y>0&&y<env->h)
-			img[x + y * env->w] = 0x00009050 + 1 * (-dy);
+			img[x + y * env->w] = env->color + step * 1000.0;
 		step += 0.01;
 	}
 }
@@ -79,7 +79,12 @@ int		draw(void *p)
 	clear_img(img, env->w, env->h, 0x00000000);
 	t_vec3 ro = vec3new(0.0, 0.0, -10.0);
 	t_vec3 rd;
-	
+
+	env->rotx = 23.0/7.0*sin(g/10.0);
+	env->roty = 23.0/7.0*sin(g/20.0);
+	env->rotz = 23.0/7.0*sin(g/40.0);
+	//env->color += 01010203;
+
 	float x[env->maph][env->mapw];
 	float y[env->maph][env->mapw];
 	
@@ -102,27 +107,6 @@ int		draw(void *p)
 			rd.z += (env->z / 15.0);
 			rd.x += env->x / (float)env->mapw;
 			rd.y += env->y / (float)env->maph;
-			
-
-			
-			/*
-			t_vec3 lookat = vec3new(0.0, 0.0, 0.0);
-			t_vec3 f = vec3sub(&lookat, &ro);
-			vec3norm(&f);
-			vec3scale(&f, env->z);
-			t_vec3 yup = vec3new(0.0, 1.0, 0.0);
-			t_vec3 r = vec3cross(&yup, &f);
-			vec3norm(&r);
-			t_vec3 u = vec3cross(&f, &r);
-
-			t_vec3 c = vec3add(&ro, &f);
-			vec3scale(&r, rd.x);
-			vec3scale(&u, rd.z);
-			t_vec3 is = vec3add(&c, &r);
-			is = vec3add(&is, &u);
-			rd = vec3sub(&is, &ro);*/
-			
-			// convert from 3d world to 2d screen
 			vec3norm(&rd);
 			float len = vec3len(&ro) / cos(vec3angle(&rd, &ro));
 			vec3scale(&rd, len);
@@ -172,15 +156,16 @@ int		main(int argc, char **argv)
 
 	env = malloc(sizeof(t_env));
 	parse_args(env, argc, argv);
-	env->w = 600;
-	env->h = 600;
+	env->w = 800;
+	env->h = 800;
 	env->x = 0.0;
-	env->y = 0.0;
-	env->z = 10.0;
+	env->y = -10.0;
+	env->z = (env->mapw > env->maph ? env->mapw : env->maph);
 	env->scale = 0.01;
 	env->rotx = 0.0;
 	env->roty = 0.0;
-	env->rotz = 0.0;
+	env->rotz = 2.5;
+	env->color = 0x0f089050;
 	if (!(env->mlx = get_mlx()))
 		exit_error("get_mlx()");
 	if (!(env->win = get_win(env->w, env->h, "FDF")))

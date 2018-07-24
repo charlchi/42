@@ -37,6 +37,7 @@ typedef struct	s_env
 	float	rotx;
 	float	roty;
 	float	rotz;
+	int		color;
 }				t_env;
 
 void		parse_args(t_env *env, int argc, char **argv);
