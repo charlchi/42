@@ -28,15 +28,16 @@ int		key_hook(int key, void *p)
 	t_env		*env;
 
 	env = (t_env *)p;
-	if (key == 100) {env->x += 10.0; printf("[x--][%.2f]", env->x);}
+	if (key == 113) {env->x += 10.0; printf("[x--][%.2f]", env->x);}
 	if (key ==  97) {env->x -= 10.0; printf("[x++][%.2f]", env->x);}
-	if (key == 115) {env->z -= 10.0; printf("[y--][%.2f]", env->y);}
-	if (key == 119) {env->z += 10.0; printf("[y++][%.2f]", env->y);}
-	if (key == 103) {env->y -= 10.0; printf("[z--][%.2f]", env->z);}
-	if (key == 116) {env->y += 10.0; printf("[z++][%.2f]", env->z);}
+	if (key == 119) {env->y -= 10.0; printf("[y--][%.2f]", env->y);}
+	if (key == 115) {env->y += 10.0; printf("[y++][%.2f]", env->y);}
+	if (key == 101) {env->z -= 10.0; printf("[z--][%.2f]", env->z);}
+	if (key == 100) {env->z += 10.0; printf("[z++][%.2f]", env->z);}
 	if (key == 114) {env->rotx += 22.0/7.0/8.0;}
 	if (key == 102) {env->roty += 22.0/7.0/8.0;}
 	if (key == 118) {env->rotz += 22.0/7.0/8.0;}
+	if (key == 99) {env->color += 04030201;}
 
 	printf("Key in Win1 : %d\n", key);
 	if (key == 53)
