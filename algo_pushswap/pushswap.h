@@ -52,6 +52,12 @@ typedef struct	s_search
 	t_stack	b;
 }				t_search;
 
+typedef struct	s_partition
+{
+	int		n;
+	int		*stack;
+}				t_partition;
+
 int				st_peek(t_stack *stack);
 int				st_pop(t_stack *stack);
 void			st_push(t_stack *stack, int val);
@@ -84,21 +90,17 @@ int				get_max_stack(t_stack *stack, int *ip);
 
 t_search		*recursive_algo(t_stack *a);
 void			copy_search(t_search *src, t_search *dst);
-void			find_permutation(t_search *s, int depth, int maxdepth);
+void			find_permutation(t_search *gsol, t_search *s, int d, int max);
 int				test_permutation(t_search *s);
 
-typedef struct	s_partition
-{
-	int		n;
-	int		*stack;
-}				t_partition;
+t_search		*quicksort_algo(t_stack *ap);
+void			partition_to_b(t_partition *bp, t_search *s);
+void			partition_back_a(t_partition *a, t_partition *b, t_search *s);
+void			partition_back_b(t_partition *a, t_partition *b, t_search *s);
+void			partition(int is_a, t_partition *a, t_partition *b, t_search *s);
+int				has_larger(int mid, t_stack *a);
+int				has_smallereq(int mid, t_stack *a);
+int				get_mid(t_stack *a, int n);
+void			bubble_sort(int *tab, int size);
 
-t_search	*new_algo(t_stack *ap);
-void		partition_to_b(t_partition *bp, t_search *s);
-void		partition_back_a(t_partition *ap, t_partition *bp, t_search *s);
-void		partition_back_b(t_partition *ap, t_partition *bp, t_search *s);
-int			has_larger(int mid, t_stack *a);
-int			has_smallereq(int mid, t_stack *a);
-int			find_middle(t_stack *a, int n);
-void		bubble_sort(int *tab, int size);
 #endif
