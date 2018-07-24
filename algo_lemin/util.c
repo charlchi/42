@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,33 +11,31 @@
 /* ************************************************************************** */
 
 #include "lemin.h"
-#include <stdio.h>
 
-int			main(void)
+char		*get_ant_name(int i1, char* name)
 {
-	t_info		info;
-	t_search	search;
-	t_search	*sol;
-	char		*l;
+	char	*ret;
+	char	*istr;
 
-	read_nants(&info, &l);
-	read_rooms(&info, &l);
-	read_links(&info, &l);
-	search.path = (int *)malloc(sizeof(int) * info.n);
-	search.dis = (int *)malloc(sizeof(int) * info.n);
-	if (!search.path || !search.dis)
-		exit_error();
-	info.paths = NULL;
-	search.len = 0;
-	search_init(&info, &search);
-	if (info.paths != NULL)
-	{
-		sol = get_sol(&info);
-		print_ants(&info, sol);
-	}
-	else
-		exit_error();
-	free(search.path);
-	free(search.dis);
-	return (0);
+	istr = ft_itoa(i1);
+	ret = ft_strnew(2 + ft_strlen(istr) + ft_strlen(name));
+	ft_strcat(ret, "L");
+	ft_strcat(ret, istr);
+	ft_strcat(ret, "-");
+	ft_strcat(ret, name);
+	ft_strcat(ret, " ");
+	return (ret);
+}
+
+int			connected(t_info *info, int i, int n)
+{
+	if (i == n || info->graph[n][i] == 0)
+		return (0);
+	return (1);
+}
+
+void		exit_error(void)
+{
+	ft_putstr("ERROR\n");
+	exit(0);
 }

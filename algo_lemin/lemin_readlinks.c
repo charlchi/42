@@ -23,6 +23,7 @@ void	read_links(t_info *info, char **l)
 			add_links(info, l);
 		r = get_next_line(0, l);
 	}
+	ft_putchar('\n');
 }
 
 void	add_links(t_info *info, char **l)
@@ -36,6 +37,7 @@ void	add_links(t_info *info, char **l)
 		exit_error();
 	i = get_room_index(info, str[0]);
 	j = get_room_index(info, str[1]);
+	ft_putendl(*l);
 	info->graph[i][j] = 1;
 	info->graph[j][i] = 1;
 }
