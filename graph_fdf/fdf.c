@@ -48,7 +48,7 @@
 	//return 0x01020304 * dist;
 }*/
 
-void	draw_line(float x1, float y1, float x2, float y2, int* img, t_env *env)
+void	draw_line(float dist, float x1, float y1, float x2, float y2, int* img, t_env *env)
 {
 	float step = 0.0;
 	float dx = x1 - x2;
@@ -60,7 +60,7 @@ void	draw_line(float x1, float y1, float x2, float y2, int* img, t_env *env)
 		x = (int)x1 - (int)(step*dx);
 		y = (int)y1 - (int)(step*dy);
 		if (x>0&&x<env->w&&y>0&&y<env->h)
-			img[x + y * env->w] = env->color + step * 1000.0;
+			img[x + y * env->w] = 0x000f0f0f * (int)(15.0 - dist*2.0);
 		step += 0.01;
 	}
 }
@@ -80,13 +80,14 @@ int		draw(void *p)
 	t_vec3 ro = vec3new(0.0, 0.0, -10.0);
 	t_vec3 rd;
 
-	env->rotx = 23.0/7.0*sin(g/10.0);
-	env->roty = 23.0/7.0*sin(g/20.0);
-	env->rotz = 23.0/7.0*sin(g/40.0);
+	env->rotx += 0.005*23.0/7.0*sin(g/10.0);
+	env->roty += 0.005*23.0/7.0*sin(g/20.0);
+	env->rotz += 0.005*23.0/7.0*sin(g/40.0);
 	//env->color += 01010203;
 
 	float x[env->maph][env->mapw];
 	float y[env->maph][env->mapw];
+	float dis[env->maph][env->mapw];
 	
 	i = -1;
 	while (++i < env->maph)
@@ -107,12 +108,21 @@ int		draw(void *p)
 			rd.z += (env->z / 15.0);
 			rd.x += env->x / (float)env->mapw;
 			rd.y += env->y / (float)env->maph;
+			dis[i][j] = vec3len(&rd);
 			vec3norm(&rd);
 			float len = vec3len(&ro) / cos(vec3angle(&rd, &ro));
 			vec3scale(&rd, len);
 
-			x[i][j] = env->w  / 2 + (int)(rd.x * env->mapw);
-			y[i][j] = env->h / 2 + (int)(rd.y * env->maph);
+			if (rd.z < 10)
+			{
+				x[i][j] = env->w  / 2 + (int)(rd.x * env->mapw);
+				y[i][j] = env->h / 2 + (int)(rd.y * env->maph);
+			}
+			else
+			{
+				x[i][j] = 0;
+				y[i][j] = 0;
+			}
 		}
 	}
 	i = -1;
@@ -121,10 +131,10 @@ int		draw(void *p)
 		j = -1;
 		while (++j < env->mapw - 1)
 		{
-			draw_line(x[i][j], y[i][j], x[i+1][j], y[i+1][j], img, env);
-			draw_line(x[i][j], y[i][j], x[i][j+1], y[i][j+1], img, env);
-			draw_line(x[i+1][j], y[i+1][j], x[i+1][j+1], y[i+1][j+1], img, env);
-			draw_line(x[i][j+1], y[i][j+1], x[i+1][j+1], y[i+1][j+1], img, env);
+			draw_line(dis[i][j], x[i][j], y[i][j], x[i+1][j], y[i+1][j], img, env);
+			draw_line(dis[i][j], x[i][j], y[i][j], x[i][j+1], y[i][j+1], img, env);
+			draw_line(dis[i][j], x[i+1][j], y[i+1][j], x[i+1][j+1], y[i+1][j+1], img, env);
+			draw_line(dis[i][j], x[i][j+1], y[i][j+1], x[i+1][j+1], y[i+1][j+1], img, env);
 		}
 	}
 
