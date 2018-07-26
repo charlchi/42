@@ -17,7 +17,7 @@ void	read_nants(t_info *info, char **l)
 {
 	get_next_line(0, l);
 	if (!ft_isdigit((*l)[0]) || (info->ants = ft_atoi(*l)) == 0)
-		exit_error();
+		exit_error("");
 	ft_putnbr(info->ants);
 	ft_putchar('\n');
 }
@@ -37,7 +37,7 @@ void	read_rooms(t_info *info, char **l)
 		if (ret == 1)
 		{
 			if (!read_comment(info, str))
-				break;
+				break ;
 		}
 		else if (ret == 3)
 			read_room_add(info, str);
@@ -45,10 +45,10 @@ void	read_rooms(t_info *info, char **l)
 			break ;
 	}
 	if (info->n == 0 || info->start == -1 || info->end == -1)
-		exit_error();
+		exit_error("");
 }
 
-int		read_comment(t_info *info, char** str)
+int		read_comment(t_info *info, char **str)
 {
 	if (str[0][0] != '#' || str[0][0] == 'L')
 		return (0);

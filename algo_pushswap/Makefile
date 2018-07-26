@@ -6,9 +6,16 @@
 #    By: cmoller <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/18 13:23:13 by cmoller           #+#    #+#              #
-#    Updated: 2018/07/11 09:52:12 by cmoller          ###   ########.fr        #
+#    Updated: 2018/07/26 12:55:30 by cmoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+ifeq ($(shell uname), Darwin)
+	LFLAGS = -lmlx -framework OpenGL -framework AppKit
+else
+	LFLAGS = -lmlx -lXext -lX11 -lm
+endif
+
 FLAGS =	-Wall -Wextra -Werror
 CC = gcc
 PS_NAME =	push_swap
@@ -24,10 +31,10 @@ CH_OBJ = $(CH_SRC:.c=.o)
 all: 		$(PS_NAME) $(CH_NAME)
 
 $(CH_NAME):	$(CH_OBJ)
-			$(CC) $(CH_OBJ) -o $(CH_NAME)
+			$(CC) $(CH_OBJ) -o $(CH_NAME) $(LFLAGS)
 
 $(PS_NAME):	$(PS_OBJ)
-			$(CC) $(PS_OBJ) -o $(PS_NAME)
+			$(CC) $(PS_OBJ) -o $(PS_NAME) $(LFLAGS)
 
 clean:
 			/bin/rm -f *.o

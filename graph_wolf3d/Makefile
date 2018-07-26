@@ -1,13 +1,13 @@
 CC=gcc
 
-ifeq ($(OS), Darwin)
+#ifeq ($(OS), Darwin)
 	LFLAGS = -lmlx -framework OpenGL -framework AppKit
-else
-	LFLAGS = -lmlx -lXext -lX11 -lm
-endif
+#else
+#	LFLAGS = -lmlx -lXext -lX11 -lm
+#endif
 
 NAME= wolf3d
-SRC = $(wildcard *.h) $(wildcard *.c) $(wildcard ../libft/*.c)
+SRC = $(wildcard *.c) $(wildcard ../libft/*.c)
 OBJ = $(SRC:.c=.o)
 
 %.o:		%.c

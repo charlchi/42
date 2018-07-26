@@ -26,7 +26,7 @@ int			main(void)
 	search.path = (int *)malloc(sizeof(int) * info.n);
 	search.dis = (int *)malloc(sizeof(int) * info.n);
 	if (!search.path || !search.dis)
-		exit_error();
+		exit_error("");
 	info.paths = NULL;
 	search.len = 0;
 	search_init(&info, &search);
@@ -36,7 +36,7 @@ int			main(void)
 		print_ants(&info, sol);
 	}
 	else
-		exit_error();
+		exit_error("");
 	free(search.path);
 	free(search.dis);
 	return (0);

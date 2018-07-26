@@ -17,13 +17,13 @@ void	parse_args(t_env *env)
 	int			i;
 
 	if (env->argc < 2)
-		exit_error();
+		exit_ps();
 	if (!valid_nums(env) || !valid_dups(env))
-		exit_error();
+		exit_ps();
 	if (!(env->a = (t_stack *)malloc(sizeof(t_stack))))
-		exit_error();
+		exit_ps();
 	if (!(env->b = (t_stack *)malloc(sizeof(t_stack))))
-		exit_error();
+		exit_ps();
 	init_stack(env->a, env->argc - 1);
 	init_stack(env->b, env->argc - 1);
 	i = env->argc - 1;
