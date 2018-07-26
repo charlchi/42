@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
+# include "mlx.h"
 # include "get_next_line.h"
 
 # ifndef LONG_MAX
@@ -104,5 +105,11 @@ void			ft_lstadd(t_list **alst, t_list *new);
 void			ft_lstappend(t_list **lst, t_list *new);
 void			ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
+
+int				*get_img(void **img, int w, int h);
+void			*get_win(int w, int h, char *title);
+void			*get_mlx(void);
+
+void			exit_error(char *s);
 
 #endif
