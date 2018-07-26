@@ -6,7 +6,7 @@
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/09 09:11:49 by cmoller           #+#    #+#             */
-/*   Updated: 2018/07/09 09:12:18 by cmoller          ###   ########.fr       */
+/*   Updated: 2018/07/26 13:56:20 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_search	*quicksort_algo(t_stack *aparam)
 
 void		partition_to_b(t_partition *bp, t_search *s)
 {
-	t_stack 	*a;
+	t_stack		*a;
 	int			mid;
 
 	a = &s->a;
@@ -68,7 +68,9 @@ void		partition_back_a(t_partition *ap, t_partition *bp, t_search *s)
 		(b->top >= 0) ? search_do_op(s, PS_PA) : 0;
 		(b->top >= 0 && bp->stack[bp->n] > 1) ? search_do_op(s, PS_PA) : 0;
 		bp->n--;
-	} else {
+	}
+	else
+	{
 		partition(0, ap, bp, s);
 	}
 }

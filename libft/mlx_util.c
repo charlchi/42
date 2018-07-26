@@ -33,9 +33,9 @@ void	*get_win(int w, int h, char *title)
 	return (win);
 }
 
-void 	*get_mlx(void)
+void	*get_mlx(void)
 {
-	static void 	*mlx;
+	static void		*mlx;
 
 	if (!mlx)
 		if (!(mlx = mlx_init()))
