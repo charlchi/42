@@ -47,29 +47,28 @@ int		draw(void *p)
 	while (x < env->w)
 	{
 		// DO IT VIA THE OTHER METHOD YOU IDIOT
-		float sweep = (float)x / (float)env->w - 0.5;
+		float sweep = (float)x / (float)env->w * 1.0 - 0.5;
 		float angle = atan(sweep / env->focal);
 		float ray = env->rot + angle;
+		float camangle = env->rot + 1.5708;
 		float rx = cos(ray);
 	  	float ry = sin(ray);
 	  	
-	  	// that magic number is the field of view, in radians
 	  	img[(int)((env->x + rx) * xc) +
 			(int)((env->y + ry) * yc) * env->w] = 0x00ffff00;
-		float step = 0.0;
+		float step = 1.0;
 		while (!env->map[(int)(env->y + step*ry)][(int)(env->x + step*rx)])
 		{
-			//img[(int)(xc*env->x + xc*step*rx) +
-			//	(int)(yc*env->y + yc*step*ry) * env->w] = 0x00ffff00;
+			img[(int)(xc*env->x + xc*step*rx) +
+				(int)(yc*env->y + yc*step*ry) * env->w] = 0x00ffff00;
 			step+=0.05;
 		}
 		int hitx = (int)(env->x + step*rx);
 		int hity = (int)(env->y + step*ry);
 
 		float dist = sqrt((env->y - step*ry) * (env->y - step*ry)
-			+ (env->x - step*rx)*(env->x - step*rx)) * cos(angle);
-		//float dist = (hitx = env->x + (1 - stepX) / 2) / rx;d
-		int lineheight = (int)(env->h / dist);
+			+ (env->x - step*rx)*(env->x - step*rx));
+		int lineheight = (int)(10.0 * env->h / dist) * (cos(angle)/step);
 		int drawstart = -lineheight + env->h / 2;
       	if(drawstart < 0)drawstart = 0;
       	int drawend = lineheight + env->h / 2;
@@ -78,13 +77,12 @@ int		draw(void *p)
 		y = drawstart;
 		while (y < drawend)
 		{
-			img[x + y * env->w] = env->map[hity][hitx] * 0x99859347;
+			if (img[x + y * env->w] == 0x00111111)
+				img[x + y * env->w] = env->map[hity][hitx] * 0x09405020;
 			y++;
 		}
 		x++;
 	}
-
-
 
 	// drawwalls
 	i = -1;
@@ -93,16 +91,17 @@ int		draw(void *p)
 		j = -1;
 		while (++j < env->mapw)
 		{
-			y = yc * i + 1;
-			while (y < yc * i + yc - 1)
+			y = yc * i;
+			while (y < yc * i + yc)
 			{
-				x = xc * j + 1;
-				while (x < xc * j + xc - 1)
+				x = xc * j;
+				while (x < xc * j + xc)
 				{
+					//img[x + y * env->w] = 0x00000000;
 					if (y < yc * i + 2 || y > yc * i + yc - 3
 						|| x < xc * j + 2 || x > xc * j + xc - 3)
 						if (env->map[i][j])
-							img[x + y * env->w] = env->map[i][j] * 0x99859347;
+							img[x + y * env->w] = env->map[i][j] * 0x30405020;
 					x++;
 				}
 				y++;

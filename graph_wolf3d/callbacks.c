@@ -33,8 +33,8 @@ int		key_up_hook(int key, void *p)
 	if (key == 115 || key == 1) env->keys['s'] = 0;
 	if (key == 97  || key == 0) env->keys['a'] = 0;
 	if (key == 100 || key == 2) env->keys['d'] = 0;
-	if (key == 102) env->keys['f'] = 0;
-	if (key == 114) env->keys['r'] = 0;
+	if (key == 102 || key == 15) env->keys['f'] = 0;
+	if (key == 114 || key == 3) env->keys['r'] = 0;
 	if (key == 53)
 		exit(0);
 	return (0);
@@ -50,8 +50,8 @@ int		key_down_hook(int key, void *p)
 	if (key == 115 || key == 1) env->keys['s'] = 1;
 	if (key == 97  || key == 0) env->keys['a'] = 1;
 	if (key == 100 || key == 2) env->keys['d'] = 1;
-	if (key == 102) env->keys['f'] = 1;
-	if (key == 114) env->keys['r'] = 1;
+	if (key == 102 || key == 15) env->keys['f'] = 1;
+	if (key == 114 || key == 3) env->keys['r'] = 1;
 	if (key == 53)
 		exit(0);
 	return (0);
