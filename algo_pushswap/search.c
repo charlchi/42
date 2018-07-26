@@ -25,7 +25,7 @@ t_search	*malloc_search(t_stack *a)
 	return (s);
 }
 
-void copy_search(t_search *src, t_search *dst)
+void		copy_search(t_search *src, t_search *dst)
 {
 	int			i;
 
@@ -57,7 +57,7 @@ void		print_smallest_ops(t_search **ss)
 		if (ss[i]->n < min->n && ss[i]->n != -1)
 			min = ss[i];
 	if (!(cmds = ft_strsplit("sa sb ss pa pb ra rb rr rra rrb rrr", ' ')))
-		exit_error();
+		exit_ps();
 	i = 0;
 	while (i < min->n)
 	{
@@ -77,12 +77,3 @@ void		free_searches(t_search **searches)
 		free_search(searches[i++]);
 	free(searches);
 }
-
-void		free_search(t_search *search)
-{	
-	free(search->ops);
-	free(search->a.table);
-	free(search->b.table);
-	free(search);
-}
-

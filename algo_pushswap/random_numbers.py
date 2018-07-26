@@ -13,7 +13,6 @@ for i in range(0, n - 1):
         rand = prng.randint(0, n - 1)
     numbers.append(rand)
 
-print "ARG=\"",
+print "./push_swap ",
 for i in range(0, n):
     print numbers[i],
-print "\"; ./push_swap $ARG",

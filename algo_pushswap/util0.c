@@ -15,7 +15,7 @@
 void	init_stack(t_stack *stack, int size)
 {
 	if (!(stack->table = (int *)malloc(sizeof(int) * size)))
-		exit_error();
+		exit_ps();
 	stack->top = -1;
 }
 
@@ -60,7 +60,7 @@ void	print_stack(t_stack *stack)
 	ft_putchar('\n');
 }
 
-void	exit_error(void)
+void	exit_ps(void)
 {
 	write(2, "Error\n", 7);
 	exit(0);

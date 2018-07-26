@@ -12,15 +12,12 @@
 
 #include "pushswap.h"
 
-int gsorted = 0;
-
-
 t_search	*recursive_algo(t_stack *ap)
 {
 	int			depth;
 	int			maxdepth;
 	t_search	*s;
-	t_search	*gsol; 
+	t_search	*gsol;
 
 	s = malloc_search(ap);
 	gsol = malloc_search(ap);
@@ -36,7 +33,7 @@ t_search	*recursive_algo(t_stack *ap)
 		free_search(s);
 		return (gsol);
 	}
-	else 
+	else
 		s->n = -1;
 	free_search(gsol);
 	return (s);
@@ -45,8 +42,8 @@ t_search	*recursive_algo(t_stack *ap)
 void		find_permutation(t_search *gsol, t_search *s, int depth, int max)
 {
 	int			i;
-	
-	if (depth < max && gsorted == 0)
+
+	if (depth < max && gsol->n == 0)
 	{
 		i = 1;
 		s->n = depth + 1;
@@ -57,11 +54,10 @@ void		find_permutation(t_search *gsol, t_search *s, int depth, int max)
 				find_permutation(gsol, s, depth + 1, max);
 			if (depth == max - 1 && test_permutation(s))
 			{
-				gsorted++;
+				gsol->n++;
 				copy_search(s, gsol);
 				return ;
 			}
-
 			i++;
 		}
 	}
@@ -74,7 +70,7 @@ int			test_permutation(t_search *s)
 	t_search	*test;
 
 	i = 0;
-	test = malloc_search(&s->a); // really just copying the stacks here
+	test = malloc_search(&s->a);
 	while (i < s->n)
 		search_do_op(test, s->ops[i++]);
 	sorted = is_sorted(test->a.table, test->a.top) && (test->b.top == -1);

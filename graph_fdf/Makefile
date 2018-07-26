@@ -1,6 +1,6 @@
 CC=gcc
 
-ifeq ($(OS), Darwin)
+ifeq ($(shell uname), Darwin)
 	LFLAGS = -lmlx -framework OpenGL -framework AppKit
 else
 	LFLAGS = -lmlx -lXext -lX11 -lm

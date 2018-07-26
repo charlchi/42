@@ -12,9 +12,9 @@
 
 #include "pushswap.h"
 
-int has_larger(int mid, t_stack *a)
+int		has_larger(int mid, t_stack *a)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (i <= a->top)
@@ -23,9 +23,9 @@ int has_larger(int mid, t_stack *a)
 	return (0);
 }
 
-int has_smallereq(int mid, t_stack *a)
+int		has_smallereq(int mid, t_stack *a)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (i <= a->top)
@@ -34,10 +34,10 @@ int has_smallereq(int mid, t_stack *a)
 	return (0);
 }
 
-int			get_mid(t_stack *a, int n)
+int		get_mid(t_stack *a, int n)
 {
-	int i;
-	int 	*table;
+	int		i;
+	int		*table;
 
 	table = (int *)malloc(sizeof(int) * (n + 1));
 	i = 0;
@@ -52,11 +52,11 @@ int			get_mid(t_stack *a, int n)
 	return (i);
 }
 
-void		bubble_sort(int *tab, int size)
+void	bubble_sort(int *tab, int size)
 {
-	int i;
-	int j;
-	int t;
+	int		i;
+	int		j;
+	int		t;
 
 	i = 0;
 	while (i < size)
@@ -68,10 +68,18 @@ void		bubble_sort(int *tab, int size)
 			{
 				t = tab[j];
 				tab[j] = tab[j + 1];
-				tab[j + 1] = t; 
+				tab[j + 1] = t;
 			}
 			j++;
 		}
 		i++;
 	}
+}
+
+void	free_search(t_search *search)
+{
+	free(search->ops);
+	free(search->a.table);
+	free(search->b.table);
+	free(search);
 }

@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-char		*get_ant_name(int i1, char* name)
+char		*get_ant_name(int i1, char *name)
 {
 	char	*ret;
 	char	*istr;
@@ -32,10 +32,4 @@ int			connected(t_info *info, int i, int n)
 	if (i == n || info->graph[n][i] == 0)
 		return (0);
 	return (1);
-}
-
-void		exit_error(void)
-{
-	ft_putstr("ERROR\n");
-	exit(0);
 }

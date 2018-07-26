@@ -34,7 +34,7 @@ void	add_links(t_info *info, char **l)
 
 	str = ft_strsplit(*l, '-');
 	if (ft_strstrlen(str) != 2)
-		exit_error();
+		exit_error("");
 	i = get_room_index(info, str[0]);
 	j = get_room_index(info, str[1]);
 	ft_putendl(*l);

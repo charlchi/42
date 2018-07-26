@@ -29,10 +29,10 @@ int		key_up_hook(int key, void *p)
 
 	env = (t_env *)p;
 	printf("key up  : %d\n", key);
-	if (key == 119) env->keys['w'] = 0;
-	if (key == 115) env->keys['s'] = 0;
-	if (key == 97) env->keys['a'] = 0;
-	if (key == 100) env->keys['d'] = 0;
+	if (key == 119 || key == 13) env->keys['w'] = 0;
+	if (key == 115 || key == 1) env->keys['s'] = 0;
+	if (key == 97  || key == 0) env->keys['a'] = 0;
+	if (key == 100 || key == 2) env->keys['d'] = 0;
 	if (key == 102) env->keys['f'] = 0;
 	if (key == 114) env->keys['r'] = 0;
 	if (key == 53)
@@ -46,10 +46,10 @@ int		key_down_hook(int key, void *p)
 
 	env = (t_env *)p;
 	printf("key down: %d\n", key);
-	if (key == 119) env->keys['w'] = 1;
-	if (key == 115) env->keys['s'] = 1;
-	if (key == 97) env->keys['a'] = 1;
-	if (key == 100) env->keys['d'] = 1;
+	if (key == 119 || key == 13) env->keys['w'] = 1;
+	if (key == 115 || key == 1) env->keys['s'] = 1;
+	if (key == 97  || key == 0) env->keys['a'] = 1;
+	if (key == 100 || key == 2) env->keys['d'] = 1;
 	if (key == 102) env->keys['f'] = 1;
 	if (key == 114) env->keys['r'] = 1;
 	if (key == 53)

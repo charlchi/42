@@ -34,13 +34,13 @@ void	run_checker(t_stack *a, t_stack *b)
 	int			cmd;
 
 	if (!(cmds = ft_strsplit("sa sb ss pa pb ra rb rr rra rrb rrr", ' ')))
-		exit_error();
+		exit_error("");
 	while (get_next_line(0, &l))
 	{
 		if ((cmd = get_cmd(l, cmds)))
 			do_cmd(a, b, cmd);
 		else
-			exit_error();
+			exit_error("");
 	}
 	if (is_sorted(a->table, a->top) && b->top == -1)
 		write(1, "OK\n", 3);

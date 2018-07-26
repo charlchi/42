@@ -61,10 +61,10 @@ void		print_ants(t_info *info, t_search *sol)
 	while (i < info->ants + sol->len - 1)
 		moves[i++] = ft_strnew(0);
 	i = -1;
-	while (++i < info->ants) // for every ant
+	while (++i < info->ants)
 	{
 		j = -1;
-		while (++j < sol->len) // for every room
+		while (++j < sol->len)
 		{
 			antname = get_ant_name(i + 1, info->name[sol->path[j + 1]]);
 			moves[i + j] = ft_strjoin(moves[i + j], antname);
@@ -118,7 +118,7 @@ void		found_solution(t_search *s, t_info *info, int d)
 	i = 0;
 	while (++i <= d)
 	{
-		info->graph[s->path[i]][s->path[i-1]] = 0;
-		info->graph[s->path[i-1]][s->path[i]] = 0;
+		info->graph[s->path[i]][s->path[i - 1]] = 0;
+		info->graph[s->path[i - 1]][s->path[i]] = 0;
 	}
 }
