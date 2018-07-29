@@ -76,7 +76,7 @@ int		draw(void *p)
 //TIMER^^^
 	cam = env->cam;
 	img = get_img(&env->img, env->w, env->h);
-	clear_img(img, env->w, env->h, 0x00000000);
+	clear_img(img, env->w, env->h, 0xff0055cc);
 	// handle input
 	// handle keyboard input
 	handle_input(env);
@@ -111,9 +111,7 @@ int		draw(void *p)
 			int ytex = (int)((y + h - env->h / 2) / h * texwidth) / 2;
 			float sidescale = side ? hity - (env->y + cam->ry) : hitx - (env->x + cam->rx);
 			int xtex = (int)fabs(sidescale * texwidth);
-			img[x + y * env->w] = tex[ytex][xtex];
-			if (tex[ytex][xtex] == 0x00000000)
-				img[x + y * env->w] = 0x30000070;
+			img[x + y * env->w] = tex[ytex][xtex] * 0x03849374 * env->map[hity][hitx];
 			y++;
 		}
 		float delta = 1.0 / (1.0 * env->h - y); // number of pixels to draw
@@ -126,8 +124,8 @@ int		draw(void *p)
 			//interpolate between hitx, hity and env->x env->y
 			int ytex = (int)(fabs((env->y + step * cam->ry) - (int)(env->y + step * cam->ry)) * texwidth);
 			int xtex = (int)(fabs((env->x + step * cam->rx) - (int)(env->x + step * cam->rx)) * texwidth);
-			img[x + y          * env->w] = (tex[ytex][xtex] * 0x00264834);
-			img[x + (env->h-y) * env->w] = (tex[ytex][xtex] * 0x00847275);
+			img[x + y *          env->w] = tex[ytex][xtex] * 0x23849372;
+			img[x + (env->h-y) * env->w] = tex[ytex][xtex] * 0x04294824;
 			y++;
 		}
 		x++;
