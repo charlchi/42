@@ -13,41 +13,58 @@
 #ifndef FDF_H
 # define FDF_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <math.h>
-#include <sys/time.h>
 //http://man7.org/linux/man-pages/man2/gettimeofday.2.html
-#include "mlx.h"
-#include "../libft/libft.h"
+# include <sys/time.h>
+# include <X11/Xlib.h>
+# include <X11/Xutil.h>
+# include <X11/Xos.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <math.h>
+# include "mlx.h"
+# include "../minilibx/mlx_int.h"
+# include "../libft/libft.h"
+
+typedef struct	s_cam 
+{
+	float sweep;
+	float angle;
+	float rx;
+	float ry;
+}				t_cam;
 
 typedef struct	s_env
 {
 	int		**map;
 	int		mapw;
 	int		maph;
-	int		keys[20000];
+	int		keys[80000];
 	int		w;
 	int		h;
 	float	x;
 	float	y;
 	float	rot;
 	float	focal;
+	t_cam	*cam;
 	void	*mlx;
 	void	*win;
 	void	*img;
+	long	pt;
+	long	dt;
 }				t_env;
 
 void		parse_args(t_env *env, int argc, char **argv);
 void		parse(t_list *argvlst, t_env *env);
 int			draw_loop(void *p);
+void		handle_input(t_env *env);
 int			key_up_hook(int key, void *p);
 int			key_down_hook(int key, void *p);
 int			mouse_hook(int button, int x, int y, void *p);
+int			mouse_move_hook(int x, int y, void *p);
 int			draw(void *p);
 void		clear_img(int *img, int w, int h, int c);
-
+float		get_ray_dist(t_cam *cam);
 typedef struct	s_vec3
 {
 	float x;

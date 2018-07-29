@@ -12,6 +12,45 @@
 
 #include "wolf3d.h"
 
+void	handle_input(t_env *env)
+{
+	float dis;
+	float rot;
+	float focal;
+	float oldx = env->x;
+	float oldy = env->y;
+
+
+	dis = 0.05;
+	if (env->keys[XK_w] + env->keys[XK_s] + env->keys[XK_d] + env->keys[XK_a] > 1)
+		dis /= 1.41421;
+	rot = 0.04;
+	focal = 0.01;
+	//env->map[(int)(env->y + dis * cos(env->rot))][(int)(env->x + dis * cos(env->rot))] > 0;
+	if (env->keys[XK_w])
+	{
+		env->x += dis * cos(env->rot) * env->dt;
+		env->y += dis * sin(env->rot) * env->dt;
+	}
+	if (env->keys[XK_s])
+	{
+		env->x -= dis * cos(env->rot) * env->dt;
+		env->y -= dis * sin(env->rot) * env->dt;
+	}
+	if (env->keys[XK_a] || env->keys[XK_d])
+	{
+		env->x += dis * cos(env->rot + 1.7) * (env->keys[XK_d] ? 1.0 : -1.0) * env->dt;
+		env->y += dis * sin(env->rot + 1.7) * (env->keys[XK_d] ? 1.0 : -1.0) * env->dt;
+	}
+	env->x = env->map[(int)oldy][(int)env->x] > 0 ? oldx : env->x;
+	env->y = env->map[(int)env->y][(int)oldx] > 0 ? oldy : env->y;
+	env->rot -= (env->keys[XK_Left] ? rot : 0.0) * env->dt;
+	env->rot += (env->keys[XK_Right] ? rot: 0.0) * env->dt;
+	env->focal -= env->keys[XK_r] ? focal : 0.0;
+	env->focal += env->keys[XK_f] ? focal : 0.0;
+	XWarpPointer(((t_xvar *)get_mlx())->display, None, ((t_win_list *)(((t_xvar *)get_mlx())->win_list))->window, 0, 0, 0, 0, env->w/2, 0);
+}
+
 int		draw_loop(void *p)
 {
 	t_env		*env;
@@ -28,14 +67,9 @@ int		key_up_hook(int key, void *p)
 	t_env		*env;
 
 	env = (t_env *)p;
-	printf("key up  : %d\n", key);
-	if (key == 119 || key == 13) env->keys['w'] = 0;
-	if (key == 115 || key == 1) env->keys['s'] = 0;
-	if (key == 97  || key == 0) env->keys['a'] = 0;
-	if (key == 100 || key == 2) env->keys['d'] = 0;
-	if (key == 102 || key == 15) env->keys['f'] = 0;
-	if (key == 114 || key == 3) env->keys['r'] = 0;
-	if (key == 53)
+	//printf("key up  : %d\n", key);
+	env->keys[key] = 0;
+	if (key == XK_Escape)
 		exit(0);
 	return (0);
 }
@@ -45,25 +79,32 @@ int		key_down_hook(int key, void *p)
 	t_env		*env;
 
 	env = (t_env *)p;
-	printf("key down: %d\n", key);
-	if (key == 119 || key == 13) env->keys['w'] = 1;
-	if (key == 115 || key == 1) env->keys['s'] = 1;
-	if (key == 97  || key == 0) env->keys['a'] = 1;
-	if (key == 100 || key == 2) env->keys['d'] = 1;
-	if (key == 102 || key == 15) env->keys['f'] = 1;
-	if (key == 114 || key == 3) env->keys['r'] = 1;
-	if (key == 53)
+	//printf("key down: %d\n", key);
+	env->keys[key] = 1;
+	if (key == XK_Escape)
 		exit(0);
 	return (0);
 }
 
-int		mouse_hook(int button, int x, int y, void *p)
+int		mouse_hook(int button, int y, int x, void *p)
 {
 	t_env		*env;
 
 	env = (t_env *)p;
-	// if (button == 4) env->scale += 0.2;
-	// if (button == 5) env->scale -= 0.2;
 	printf("Mouse in Win, button %d at %dx%d.\n", button, x, y);
+	env->rot = (float)(y/100.0);
+
+	return (0);
+}
+
+int		mouse_move_hook(int y, int x, void *p)
+{
+	t_env		*env;
+
+	env = (t_env *)p;
+
+	//printf("Mouse moving at %dx%d.\n", x, y);
+	env->rot += (float)((y - env->h / 2)/200.0);
+	
 	return (0);
 }
