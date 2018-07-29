@@ -12,131 +12,159 @@
 
 #include "wolf3d.h"
 
+
+int texwidth = 32;
+int tex[32][32] = {
+	{0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0},
+	{0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,0,0},
+	{0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0},
+	{0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}
+};
+
+long getMicrotime(){
+	struct timeval currentTime;
+	gettimeofday(&currentTime, NULL);
+	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+}
+
 float g = 0.0;
 int		draw(void *p)
 {
 	t_env			*env;
 	int				*img;
+	t_cam			*cam;
 	int				i;
 	int				j;
 	int				x;
 	int				y;
 
-	g += 0.001;
+	g += 0.00001;
 	env = (t_env *)p;
+
+//TIMER___
+	long micro = getMicrotime();
+	env->dt = (micro - env->pt) / 10000;
+	env->pt = micro; 
+//TIMER^^^
+	cam = env->cam;
 	img = get_img(&env->img, env->w, env->h);
-	clear_img(img, env->w, env->h, 0x00111111);
-
+	clear_img(img, env->w, env->h, 0x00000000);
 	// handle input
-	if (env->keys['w'] || env->keys['s'])
-	{
-		env->x += 0.1 * cos(env->rot) * (env->keys['w'] ? 1 : -1);
-		env->y += 0.1 * sin(env->rot) * (env->keys['w'] ? 1 : -1);
-	}
-	if (env->keys['a'])
-		env->rot -= 0.08;
-	if (env->keys['d'])
-		env->rot += 0.08;
-	if (env->keys['r']) env->focal -= 0.1;
-	if (env->keys['f']) env->focal += 0.1;
+	// handle keyboard input
+	handle_input(env);
 
-	int yc = 5;
-	int xc = 5;
 	//sweep screen from left to right
 	x = 0;
 	while (x < env->w)
 	{
-		// DO IT VIA THE OTHER METHOD YOU IDIOT
-		float sweep = (float)x / (float)env->w * 1.0 - 0.5;
-		float angle = atan(sweep / env->focal);
-		float ray = env->rot + angle;
-		float camangle = env->rot + 1.5708;
-		float rx = cos(ray);
-	  	float ry = sin(ray);
-	  	
-	  	img[(int)((env->x + rx) * xc) +
-			(int)((env->y + ry) * yc) * env->w] = 0x00ffff00;
-		float step = 1.0;
-		while (!env->map[(int)(env->y + step*ry)][(int)(env->x + step*rx)])
+		cam->sweep = (float)x / (float)env->h * 1.0 - 0.5;
+		//cam->angle = atan(cam->sweep / env->focal) / env->focal;
+		cam->angle = atan(cam->sweep / env->focal);
+		cam->rx = cos(env->rot + cam->angle);
+	  	cam->ry = sin(env->rot + cam->angle);
+	  	// put this inside a method, but do it the legit way
+		// everything after this will change once I do it the legit way
+		// so dont bother refactoring anything
+		float step = 0.01;
+		while (!env->map[(int)(env->y + step * cam->ry)][(int)(env->x + step * cam->rx)])
+			step+=0.01;
+		// this could bet put in a method as well
+		int hitx = (int)(env->x + step * cam->rx);
+		int hity = (int)(env->y + step * cam->ry);
+		int side = hity != (int)(env->y + (step-0.01) * cam->ry) ? 0 : 1;
+		cam->rx = cam->rx * step;
+		cam->ry = cam->ry * step;
+		float h = 0.5 * env->focal * env->h / get_ray_dist(cam);
+		int ds = -h + env->h / 2 < 0 ? 0 : -h + env->h / 2;
+		int de = h + env->h / 2 >= env->h ? env->h - 1 : h + env->h / 2;
+		y = ds;
+		while (y <= de)
 		{
-			img[(int)(xc*env->x + xc*step*rx) +
-				(int)(yc*env->y + yc*step*ry) * env->w] = 0x00ffff00;
-			step+=0.05;
+			int ytex = (int)((y + h - env->h / 2) / h * texwidth) / 2;
+			float sidescale = side ? hity - (env->y + cam->ry) : hitx - (env->x + cam->rx);
+			int xtex = (int)fabs(sidescale * texwidth);
+			img[x + y * env->w] = tex[ytex][xtex];
+			if (tex[ytex][xtex] == 0x00000000)
+				img[x + y * env->w] = 0x30000070;
+			y++;
 		}
-		int hitx = (int)(env->x + step*rx);
-		int hity = (int)(env->y + step*ry);
-
-		float dist = sqrt((env->y - step*ry) * (env->y - step*ry)
-			+ (env->x - step*rx)*(env->x - step*rx));
-		int lineheight = (int)(10.0 * env->h / dist) * (cos(angle)/step);
-		int drawstart = -lineheight + env->h / 2;
-      	if(drawstart < 0)drawstart = 0;
-      	int drawend = lineheight + env->h / 2;
-      	if(drawend >= env->h)drawend = env->h - 1;
-
-		y = drawstart;
-		while (y < drawend)
+		float delta = 1.0 / (1.0 * env->h - y); // number of pixels to draw
+		//while (env->keys[XK_g] && y < env->h)
+		while (y < env->h)
 		{
-			if (img[x + y * env->w] == 0x00111111)
-				img[x + y * env->w] = env->map[hity][hitx] * 0x09405020;
+			delta = env->h / (2.0 * y - env->h);
+			step =  delta / get_ray_dist(cam) * env->focal;
+			//printf("texwidth\n");
+			//interpolate between hitx, hity and env->x env->y
+			int ytex = (int)(fabs((env->y + step * cam->ry) - (int)(env->y + step * cam->ry)) * texwidth);
+			int xtex = (int)(fabs((env->x + step * cam->rx) - (int)(env->x + step * cam->rx)) * texwidth);
+			img[x + y          * env->w] = (tex[ytex][xtex] * 0x00264834);
+			img[x + (env->h-y) * env->w] = (tex[ytex][xtex] * 0x00847275);
 			y++;
 		}
 		x++;
 	}
-
-	// drawwalls
-	i = -1;
-	while (++i < env->maph)
-	{
-		j = -1;
-		while (++j < env->mapw)
-		{
-			y = yc * i;
-			while (y < yc * i + yc)
-			{
-				x = xc * j;
-				while (x < xc * j + xc)
-				{
-					//img[x + y * env->w] = 0x00000000;
-					if (y < yc * i + 2 || y > yc * i + yc - 3
-						|| x < xc * j + 2 || x > xc * j + xc - 3)
-						if (env->map[i][j])
-							img[x + y * env->w] = env->map[i][j] * 0x30405020;
-					x++;
-				}
-				y++;
-			}
-		}
-	}
-	//draw player
-	img[(int)(env->x*xc) +
-		(int)(env->y*yc) * env->w] = 0x00ffff00;
+	draw_minimap(env, img, 5);
 	mlx_put_image_to_window(get_mlx(), env->win, env->img, 0, 0);
 	return (0);
 }
 
 int		main(int argc, char **argv)
 {
+
 	t_env		*env;
+	t_cam		*cam;
 
 	env = malloc(sizeof(t_env));
+	cam = malloc(sizeof(t_cam));
+	env->cam = cam;
 	parse_args(env, argc, argv);
-	env->w = 800;
-	env->h = 800;
-	env->x = 6.1;
-	env->y = 6.1;
+	env->w = 700;
+	env->h = 700;
+	env->x = 5.0;
+	env->y = 5.0;
 	env->rot = 0.0;
-	env->focal = 0.8;
-	if (!(env->mlx = get_mlx()))
-		exit_error("get_mlx()");
-	if (!(env->win = get_win(env->w, env->h, "wolf3d")))
+	env->focal = 0.7;
+	env->pt = getMicrotime();
+	if (!(env->mlx = get_mlx()) || !(env->win = get_win(env->w, env->h, "wolf3d")))
 		exit_error("get_win()");
-	clear_img(get_img(&env->img, env->w, env->h), env->w, env->h, 0x00000000);
+	//clear_img(get_img(&env->img, env->w, env->h), env->w, env->h, 0x0000000);
 	mlx_mouse_hook(env->win, mouse_hook, env);
+	mlx_hook(env->win, MotionNotify, PointerMotionMask, mouse_move_hook, env);
 	mlx_hook(env->win, 2, 1L << 0, key_down_hook, env);
 	mlx_key_hook(env->win, key_up_hook, env);
 	mlx_loop_hook(get_mlx(), draw_loop, env);
+	XWarpPointer(((t_xvar *)get_mlx())->display, None, ((t_win_list *)(((t_xvar *)get_mlx())->win_list))->window, 0, 0, 0, 0, env->w/2, 10);
 	mlx_loop(get_mlx());
-	if (env) free(env);
+	if (env)
+		free(env);
 	exit(0);
 }
