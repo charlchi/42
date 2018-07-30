@@ -51,9 +51,10 @@ typedef struct	s_env
 	void	*win;
 	void	*img;
 	long	pt;
-	long	dt;
+	float	dt;
 }				t_env;
 
+long		getMicrotime(void);
 void		parse_args(t_env *env, int argc, char **argv);
 void		parse(t_list *argvlst, t_env *env);
 int			draw_loop(void *p);
@@ -64,7 +65,12 @@ int			mouse_hook(int button, int x, int y, void *p);
 int			mouse_move_hook(int x, int y, void *p);
 int			draw(void *p);
 void		clear_img(int *img, int w, int h, int c);
+int			*get_img(void **img, int w, int h);
+void		*get_win(int w, int h, char *title);
+void		*get_mlx(void);
 float		get_ray_dist(t_cam *cam);
+void		draw_minimap(t_env * env, int *img, int ppc);
+
 typedef struct	s_vec3
 {
 	float x;

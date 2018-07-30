@@ -20,7 +20,10 @@ void	handle_input(t_env *env)
 	float oldx = env->x;
 	float oldy = env->y;
 
-
+	long micro = getMicrotime();
+	env->dt = (micro - env->pt) / 10000.0;
+	printf("%lu\n", env->dt);
+	env->pt = micro;
 	dis = 0.05;
 	if (env->keys[XK_w] + env->keys[XK_s] + env->keys[XK_d] + env->keys[XK_a] > 1)
 		dis /= 1.41421;

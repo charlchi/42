@@ -46,11 +46,13 @@ int			draw_loop(void *p);
 int			key_hook(int key, void *p);
 int			mouse_hook(int button, int x, int y, void *p);
 int			draw(void *p);
-int			*get_img(t_env *env);
 void		clear_img(int *img, int w, int h, int c);
+void		exit_error(char *s);
+void		clear_img(int *img, int w, int h, int c);
+int			*get_img(void **img, int w, int h);
 void		*get_win(int w, int h, char *title);
 void		*get_mlx(void);
-void		exit_error(char *s);
+
 
 typedef struct	s_vec3
 {
