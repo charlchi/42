@@ -75,14 +75,14 @@ int		draw(void *p)
 
 	g += 0.01;
 	env = (t_env *)p;
-	img = get_img(env);
+	img = get_img(&env->img, env->w, env->h);
 	clear_img(img, env->w, env->h, 0x00000000);
 	t_vec3 ro = vec3new(0.0, 0.0, -10.0);
 	t_vec3 rd;
 
-	env->rotx += 0.005*23.0/7.0*sin(g/10.0);
-	env->roty += 0.005*23.0/7.0*sin(g/20.0);
-	env->rotz += 0.005*23.0/7.0*sin(g/40.0);
+	env->rotx += 0.005*23.0/7.0*sin(g/100.0);
+	env->roty += 0.005*23.0/7.0*sin(g/200.0);
+	env->rotz += 0.005*23.0/7.0*sin(g/400.0);
 	//env->color += 01010203;
 
 	float x[env->maph][env->mapw];
@@ -140,24 +140,6 @@ int		draw(void *p)
 
 	mlx_put_image_to_window(get_mlx(), env->win, env->img, 0, 0);
 	return (0);
-}
-
-void 	*get_mlx(void)
-{
-	static void 	*mlx;
-
-	if (!mlx)
-		if (!(mlx = mlx_init()))
-			exit_error("mlx_init()");
-	return (mlx);
-}
-
-void	exit_error(char *s)
-{
-	ft_putstr("Error: ");
-	ft_putstr(s);
-	ft_putchar('\n');
-	exit(0);
 }
 
 int		main(int argc, char **argv)

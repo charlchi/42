@@ -29,3 +29,34 @@ void	clear_img(int *img, int w, int h, int c)
 		y++;
 	}
 }
+
+int		*get_img(void **img, int w, int h)
+{
+	char			*data;
+	int				bpp;
+	int				sl;
+	int				endian;
+
+	if (!*img)
+		*img = mlx_new_image(get_mlx(), w, h);
+	data = mlx_get_data_addr(*img, &bpp, &sl, &endian);
+	return ((int *)data);
+}
+
+void	*get_win(int w, int h, char *title)
+{
+	void			*win;
+
+	win = mlx_new_window(get_mlx(), w, h, title);
+	return (win);
+}
+
+void	*get_mlx(void)
+{
+	static void		*mlx;
+
+	if (!mlx)
+		if (!(mlx = mlx_init()))
+			exit_error("mlx_init()");
+	return (mlx);
+}
