@@ -6,7 +6,7 @@
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:44:51 by cmoller           #+#    #+#             */
-/*   Updated: 2018/07/17 16:45:00 by cmoller          ###   ########.fr       */
+/*   Updated: 2018/07/31 11:42:12 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ int		main(int argc, char **argv)
 	cam = malloc(sizeof(t_cam));
 	env->cam = cam;
 	parse_args(env, argc, argv);
-	env->w = 500;
-	env->h = 500;
+	env->w = 1200;
+	env->h = 1200;
 	env->x = 5.0;
 	env->y = 5.0;
 	env->rot = 0.0;
@@ -158,7 +158,7 @@ int		main(int argc, char **argv)
 	mlx_hook(env->win, 2, 1L << 0, key_down_hook, env);
 	mlx_key_hook(env->win, key_up_hook, env);
 	mlx_loop_hook(get_mlx(), draw_loop, env);
-	XWarpPointer(((t_xvar *)get_mlx())->display, None, ((t_win_list *)(((t_xvar *)get_mlx())->win_list))->window, 0, 0, 0, 0, env->w/2, 10);
+	//XWarpPointer(((t_xvar *)get_mlx())->display, None, ((t_win_list *)(((t_xvar *)get_mlx())->win_list))->window, 0, 0, 0, 0, env->w/2, 10);
 	mlx_loop(get_mlx());
 	if (env)
 		free(env);
