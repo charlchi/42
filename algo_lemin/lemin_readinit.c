@@ -15,7 +15,13 @@
 
 void	read_nants(t_info *info, char **l)
 {
+	int			i;
+
 	get_next_line(0, l);
+	i = 0;
+	while ((*l)[i] != '\0')
+			if (!ft_isdigit((*l)[i++]))
+				exit_error("");
 	if (!ft_isdigit((*l)[0]) || (info->ants = ft_atoi(*l)) == 0)
 		exit_error("");
 	ft_putnbr(info->ants);
@@ -54,11 +60,15 @@ int		read_comment(t_info *info, char **str)
 		return (0);
 	if (ft_strcmp(str[0], "##start") == 0)
 	{
+		if (info->start != -1)
+				exit_error("");
 		info->start = info->n;
 		ft_putendl("##start");
 	}
 	if (ft_strcmp(str[0], "##end") == 0)
 	{
+		if (info->end != -1)
+			exit_error("");
 		info->end = info->n;
 		ft_putendl("##end");
 	}
