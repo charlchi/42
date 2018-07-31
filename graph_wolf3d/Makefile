@@ -1,6 +1,6 @@
 CC=gcc
 
-ifeq ($(OS), Darwin)
+ifeq ($(shell uname), Darwin)
 	LFLAGS = -lmlx -framework OpenGL -framework AppKit
 else
 	LFLAGS = -lmlx -lXext -lX11 -lm
@@ -11,7 +11,7 @@ SRC = $(wildcard *.c) $(wildcard ../libft/*.c)
 OBJ = $(SRC:.c=.o)
 
 %.o:		%.c
-			$(CC) $(FLAGS) -c $< -o $@ 
+			$(CC) $(FLAGS) -c $< -o $@ -I/opt/X11/include 
 
 all	:$(NAME)
 

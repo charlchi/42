@@ -6,15 +6,9 @@
 #    By: cmoller <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/18 13:23:13 by cmoller           #+#    #+#              #
-#    Updated: 2018/07/26 12:55:30 by cmoller          ###   ########.fr        #
+#    Updated: 2018/07/31 13:27:05 by cmoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-ifeq ($(shell uname), Darwin)
-	LFLAGS = -lmlx -framework OpenGL -framework AppKit
-else
-	LFLAGS = -lmlx -lXext -lX11 -lm
-endif
 
 FLAGS =	-Wall -Wextra -Werror
 CC = gcc
@@ -38,6 +32,7 @@ $(PS_NAME):	$(PS_OBJ)
 
 clean:
 			/bin/rm -f *.o
+			/bin/rm -f ../libft/*.o
 
 fclean: 	clean
 			/bin/rm -f $(CH_NAME)
