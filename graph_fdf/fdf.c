@@ -48,81 +48,68 @@
 	//return 0x01020304 * dist;
 }*/
 
-void	draw_line(float dist, float x1, float y1, float x2, float y2, int* img, t_env *env)
+void	draw_line(float x1, float y1, float x2, float y2, t_env *env)
 {
 	float step = 0.0;
 	float dx = x1 - x2;
 	float dy = y1 - y2;
 	int x;
 	int y;
+
+	int *img = get_img(&env->img, env->w, env->h);
 	while (step <= 1.0)
 	{
 		x = (int)x1 - (int)(step*dx);
 		y = (int)y1 - (int)(step*dy);
-		if (x>0&&x<env->w&&y>0&&y<env->h)
-			img[x + y * env->w] = 0x000f0f0f * (int)(15.0 - dist*2.0);
+		if (x >= 0 && x <= env->w && y >=0 && y <= env->h)
+			img[x + y * env->w] = 0x00ffffff;
 		step += 0.01;
 	}
 }
 
-float g = 0.0;
+float	calculate_point(t_vec3 *rd, int i, int j, t_env *env)
+{
+	t_vec3 ro;
+
+	ro = vec3new(0.0, 1.0, -20.0);
+	rd->x = (float)j - (env->mapw / 2);
+	rd->y = (float)i - (env->maph/ 2);
+	rd->z = ((float)env->map[i][j]) * env->scale;
+	
+	vec3rot(rd, env->rotx, env->roty, env->rotz);
+	
+	rd->x = (rd->x / (float)env->mapw);
+	rd->x = (rd->x * (float)env->mapw / (float)env->maph);
+	rd->y = (rd->y / (float)env->maph);
+	rd->z = (rd->z / 15.0) - 0.5;
+	rd->z += (env->z / 15.0);
+	rd->x += env->x / (float)env->mapw;
+	rd->y += env->y / (float)env->maph;
+	vec3norm(rd);
+	float len = vec3len(&ro) / cos(vec3angle(rd, &ro));
+	vec3scale(rd, len);
+}
+
 int		draw(void *p)
 {
 	t_env			*env;
-	int				*img;
+	t_vec3			rd;
+	float x[env->maph][env->mapw];
+	float y[env->maph][env->mapw];
 	int				i;
 	int				j;
 
-	g += 0.01;
 	env = (t_env *)p;
-	img = get_img(&env->img, env->w, env->h);
-	clear_img(img, env->w, env->h, 0x00000000);
-	t_vec3 ro = vec3new(0.0, 0.0, -10.0);
-	t_vec3 rd;
-
-	env->rotx += 0.005*23.0/7.0*sin(g/100.0);
-	env->roty += 0.005*23.0/7.0*sin(g/200.0);
-	env->rotz += 0.005*23.0/7.0*sin(g/400.0);
-	//env->color += 01010203;
-
-	float x[env->maph][env->mapw];
-	float y[env->maph][env->mapw];
-	float dis[env->maph][env->mapw];
-	
+	clear_img(get_img(&env->img, env->w, env->h), env->w, env->h, 0x00000000);
 	i = -1;
 	while (++i < env->maph)
 	{
 		j = -1;
 		while (++j < env->mapw)
 		{
-			rd.x = (float)j - (env->mapw / 2);
-			rd.y = (float)i - (env->maph/ 2);
-			rd.z = ((float)env->map[i][j]) * env->scale;
-			
-			vec3rot(&rd, env->rotx, env->roty, env->rotz);
-			
-			rd.x = (rd.x / (float)env->mapw);
-			rd.x = rd.x * (float)env->mapw/(float)env->maph;
-			rd.y = (rd.y / (float)env->maph);
-			rd.z = ((rd.z ) / 15.0) - 0.5;
-			rd.z += (env->z / 15.0);
-			rd.x += env->x / (float)env->mapw;
-			rd.y += env->y / (float)env->maph;
-			dis[i][j] = vec3len(&rd);
-			vec3norm(&rd);
-			float len = vec3len(&ro) / cos(vec3angle(&rd, &ro));
-			vec3scale(&rd, len);
-
-			if (rd.z < 10)
-			{
-				x[i][j] = env->w  / 2 + (int)(rd.x * env->mapw);
-				y[i][j] = env->h / 2 + (int)(rd.y * env->maph);
-			}
-			else
-			{
-				x[i][j] = 0;
-				y[i][j] = 0;
-			}
+			calculate_point(&rd, i, j, env);
+			x[i][j] = env->w  / 2 + (int)(rd.x * env->mapw);
+			y[i][j] = env->h / 2 + (int)(rd.y * env->maph);
 		}
 	}
 	i = -1;
@@ -131,13 +118,12 @@ int		draw(void *p)
 		j = -1;
 		while (++j < env->mapw - 1)
 		{
-			draw_line(dis[i][j], x[i][j], y[i][j], x[i+1][j], y[i+1][j], img, env);
-			draw_line(dis[i][j], x[i][j], y[i][j], x[i][j+1], y[i][j+1], img, env);
-			draw_line(dis[i][j], x[i+1][j], y[i+1][j], x[i+1][j+1], y[i+1][j+1], img, env);
-			draw_line(dis[i][j], x[i][j+1], y[i][j+1], x[i+1][j+1], y[i+1][j+1], img, env);
+			draw_line(x[i][j], y[i][j], x[i+1][j], y[i+1][j], env);
+			draw_line(x[i][j], y[i][j], x[i][j+1], y[i][j+1], env);
+			draw_line(x[i+1][j], y[i+1][j], x[i+1][j+1], y[i+1][j+1], env);
+			draw_line(x[i][j+1], y[i][j+1], x[i+1][j+1], y[i+1][j+1], env);
 		}
 	}
-
 	mlx_put_image_to_window(get_mlx(), env->win, env->img, 0, 0);
 	return (0);
 }
@@ -166,6 +152,7 @@ int		main(int argc, char **argv)
 	mlx_key_hook(env->win, key_hook, env);
 	mlx_loop_hook(get_mlx(), draw_loop, env);
 	mlx_loop(get_mlx());
-	if (env) free(env);
+	if (env)
+		free(env);
 	exit(0);
 }
