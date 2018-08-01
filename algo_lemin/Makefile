@@ -19,7 +19,7 @@ endif
 NAME =	lemin
 FLAGS =	-Wall -Wextra -Werror
 CC = gcc
-SRC = $(wildcard *.c) $(wildcard ../libft/*.c)
+SRC = $(wildcard *.c) $(wildcard libft/*.c)
 OBJ = $(SRC:.c=.o)
 
 %.o:		%.c
@@ -34,8 +34,8 @@ clean:
 			/bin/rm -f $(NAME)
 
 fclean: 	clean
-			/bin/rm -f $(NAME)
-			/bin/rm -f build/*.o
+			/bin/rm -f *.o
+			/bin/rm -f libft/*.o
 
 re: 		fclean all
 	

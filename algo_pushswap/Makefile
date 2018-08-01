@@ -13,16 +13,16 @@
 FLAGS =	-Wall -Wextra -Werror
 CC = gcc
 PS_NAME =	push_swap
-PS_SRC = $(filter-out checker.c, $(wildcard *.c)) $(wildcard ../libft/*.c)
+PS_SRC = $(filter-out checker.c, $(wildcard *.c)) $(wildcard libft/*.c)
 PS_OBJ = $(PS_SRC:.c=.o)
 CH_NAME =	checker
-CH_SRC = $(filter-out algo.c, $(wildcard *.c)) $(wildcard ../libft/*.c)
+CH_SRC = $(filter-out algo.c, $(wildcard *.c)) $(wildcard libft/*.c)
 CH_OBJ = $(CH_SRC:.c=.o)
 
 %.o:		%.c
 			$(CC) $(FLAGS) -c $< -o $@
 
-all: 		$(PS_NAME) $(CH_NAME)
+all:		$(PS_NAME) $(CH_NAME)
 
 $(CH_NAME):	$(CH_OBJ)
 			$(CC) $(CH_OBJ) -o $(CH_NAME) $(LFLAGS)
@@ -32,7 +32,7 @@ $(PS_NAME):	$(PS_OBJ)
 
 clean:
 			/bin/rm -f *.o
-			/bin/rm -f ../libft/*.o
+			/bin/rm -f libft/*.o
 
 fclean: 	clean
 			/bin/rm -f $(CH_NAME)
