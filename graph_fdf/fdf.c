@@ -69,7 +69,8 @@ void	draw_line(float x1, float y1, float x2, float y2, t_env *env)
 
 float	calculate_point(t_vec3 *rd, int i, int j, t_env *env)
 {
-	t_vec3 ro;
+	float	len;
+	t_vec3	ro;
 
 	ro = vec3new(0.0, 1.0, -20.0);
 	rd->x = (float)j - (env->mapw / 2);
@@ -84,7 +85,7 @@ float	calculate_point(t_vec3 *rd, int i, int j, t_env *env)
 	rd->x += env->x / (float)env->mapw;
 	rd->y += env->y / (float)env->maph;
 	vec3norm(rd);
-	float len = vec3len(&ro) / cos(vec3angle(rd, &ro));
+	len = vec3len(&ro) / cos(vec3angle(rd, &ro));
 	vec3scale(rd, len);
 }
 

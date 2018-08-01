@@ -13,7 +13,7 @@
 #ifndef LEMIN_H
 # define LEMIN_H
 
-# include "../libft/libft.h"
+# include "libft/libft.h"
 
 typedef struct	s_info
 {

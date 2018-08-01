@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "../libft/libft.h"
+# include "libft/libft.h"
 
 # define PS_SA 1
 # define PS_SB 2
