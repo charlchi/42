@@ -47,7 +47,7 @@ void	*get_win(int w, int h, char *title)
 {
 	void			*win;
 
-	win = mlx_new_window(get_mlx(), w, h, title);
+	win = mlx_new_window(get_mlx(), w * 3, h * 3, title);
 	return (win);
 }
 

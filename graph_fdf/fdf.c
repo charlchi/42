@@ -75,9 +75,7 @@ float	calculate_point(t_vec3 *rd, int i, int j, t_env *env)
 	rd->x = (float)j - (env->mapw / 2);
 	rd->y = (float)i - (env->maph/ 2);
 	rd->z = ((float)env->map[i][j]) * env->scale;
-	
 	vec3rot(rd, env->rotx, env->roty, env->rotz);
-	
 	rd->x = (rd->x / (float)env->mapw);
 	rd->x = (rd->x * (float)env->mapw / (float)env->maph);
 	rd->y = (rd->y / (float)env->maph);
