@@ -61,7 +61,7 @@ void	draw_line(float x1, float y1, float x2, float y2, t_env *env)
 	{
 		x = (int)x1 - (int)(step*dx);
 		y = (int)y1 - (int)(step*dy);
-		if (x >= 0 && x <= env->w && y >=0 && y <= env->h)
+		if (x > 0 && x < env->w && y >0 && y < env->h)
 			img[x + y * env->w] = 0x00ffffff;
 		step += 0.01;
 	}
@@ -72,9 +72,12 @@ float	calculate_point(t_vec3 *rd, int i, int j, t_env *env)
 	float	len;
 	t_vec3	ro;
 
+	printf("test3\n");
 	ro = vec3new(0.0, 1.0, -20.0);
 	rd->x = (float)j - (env->mapw / 2);
 	rd->y = (float)i - (env->maph/ 2);
+	printf("hello\n");
+	printf("%p\n", &(env->map[i][j]));
 	rd->z = ((float)env->map[i][j]) * env->scale;
 	vec3rot(rd, env->rotx, env->roty, env->rotz);
 	rd->x = (rd->x / (float)env->mapw);
@@ -87,26 +90,50 @@ float	calculate_point(t_vec3 *rd, int i, int j, t_env *env)
 	vec3norm(rd);
 	len = vec3len(&ro) / cos(vec3angle(rd, &ro));
 	vec3scale(rd, len);
+	printf("test4\n");
 }
 
 int		draw(void *p)
 {
 	t_env			*env;
-	t_vec3			rd;
-	float x[env->maph][env->mapw];
-	float y[env->maph][env->mapw];
+	int				*img;
 	int				i;
 	int				j;
 
 	env = (t_env *)p;
-	clear_img(get_img(&env->img, env->w, env->h), env->w, env->h, 0x00000000);
+	img = get_img(&env->img, env->w, env->h);
+	clear_img(img, env->w, env->h, 0x00000000);
+	t_vec3 ro = vec3new(0.0, 10.0, -10.0);
+	t_vec3 rd;
+	//env->color += 01010203;
+
+	float x[env->maph][env->mapw];
+	float y[env->maph][env->mapw];
+	float dis[env->maph][env->mapw];
+	
 	i = -1;
 	while (++i < env->maph)
 	{
 		j = -1;
 		while (++j < env->mapw)
 		{
-			calculate_point(&rd, i, j, env);
+			rd.x = (float)j - (env->mapw / 2);
+			rd.y = (float)i - (env->maph/ 2);
+			rd.z = ((float)env->map[i][j]) * env->scale;
+			
+			vec3rot(&rd, env->rotx, env->roty, env->rotz);
+			
+			rd.x = (rd.x / (float)env->mapw);
+			rd.x = rd.x * (float)env->mapw/(float)env->maph;
+			rd.y = (rd.y / (float)env->maph);
+			rd.z = ((rd.z ) / 15.0) - 0.5;
+			rd.z += (env->z / 15.0);
+			rd.x += env->x / (float)env->mapw;
+			rd.y += env->y / (float)env->maph;
+			dis[i][j] = vec3len(&rd);
+			vec3norm(&rd);
+			float len = vec3len(&ro) / cos(vec3angle(&rd, &ro));
+			vec3scale(&rd, len);
 			x[i][j] = env->w  / 2 + (int)(rd.x * env->mapw);
 			y[i][j] = env->h / 2 + (int)(rd.y * env->maph);
 		}

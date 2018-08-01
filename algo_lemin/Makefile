@@ -10,12 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-ifeq ($(shell uname), Darwin)
-	LFLAGS = -lmlx -framework OpenGL -framework AppKit
-else
-	LFLAGS = -lmlx -lXext -lX11 -lm
-endif
-
 NAME =	lemin
 FLAGS =	-Wall -Wextra -Werror
 CC = gcc
