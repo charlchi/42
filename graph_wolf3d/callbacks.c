@@ -21,12 +21,12 @@ void	handle_input(t_env *env)
 	float oldy = env->y;
 
 	long micro = getMicrotime();
-	env->dt = (micro - env->pt) / 10000.0;
+	env->dt = (micro - env->pt) / 1000.0;
 	env->pt = micro;
-	dis = 0.05;
+	dis = 0.01;
 	//if (env->keys[XK_w] + env->keys[XK_s] + env->keys[XK_d] + env->keys[XK_a] > 1)
 		//dis /= 1.41421;
-	rot = 0.04;
+	rot = 0.004;
 	focal = 0.01;
 	//env->map[(int)(env->y + dis * cos(env->rot))][(int)(env->x + dis * cos(env->rot))] > 0;
 	if (env->keys[XK_w] || env->keys[XK_s])
@@ -47,14 +47,18 @@ void	handle_input(t_env *env)
 	env->focal += env->keys[XK_f] ? focal : 0.0;
 }
 
+
+int gtime = 0;
 int		draw_loop(void *p)
 {
 	t_env		*env;
-
+	gtime++;
 	env = (t_env *)p;
-	mlx_clear_window(env->mlx, env->win);
+	handle_input(env);
+	//mlx_clear_window(env->mlx, env->win);
+	printf("%d\n", gtime);
 	draw(p);
-	usleep(2000);
+	mlx_put_image_to_window(get_mlx(), env->win, env->img, 10, 10);
 	return (0);
 }
 
