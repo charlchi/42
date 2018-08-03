@@ -28,10 +28,17 @@
 
 typedef struct	s_cam 
 {
-	float sweep;
-	float angle;
-	float rx;
-	float ry;
+	float	sweep;
+	float	angle;
+	float	rx;
+	float	ry;
+	float	step;
+	int		hitx;
+	int		hity;
+	int		side;
+	int		ds;
+	int		de;
+	float	h;
 }				t_cam;
 
 typedef struct	s_env

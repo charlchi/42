@@ -55,72 +55,89 @@ long getMicrotime(){
 	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 }
 
-float g = 0.0;
+void	setup_cam(t_env *env, t_cam *cam, int *img, int x)
+{
+	cam->sweep = (float)x / (float)env->h * 1.0 - 0.5;
+	cam->angle = atan(cam->sweep / env->focal);
+	cam->rx = cos(env->rot + cam->angle);
+	cam->ry = sin(env->rot + cam->angle);
+	cam->step = 0.01;
+	while (!env->map[(int)(env->y + cam->step * cam->ry)][(int)(env->x + cam->step * cam->rx)])
+		cam->step += 0.01;
+	cam->hitx = (int)(env->x + cam->step * cam->rx);
+	cam->hity = (int)(env->y + cam->step * cam->ry);
+	cam->side = cam->hity != (int)(env->y + (cam->step - 0.01) * cam->ry) ? 0 : 1;
+	cam->rx = cam->rx * cam->step;
+	cam->ry = cam->ry * cam->step;
+	cam->h = 0.5 * env->focal * env->h / get_ray_dist(cam);
+	cam->ds = -cam->h + env->h / 2 < 0 ? 0 : -cam->h + env->h / 2;
+	cam->de = cam->h + env->h / 2 >= env->h ? env->h - 1 : cam->h + env->h / 2;
+}
+
+void	draw_walls(t_env *env, t_cam *cam, int *img, int x)
+{
+	int		y;
+	int		xtex;
+	int		ytex;
+	float	sidescale;
+	float	temp;
+
+	y = cam->ds;
+	while (y <= cam->de)
+	{
+		ytex = (int)((y + cam->h - env->h / 2) / cam->h * texwidth) / 2;
+		sidescale = cam->side ? cam->hity - (env->y + cam->ry) : cam->hitx - (env->x + cam->rx);
+		xtex = (int)fabs(sidescale * texwidth);
+		temp = (int)((cam->hitx * 1000 + x)) ^ (int)((cam->hity * 1000 + y)) ^ (int)(cam->step*cam->step);
+		if (cam->side == 1) temp = (int)(((cam->hitx + 1) * 1000 + xtex + x)) | (int)(((cam->hity + 1) * 1000 + ytex + y)) | (int)(cam->step*cam->step);
+		img[x + y * env->w] = ((int)((0.5+0.5*cos(temp)*cos(temp))*20*cam->hitx)) << 16 + ((int)((0.5+0.5*sin(temp))*254)) << 8 + ((int)((0.5+0.5*tan(temp))*254))* env->map[cam->hity][cam->hitx];
+		if (tex[ytex][xtex] == 0x01020202) img[x + y * env->w] = tex[ytex][xtex] * 20 * env->map[cam->hity][cam->hitx];
+		y++;
+	}
+}
+
+void	draw_floor(t_env *env, t_cam *cam, int *img, int x)
+{
+	int		y;
+	int		ytex;
+	int		xtex;
+	float	temp;
+
+	y = cam->de + 1;
+	while (y < env->h - 1)
+	{
+		cam->step =  env->h / (2.0 * (y+0) - env->h) / get_ray_dist(cam) * env->focal; // how far along floor
+		ytex = (int)(fabs((env->y + cam->step * cam->ry) - (int)(env->y + cam->step * cam->ry)) * texwidth);
+		xtex = (int)(fabs((env->x + cam->step * cam->rx) - (int)(env->x + cam->step * cam->rx)) * texwidth);
+		temp = (int)((cam->hitx * 1000 + x)) ^ (int)((cam->hity * 1000 + y)) ^ (int)(cam->step*cam->step);
+		if (cam->side == 1)
+			temp = (int)((cam->hitx + xtex + x)) | (int)((cam->hity + ytex + y));
+		img[x + (env->h-y) * env->w] =
+			((int)((0.5+0.5*cos(temp)*cos(temp))*20*cam->hitx)) << 16
+			+ ((int)((0.5+0.5*sin(temp))*254)) << 8
+			+ ((int)((0.5+0.5*tan(temp))*254))* env->map[cam->hity][cam->hitx];
+		img[x + y          * env->w] = tex[ytex][xtex] * 40;
+		y++;
+	}
+}
+		
 int		draw(void *p)
 {
 	t_env			*env;
 	int				*img;
 	t_cam			*cam;
-	int				i;
-	int				j;
 	int				x;
 	int				y;
 
-	g += 0.001;
 	env = (t_env *)p;
-
-//TIMER___
-
-//TIMER^^^
-	printf("%f\n", g);
 	cam = env->cam;
 	img = get_img(&env->img, env->w, env->h);
-	clear_img(img, env->w, env->h, 0xff0055cc);
-	// handle input
-	// handle keyboard input
-
-	//sweep screen from left to right
 	x = 0;
 	while (x < env->w)
 	{
-		cam->sweep = (float)x / (float)env->h * 1.0 - 0.5;
-		//cam->angle = atan(cam->sweep / env->focal) / env->focal;
-		cam->angle = atan(cam->sweep / env->focal);
-		cam->rx = cos(env->rot + cam->angle);
-	  	cam->ry = sin(env->rot + cam->angle);
-	  	// put this inside a method, but do it the legit way
-		// everything after this will change once I do it the legit way
-		// so dont bother refactoring anything
-		float step = 0.01;
-		while (!env->map[(int)(env->y + step * cam->ry)][(int)(env->x + step * cam->rx)])
-			step+=0.01;
-		// this could bet put in a method as well
-		int hitx = (int)(env->x + step * cam->rx);
-		int hity = (int)(env->y + step * cam->ry);
-		int side = hity != (int)(env->y + (step-0.01) * cam->ry) ? 0 : 1;
-		cam->rx = cam->rx * step;
-		cam->ry = cam->ry * step;
-		float h = 0.5 * env->focal * env->h / get_ray_dist(cam);
-		int ds = -h + env->h / 2 < 0 ? 0 : -h + env->h / 2;
-		int de = h + env->h / 2 >= env->h ? env->h - 1 : h + env->h / 2;
-		y = ds;
-		while (y <= de)
-		{
-			int ytex = (int)((y + h - env->h / 2) / h * texwidth) / 2;
-			float sidescale = side ? hity - (env->y + cam->ry) : hitx - (env->x + cam->rx);
-			int xtex = (int)fabs(sidescale * texwidth);
-			img[x + y * env->w] = tex[ytex][xtex] * 20 * env->map[hity][hitx];
-			y++;
-		}
-		while (y < env->h - 1)
-		{
-			step =  env->h / (2.0 * (y+0) - env->h) / get_ray_dist(cam) * env->focal; // how far along floor
-			int ytex = (int)(fabs((env->y + step * cam->ry) - (int)(env->y + step * cam->ry)) * texwidth);
-			int xtex = (int)(fabs((env->x + step * cam->rx) - (int)(env->x + step * cam->rx)) * texwidth);
-			img[x + y *          env->w] = (tex[ytex][xtex] * 3) >> 4;
-			img[x + (env->h-y) * env->w] = (int)(0x01000001 * sin(0.01 * ((env->w/2)-x) * y * env->rot)) >> 16;
-			y++;
-		}
+		setup_cam(env, cam, img, x);
+		draw_walls(env, cam, img, x);
+		draw_floor(env, cam, img, x);
 		x++;
 	}
 	draw_minimap(env, img, 2);
@@ -137,8 +154,8 @@ int		main(int argc, char **argv)
 	cam = malloc(sizeof(t_cam));
 	env->cam = cam;
 	parse_args(env, argc, argv);
-	env->w = 400;
-	env->h = 400;
+	env->w = 600;
+	env->h = 600;
 	env->x = 5.0;
 	env->y = 5.0;
 	env->rot = 0.0;
