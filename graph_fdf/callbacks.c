@@ -29,25 +29,23 @@ int		key_hook(int key, void *p)
 
 	env = (t_env *)p;
 	if (key == 113)
-		env->x += 10.0;
+		env->x += 2.0;
 	if (key == 97)
-		env->x -= 10.0;
+		env->x -= 2.0;
 	if (key == 119)
-		env->y -= 10.0;
+		env->y -= 2.0;
 	if (key == 115)
-		env->y += 10.0;
+		env->y += 2.0;
 	if (key == 101)
-		env->z -= 10.0;
+		env->z -= 2.0;
 	if (key == 100)
-		env->z += 10.0;
+		env->z += 2.0;
 	if (key == 114)
 		env->rotx += 22.0/7.0/8.0;
 	if (key == 102)
 		env->roty += 22.0/7.0/8.0;
 	if (key == 118)
 		env->rotz += 22.0/7.0/8.0;
-	if (key == 99) 
-		env->color += 04030201;
 	if (key == 53)
 		exit(0);
 	return (0);
