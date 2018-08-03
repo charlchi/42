@@ -23,7 +23,7 @@ void	handle_input(t_env *env)
 	long micro = getMicrotime();
 	env->dt = (micro - env->pt) / 1000.0;
 	env->pt = micro;
-	dis = 0.01;
+	dis = 0.004;
 	//if (env->keys[XK_w] + env->keys[XK_s] + env->keys[XK_d] + env->keys[XK_a] > 1)
 		//dis /= 1.41421;
 	rot = 0.004;
@@ -58,7 +58,7 @@ int		draw_loop(void *p)
 	//mlx_clear_window(env->mlx, env->win);
 	printf("%d\n", gtime);
 	draw(p);
-	mlx_put_image_to_window(get_mlx(), env->win, env->img, 10, 10);
+	mlx_put_image_to_window(get_mlx(), env->win, env->img, 0, 0);
 	return (0);
 }
 
