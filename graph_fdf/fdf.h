@@ -20,6 +20,13 @@
 #include "mlx.h"
 #include "../libft/libft.h"
 
+typedef struct	s_vec3
+{
+	float x;
+	float y;
+	float z;
+}				t_vec3;
+
 typedef struct	s_env
 {
 	int		**map;
@@ -38,10 +45,12 @@ typedef struct	s_env
 	float	roty;
 	float	rotz;
 	int		color;
+	t_vec3	*points;
 }				t_env;
 
 void		parse_args(t_env *env, int argc, char **argv);
 void		parse(t_list *argvlst, t_env *env);
+void		init_env(t_env *env);
 int			draw_loop(void *p);
 int			key_hook(int key, void *p);
 int			mouse_hook(int button, int x, int y, void *p);
@@ -52,16 +61,9 @@ void		clear_img(int *img, int w, int h, int c);
 int			*get_img(void **img, int w, int h);
 void		*get_win(int w, int h, char *title);
 void		*get_mlx(void);
-
-
-typedef struct	s_vec3
-{
-	float x;
-	float y;
-	float z;
-}				t_vec3;
-
-int			mainImage(int x, int y, t_env *env);
+void		get_points(t_env *env);
+void		draw_points(t_env *env);
+void		draw_line(t_vec3 p1, t_vec3 p2, t_env *env);
 void		vec3scale(t_vec3 *n, float mag);
 void		vec3norm(t_vec3 *n);
 void		vec3rot(t_vec3 *r, float xr, float yr, float zr);
