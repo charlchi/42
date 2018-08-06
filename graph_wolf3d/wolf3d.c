@@ -88,9 +88,9 @@ void	draw_walls(t_env *env, t_cam *cam, int *img, int x)
 		ytex = (int)((y + cam->h - env->h / 2) / cam->h * texwidth) / 2;
 		sidescale = cam->side ? cam->hity - (env->y + cam->ry) : cam->hitx - (env->x + cam->rx);
 		xtex = (int)fabs(sidescale * texwidth);
-		temp = (int)((cam->hitx * 1000 + x)) ^ (int)((cam->hity * 1000 + y)) ^ (int)(cam->step*cam->step);
+		temp = (int)(((cam->hitx + 1) * 1000 + x)) & (int)(((cam->hity + 1) * 1000 + y)) | (int)(cam->step*cam->step);
 		if (cam->side == 1) temp = (int)(((cam->hitx + 1) * 1000 + xtex + x)) | (int)(((cam->hity + 1) * 1000 + ytex + y)) | (int)(cam->step*cam->step);
-		img[x + y * env->w] = ((int)((0.5+0.5*cos(temp)*cos(temp))*20*cam->hitx)) << 16 + ((int)((0.5+0.5*sin(temp))*254)) << 8 + ((int)((0.5+0.5*tan(temp))*254))* env->map[cam->hity][cam->hitx];
+		img[x + y * env->w] = (int)((0.5+0.5*cos(temp)*20)) << 16 + ((int)((0.5+0.5*sin(temp))*254)) << 8 + ((int)((0.5+0.5*tan(temp))*254))* env->map[cam->hity][cam->hitx];
 		if (tex[ytex][xtex] == 0x01020202) img[x + y * env->w] = tex[ytex][xtex] * 20 * env->map[cam->hity][cam->hitx];
 		y++;
 	}
@@ -109,13 +109,7 @@ void	draw_floor(t_env *env, t_cam *cam, int *img, int x)
 		cam->step =  env->h / (2.0 * (y+0) - env->h) / get_ray_dist(cam) * env->focal; // how far along floor
 		ytex = (int)(fabs((env->y + cam->step * cam->ry) - (int)(env->y + cam->step * cam->ry)) * texwidth);
 		xtex = (int)(fabs((env->x + cam->step * cam->rx) - (int)(env->x + cam->step * cam->rx)) * texwidth);
-		temp = (int)((cam->hitx * 1000 + x)) ^ (int)((cam->hity * 1000 + y)) ^ (int)(cam->step*cam->step);
-		if (cam->side == 1)
-			temp = (int)((cam->hitx + xtex + x)) | (int)((cam->hity + ytex + y));
-		img[x + (env->h-y) * env->w] =
-			((int)((0.5+0.5*cos(temp)*cos(temp))*20*cam->hitx)) << 16
-			+ ((int)((0.5+0.5*sin(temp))*254)) << 8
-			+ ((int)((0.5+0.5*tan(temp))*254))* env->map[cam->hity][cam->hitx];
+		img[x + (env->h-y) * env->w] = tex[ytex][xtex] * 40;
 		img[x + y          * env->w] = tex[ytex][xtex] * 40;
 		y++;
 	}
@@ -132,6 +126,7 @@ int		draw(void *p)
 	env = (t_env *)p;
 	cam = env->cam;
 	img = get_img(&env->img, env->w, env->h);
+	clear_img(img, env->w, env->h, 0x00000000);
 	x = 0;
 	while (x < env->w)
 	{
