@@ -49,10 +49,12 @@ int tex[32][32] = {
 	{0x01020202,0x01020202,0x01020202,0x01020202, 0x01020202,0x01020202,0x01020202,0x01020202, 0x01020202,0x01020202,0x01020202,0x01020202, 0x01020202,0x01020202,0x01020202,0x01020202, 0x01020202,0x01020202,0x01020202,0x01020202, 0x01020202,0x01020202,0x01020202,0x01020202, 0x01020202,0x01020202,0x01020202,0x01020202, 0x01020202,0x01020202,0x01020202,0x01020202}
 };
 
-long getMicrotime(){
-	struct timeval currentTime;
+long getMicrotime(void)
+{
+	struct timeval		currentTime;
+
 	gettimeofday(&currentTime, NULL);
-	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	return (currentTime.tv_sec * (int)1e6 + currentTime.tv_usec);
 }
 
 void	setup_cam(t_env *env, t_cam *cam, int *img, int x)
@@ -149,8 +151,8 @@ int		main(int argc, char **argv)
 	cam = malloc(sizeof(t_cam));
 	env->cam = cam;
 	parse_args(env, argc, argv);
-	env->w = 600;
-	env->h = 600;
+	env->w = 800;
+	env->h = 800;
 	env->x = 5.0;
 	env->y = 5.0;
 	env->rot = 0.0;

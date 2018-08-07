@@ -24,11 +24,8 @@ void	handle_input(t_env *env)
 	env->dt = (micro - env->pt) / 1000.0;
 	env->pt = micro;
 	dis = 0.004;
-	//if (env->keys[XK_w] + env->keys[XK_s] + env->keys[XK_d] + env->keys[XK_a] > 1)
-		//dis /= 1.41421;
 	rot = 0.004;
 	focal = 0.01;
-	//env->map[(int)(env->y + dis * cos(env->rot))][(int)(env->x + dis * cos(env->rot))] > 0;
 	if (env->keys[XK_w] || env->keys[XK_s])
 	{
 		env->x += dis * cos(env->rot) * env->dt * (env->keys[XK_s] ? -1 : 1);
@@ -47,15 +44,12 @@ void	handle_input(t_env *env)
 	env->focal += env->keys[XK_f] ? focal : 0.0;
 }
 
-
-int gtime = 0;
 int		draw_loop(void *p)
 {
 	t_env		*env;
-	gtime++;
+
 	env = (t_env *)p;
 	handle_input(env);
-	//mlx_clear_window(env->mlx, env->win);
 	draw(p);
 	mlx_put_image_to_window(get_mlx(), env->win, env->img, 0, 0);
 	return (0);
