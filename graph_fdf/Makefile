@@ -1,4 +1,4 @@
-CC=gcc
+CC=gcc -Wall -Werror -Wextra
 
 ifeq ($(shell uname), Darwin)
 	LFLAGS = -lmlx -framework OpenGL -framework AppKit
@@ -7,7 +7,7 @@ else
 endif
 
 NAME= fdf
-SRC = $(wildcard *.c) $(wildcard ../libft/*.c)
+SRC = $(wildcard *.c) $(wildcard libft/*.c)
 OBJ = $(SRC:.c=.o)
 
 %.o:		%.c
@@ -20,6 +20,7 @@ $(NAME)	:$(OBJ)
 
 clean:
 	rm *.o
+	rm libft/*.o
 
 fclean:	clean
 	rm fdf

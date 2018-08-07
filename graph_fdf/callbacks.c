@@ -12,14 +12,26 @@
 
 #include "fdf.h"
 
+int		draw(void *p)
+{
+	t_env			*env;
+	int				*img;
+
+	env = (t_env *)p;
+	img = get_img(&env->img, env->w, env->h);
+	clear_img(img, env->w, env->h, 0x00000000);
+	get_points(env);
+	draw_points(env);
+	return (0);
+}
+
 int		draw_loop(void *p)
 {
 	t_env		*env;
 
 	env = (t_env *)p;
-	//mlx_clear_window(env->mlx, env->win);
 	draw(p);
-	usleep(2000);
+	mlx_put_image_to_window(get_mlx(), env->win, env->img, 0, 0);
 	return (0);
 }
 
@@ -28,24 +40,24 @@ int		key_hook(int key, void *p)
 	t_env		*env;
 
 	env = (t_env *)p;
-	if (key == 113)
+	if (key == 113 || key == 12)
 		env->x += 2.0;
-	if (key == 97)
+	if (key == 97 || key == 0)
 		env->x -= 2.0;
-	if (key == 119)
+	if (key == 119 || key == 13)
 		env->y -= 2.0;
-	if (key == 115)
+	if (key == 115 || key == 1)
 		env->y += 2.0;
-	if (key == 101)
+	if (key == 101 || key == 14)
 		env->z -= 2.0;
-	if (key == 100)
+	if (key == 100 || key == 2)
 		env->z += 2.0;
-	if (key == 114)
-		env->rotx += 22.0/7.0/8.0;
-	if (key == 102)
-		env->roty += 22.0/7.0/8.0;
-	if (key == 118)
-		env->rotz += 22.0/7.0/8.0;
+	if (key == 114 || key == 15)
+		env->rotx += 22.0 / 7.0 / 8.0;
+	if (key == 102 || key == 3)
+		env->roty += 22.0 / 7.0 / 8.0;
+	if (key == 118 || key == 9)
+		env->rotz += 22.0 / 7.0 / 8.0;
 	if (key == 53)
 		exit(0);
 	return (0);
@@ -56,8 +68,9 @@ int		mouse_hook(int button, int x, int y, void *p)
 	t_env		*env;
 
 	env = (t_env *)p;
-	if (button == 4) env->scale += 0.2;
-	if (button == 5) env->scale -= 0.2;
-	printf("Mouse in Win, button %d at %dx%d.\n", button, x, y);
+	if (button == 4)
+		env->scale += 0.2 + x - x;
+	if (button == 5)
+		env->scale -= 0.2 + y - y;
 	return (0);
 }

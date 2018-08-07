@@ -6,7 +6,7 @@
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:44:51 by cmoller           #+#    #+#             */
-/*   Updated: 2018/07/31 11:39:56 by cmoller          ###   ########.fr       */
+/*   Updated: 2018/08/07 15:42:21 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
-# include "mlx.h"
-# include "../minilibx/mlx_int.h"
-# include "../libft/libft.h"
+# include <mlx.h>
+# include "libft/libft.h"
 
 typedef struct	s_cam 
 {

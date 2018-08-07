@@ -56,7 +56,6 @@ int		draw_loop(void *p)
 	env = (t_env *)p;
 	handle_input(env);
 	//mlx_clear_window(env->mlx, env->win);
-	printf("%d\n", gtime);
 	draw(p);
 	mlx_put_image_to_window(get_mlx(), env->win, env->img, 0, 0);
 	return (0);

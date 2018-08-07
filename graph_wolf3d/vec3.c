@@ -24,24 +24,6 @@ t_vec3	vec3new(float x, float y, float z)
 
 void	vec3rot(t_vec3 *r, float xr, float yr, float zr)
 {
-	float cosa = cos(xr);
-    float sina = sin(xr);
-    float cosb = cos(yr);
-    float sinb = sin(yr);
-    float cosc = cos(zr);
-    float sinc = sin(zr);
-
-    float Axx = cosa*cosb;
-    float Axy = cosa*sinb*sinc - sina*cosc;
-    float Axz = cosa*sinb*cosc + sina*sinc;
-    float Ayx = sina*cosb;
-    float Ayy = sina*sinb*sinc + cosa*cosc;
-    float Ayz = sina*sinb*cosc - cosa*sinc;
-    float Azx = -sinb;
-    float Azy = cosb*sinc;
-    float Azz = cosb*cosc;
-
-    /*
 	t_vec3 xrot = {
 		r->x,
 		cos(xr) * r->y + -sin(xr) * r->z,
@@ -59,13 +41,7 @@ void	vec3rot(t_vec3 *r, float xr, float yr, float zr)
 	};
 	r->x = xrot.x + yrot.x + zrot.x;
 	r->y = xrot.y + yrot.y + zrot.y;
-	r->z = xrot.z + yrot.z + zrot.z;*/
-	float x = r->x;
-	float y = r->y;
-	float z = r->z;
-	r->x = Axx*x + Axy*y + Axz*z;
-	r->y = Ayx*x + Ayy*y + Ayz*z;
-	r->z = Azx*x + Azy*y + Azz*z;
+	r->z = xrot.z + yrot.z + zrot.z;
 }
 
 void	vec3scale(t_vec3 *n, float mag)

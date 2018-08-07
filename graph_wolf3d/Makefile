@@ -7,7 +7,7 @@ else
 endif
 
 NAME= wolf3d
-SRC = $(wildcard *.c) $(wildcard ../libft/*.c)
+SRC = $(wildcard *.c) $(wildcard libft/*.c)
 OBJ = $(SRC:.c=.o)
 
 %.o:		%.c
@@ -20,6 +20,7 @@ $(NAME)	:$(OBJ)
 
 clean:
 	rm *.o
+	rm libft/*.o
 
 fclean:	clean
 	rm $(NAME)
