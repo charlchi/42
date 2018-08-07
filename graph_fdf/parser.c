@@ -12,10 +12,10 @@
 
 #include "fdf.h"
 
-void	parse_args(t_env *env, int argc, char **argv)
+void	parse_args(t_env *env)
 {
 	t_list	*argvlst;
-	char 	**str;
+	char	**str;
 	char	*l;
 
 	get_next_line(0, &l);
@@ -59,5 +59,4 @@ void	parse(t_list *argvlst, t_env *env)
 		free(prev);
 		i++;
 	}
-	printf("%d %d\n", env->mapw, env->maph);
 }

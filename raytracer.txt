@@ -1,0 +1,35 @@
+// raytracing on the CPU, probably not a great idea...
+/*int		mainImage(int x, int y, t_env *env)
+{
+	float uvx = (float)x / (float)env->w;
+	uvx *= (float)env->w/(float)env->h;
+	float uvy = (float)y / (float)env->h;
+	t_vec3 ro = vec3new(0.0, 0.0, -5.0);
+	t_vec3 rd = vec3new(
+		uvx - 0.5 - ro.x,
+		uvy - 0.5 - ro.y,
+		0.0 - ro.z
+	);
+	t_vec3 p = vec3new(
+		0.2*sin(2.0*g),
+		0.3*sin(3.0*g),
+		2.5 - 5.0*sin((2.8+g)*2.0)
+	);
+	
+	float step = 0.0;
+	float dist;
+	float mindis = 100000.0;
+	while (step < 0.1)
+	{
+		p.x = 0.2*sin(2.0*(g+step));
+		p.y = 0.3*sin(3.0*(g+step));
+		p.z = 2.5 - 5.0*sin((2.8+(g+step))*2.0);
+		dist = vec3distlp(&ro, &rd, &p);
+		if (dist < mindis)
+			mindis = dist;
+		step += 0.01;
+	}
+	//printf("%f\n", dist);
+	return (mindis < 0.05 ? 255 - (0x000000ff * 9.0) : 0x00000000);
+	//return 0x01020304 * dist;
+}*/

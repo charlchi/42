@@ -164,7 +164,6 @@ int		main(int argc, char **argv)
 	mlx_hook(env->win, 2, 1L << 0, key_down_hook, env);
 	mlx_key_hook(env->win, key_up_hook, env);
 	mlx_loop_hook(get_mlx(), draw_loop, env);
-	//XWarpPointer(((t_xvar *)get_mlx())->display, None, ((t_win_list *)(((t_xvar *)get_mlx())->win_list))->window, 0, 0, 0, 0, env->w/2, 10);
 	mlx_loop(get_mlx());
 	if (env)
 		free(env);

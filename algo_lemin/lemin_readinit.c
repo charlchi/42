@@ -6,7 +6,7 @@
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/08 12:39:29 by cmoller           #+#    #+#             */
-/*   Updated: 2018/06/25 12:51:47 by cmoller          ###   ########.fr       */
+/*   Updated: 2018/08/07 15:14:45 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	read_nants(t_info *info, char **l)
 	get_next_line(0, l);
 	i = 0;
 	while ((*l)[i] != '\0')
-			if (!ft_isdigit((*l)[i++]))
-				exit_error("");
+		if (!ft_isdigit((*l)[i++]))
+			exit_error("");
 	if (!ft_isdigit((*l)[0]) || (info->ants = ft_atoi(*l)) == 0)
 		exit_error("");
 	ft_putnbr(info->ants);
@@ -61,7 +61,7 @@ int		read_comment(t_info *info, char **str)
 	if (ft_strcmp(str[0], "##start") == 0)
 	{
 		if (info->start != -1)
-				exit_error("");
+			exit_error("");
 		info->start = info->n;
 		ft_putendl("##start");
 	}
