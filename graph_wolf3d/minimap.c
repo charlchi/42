@@ -6,13 +6,13 @@
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/07/17 16:45:07 by cmoller          ###   ########.fr       */
+/*   Updated: 2018/08/08 08:28:27 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-void		draw_minimap(t_env * env, int *img, int ppc)
+void		draw_minimap(t_env *env, int *img, int p)
 {
 	int		i;
 	int		j;
@@ -25,18 +25,17 @@ void		draw_minimap(t_env * env, int *img, int ppc)
 		j = -1;
 		while (++j < env->mapw)
 		{
-			y = ppc * i - 1;
-			while (++y < ppc * i + ppc)
+			y = p * i - 1;
+			while (++y < p * i + p)
 			{
-				x = ppc * j - 1;
-				while (++x < ppc * j + ppc)
+				x = p * j - 1;
+				while (++x < p * j + p)
 					img[x + y * env->w] = env->map[i][j] * 0x30405020;
 			}
 		}
 	}
-	//draw player
-	img[(int)(env->x * ppc) + 0 + (int)((env->y * ppc) + 0) * env->w] = 0x00ffff00;
-	img[(int)(env->x * ppc) + 0 + (int)((env->y * ppc) + 1) * env->w] = 0x00ffff00;
-	img[(int)(env->x * ppc) + 1 + (int)((env->y * ppc) + 0) * env->w] = 0x00ffff00;
-	img[(int)(env->x * ppc) + 1 + (int)((env->y * ppc) + 1) * env->w] = 0x00ffff00;
+	img[(int)(env->x * p) + 0 + (int)((env->y * p) + 0) * env->w] = 0x00ffff00;
+	img[(int)(env->x * p) + 0 + (int)((env->y * p) + 1) * env->w] = 0x00ffff00;
+	img[(int)(env->x * p) + 1 + (int)((env->y * p) + 0) * env->w] = 0x00ffff00;
+	img[(int)(env->x * p) + 1 + (int)((env->y * p) + 1) * env->w] = 0x00ffff00;
 }
