@@ -15,7 +15,7 @@
 void	parse_args(t_env *env, int argc, char **argv)
 {
 	t_list	*argvlst;
-	char 	**str;
+	char	**str;
 	char	*l;
 
 	get_next_line(0, &l);

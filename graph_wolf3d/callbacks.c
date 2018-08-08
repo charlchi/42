@@ -12,38 +12,6 @@
 
 #include "wolf3d.h"
 
-void	handle_input(t_env *env)
-{
-	float dis;
-	float rot;
-	float focal;
-	float oldx = env->x;
-	float oldy = env->y;
-
-	long micro = getMicrotime();
-	env->dt = (micro - env->pt) / 1000.0;
-	env->pt = micro;
-	dis = 0.004;
-	rot = 0.004;
-	focal = 0.01;
-	if (env->keys[XK_w] || env->keys[XK_s])
-	{
-		env->x += dis * cos(env->rot) * env->dt * (env->keys[XK_s] ? -1 : 1);
-		env->y += dis * sin(env->rot) * env->dt * (env->keys[XK_s] ? -1 : 1);
-	}
-	if (env->keys[XK_d] || env->keys[XK_a])
-	{
-		env->x += dis * cos(env->rot + 1.7) * env->dt * (env->keys[XK_a] ? -1 : 1);
-		env->y += dis * sin(env->rot + 1.7) * env->dt * (env->keys[XK_a] ? -1 : 1);
-	}
-	env->x = env->map[(int)oldy][(int)env->x] > 0 ? oldx : env->x;
-	env->y = env->map[(int)env->y][(int)oldx] > 0 ? oldy : env->y;
-	env->rot -= ((env->keys[XK_Left]) ? rot : 0.0) * env->dt;
-	env->rot += ((env->keys[XK_Right]) ? rot: 0.0) * env->dt;
-	env->focal -= env->keys[XK_r] ? focal : 0.0;
-	env->focal += env->keys[XK_f] ? focal : 0.0;
-}
-
 int		draw_loop(void *p)
 {
 	t_env		*env;

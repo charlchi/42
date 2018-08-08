@@ -13,7 +13,6 @@
 #ifndef FDF_H
 # define FDF_H
 
-//http://man7.org/linux/man-pages/man2/gettimeofday.2.html
 # include <sys/time.h>
 # include <X11/Xlib.h>
 # include <X11/Xutil.h>
@@ -25,7 +24,7 @@
 # include <mlx.h>
 # include "libft/libft.h"
 
-typedef struct	s_cam 
+typedef struct	s_cam
 {
 	float	sweep;
 	float	angle;
@@ -60,7 +59,7 @@ typedef struct	s_env
 	float	dt;
 }				t_env;
 
-long		getMicrotime(void);
+long		get_micro_time(void);
 void		parse_args(t_env *env, int argc, char **argv);
 void		parse(t_list *argvlst, t_env *env);
 int			draw_loop(void *p);
