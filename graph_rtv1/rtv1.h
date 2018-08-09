@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wolf3d.h                                           :+:      :+:    :+:   */
+/*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -41,9 +41,6 @@ typedef struct	s_cam
 
 typedef struct	s_env
 {
-	int			**map;
-	int			mapw;
-	int			maph;
 	int			keys[80000];
 	int			w;
 	int			h;
@@ -57,8 +54,6 @@ typedef struct	s_env
 	void		*img;
 	long		pt;
 	float		dt;
-	int			**tex;
-	int			**ftex;
 }				t_env;
 
 long			get_micro_time(void);
@@ -76,7 +71,6 @@ int				*get_img(void **img, int w, int h);
 void			*get_win(int w, int h, char *title);
 void			*get_mlx(void);
 float			get_ray_dist(t_cam *cam);
-void			draw_minimap(t_env *env, int *img, int ppc);
 void			load_images(t_env *env, char *walls, char *ceil);
 void			load_image(char *file, int ***tex);
 
