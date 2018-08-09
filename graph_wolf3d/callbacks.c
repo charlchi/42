@@ -6,7 +6,7 @@
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/07/31 13:21:28 by cmoller          ###   ########.fr       */
+/*   Updated: 2018/08/09 13:22:23 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,12 @@
 int		draw_loop(void *p)
 {
 	t_env		*env;
+	long		micro;
 
 	env = (t_env *)p;
+	micro = get_micro_time();
+	env->dt = (micro - env->pt) / 1000.0;
+	env->pt = micro;
 	handle_input(env);
 	draw(p);
 	mlx_put_image_to_window(get_mlx(), env->win, env->img, 0, 0);
@@ -74,21 +78,5 @@ int		key_down_hook(int key, void *p)
 		env->keys[XK_Right] = 1;
 	if (key == XK_Escape || key == 53)
 		exit(0);
-	return (0);
-}
-
-int		mouse_hook(int button, int y, int x, void *p)
-{
-	t_env		*env;
-
-	env = (t_env *)p;
-	return (0);
-}
-
-int		mouse_move_hook(int y, int x, void *p)
-{
-	t_env		*env;
-
-	env = (t_env *)p;
 	return (0);
 }

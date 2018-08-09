@@ -1,4 +1,4 @@
-CC=gcc
+CC=gcc -Wall -Wextra -Werror
 
 ifeq ($(shell uname), Darwin)
 	LFLAGS = -lmlx -framework OpenGL -framework AppKit
@@ -11,12 +11,14 @@ SRC = $(wildcard *.c) $(wildcard libft/*.c)
 OBJ = $(SRC:.c=.o)
 
 %.o:		%.c
-			$(CC) $(FLAGS) -c $< -o $@ -I/opt/X11/include 
+			@$(CC) $(FLAGS) -c $< -o $@ -I/opt/X11/include
+			@echo "Compiling" $<
 
 all	:$(NAME)
 
 $(NAME)	:$(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(LFLAGS)
+	@$(CC) -o $(NAME) $(OBJ) $(LFLAGS)
+	@echo "Creating wolf3d binary"
 
 clean:
 	rm *.o

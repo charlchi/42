@@ -6,13 +6,13 @@
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 16:44:51 by cmoller           #+#    #+#             */
-/*   Updated: 2018/07/17 16:45:00 by cmoller          ###   ########.fr       */
+/*   Updated: 2018/08/09 12:52:37 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-void	parse_args(t_env *env, int argc, char **argv)
+void	parse_args(t_env *env)
 {
 	t_list	*argvlst;
 	char	**str;
