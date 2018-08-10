@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "rtv1.h"
 
 t_vec3	vec3new(float x, float y, float z)
 {

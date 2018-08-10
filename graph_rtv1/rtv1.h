@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WOLF3D_H
-# define WOLF3D_H
+#ifndef RTV1_H
+# define RTV1_H
 
 # include <sys/time.h>
 # include <X11/Xlib.h>
@@ -41,19 +41,23 @@ typedef struct	s_cam
 
 typedef struct	s_env
 {
+	int			**map;
+	int			mapw;
+	int			maph;
 	int			keys[80000];
 	int			w;
 	int			h;
-	float		x;
-	float		y;
+	int			x;
+	int			y;
 	float		rot;
-	float		focal;
 	t_cam		*cam;
 	void		*mlx;
 	void		*win;
 	void		*img;
 	long		pt;
 	float		dt;
+	int			**tex;
+	int			**ftex;
 }				t_env;
 
 long			get_micro_time(void);

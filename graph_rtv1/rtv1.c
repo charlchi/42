@@ -28,22 +28,19 @@ int		main_image(int x, int y, t_env *env)
 	float mindis = 100000.0;
 	p.x = 0.2 * cos(2.0 * g);
 	p.y = 0.2 * sin(3.0 * g);
-	p.z = -15.0 + 10.0 * sin(2.8 + g);
+	p.z = -20.0 + 10.0 * sin(2.8 + g);
 	mindis = vec3distlp(&ro, &rd, &p);
-	//printf("%f\n", dist);
-	//return (mindis > 0.05 ? 255 - (0xff0000ff * 9.0) : 0xff000000);
-	return (mindis > 0.1 ? 0x00000000 : 0xD10101ff);
+	return (mindis < 0.1 ? 0x0000ff00 + (255 * (1.0 - mindis * 10.0)) : 0x00000000);
 }
 
 int		draw(void *p)
 {
-
 	t_env			*env;
 	int				*img;
 	int				x;
 	int				y;
 
-	g += 0.1;
+	g += 0.01;
 	env = (t_env *)p;
 	img = get_img(&env->img, env->w, env->h);
 	clear_img(img, env->w, env->h, 0x00000000);
@@ -54,7 +51,6 @@ int		draw(void *p)
 		while (x < env->w)
 		{
 			img[x + y * env->w] = main_image(x, y, env);
-			//img[x + y * env->w] = 0xf0f000f0;
 			x++;
 		}
 		y++;
@@ -67,11 +63,9 @@ int		main(void)
 	t_env		*env;
 
 	env = malloc(sizeof(t_env));
-	env->w = 1000;
-	env->h = 1000;
-	env->x = 5.0;
-	env->y = 5.0;
-	env->focal = 0.7;
+	env->w = 400;
+	env->h = 400;
+	env->img = NULL;
 	env->pt = get_micro_time();
 	if (!(env->mlx = get_mlx()))
 		exit_error("get_mlx()");
