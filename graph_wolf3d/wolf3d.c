@@ -106,7 +106,7 @@ int		main(void)
 	cam = malloc(sizeof(t_cam));
 	env->cam = cam;
 	parse_args(env);
-	load_images(env, "test.xpm", "floor.xpm");
+	load_images(env, "walls.xpm", "floor.xpm");
 	env->w = 1000;
 	env->h = 1000;
 	env->x = 5.0;
