@@ -15,6 +15,9 @@
 float g = 0.0;
 int		main_image(int x, int y, t_env *env)
 {
+	// define camera position and 
+	// and the point it's facing
+	// get eye pos, just vecc3norm(vec3sub(cam, point)) 
 	float uvx = (float)x / (float)env->w;
 	uvx *= (float)env->w/(float)env->h;
 	float uvy = (float)y / (float)env->h;
@@ -28,9 +31,9 @@ int		main_image(int x, int y, t_env *env)
 	float mindis = 100000.0;
 	p.x = 0.2 * cos(2.0 * g);
 	p.y = 0.2 * sin(3.0 * g);
-	p.z = -20.0 + 10.0 * sin(2.8 + g);
+	p.z = -17.0 + 10.0 * sin(2.8 + g);
 	mindis = vec3distlp(&ro, &rd, &p);
-	return (mindis < 0.1 ? 0x0000ff00 + (255 * (1.0 - mindis * 10.0)) : 0x00000000);
+	return (mindis < 0.1 ? 0x0000ff00 + (255 * (mindis * 10.0)) : 0x00000000);
 }
 
 int		draw(void *p)
@@ -40,7 +43,7 @@ int		draw(void *p)
 	int				x;
 	int				y;
 
-	g += 0.01;
+	g += 0.1;
 	env = (t_env *)p;
 	img = get_img(&env->img, env->w, env->h);
 	clear_img(img, env->w, env->h, 0x00000000);
@@ -51,6 +54,7 @@ int		draw(void *p)
 		while (x < env->w)
 		{
 			img[x + y * env->w] = main_image(x, y, env);
+			//img[x + y * env->w] = ((int)(g*g + y) & (int)(g*g + x));
 			x++;
 		}
 		y++;
