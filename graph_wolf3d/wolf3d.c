@@ -139,7 +139,7 @@ int		draw(void *p)
 		draw_floor(env, cam, img, x);
 		x++;
 	}
-	kernel_blur(env, img);
+	//kernel_blur(env, img);
 	draw_minimap(env, img, 2);
 	return (0);
 }
