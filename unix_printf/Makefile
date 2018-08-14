@@ -17,12 +17,14 @@ SRC = $(wildcard *.c) $(wildcard libft/*.c)
 OBJ = $(SRC:.c=.o)
 
 %.o:		%.c
-			$(CC) $(FLAGS) -c $< -o $@
+			@echo "Compiling" $<
+			@$(CC) $(FLAGS) -c $< -o $@
 
 all: 		$(NAME)
 
 $(NAME):	$(OBJ)
-			$(CC) $(OBJ) -o $(NAME) $(LFLAGS)
+			@echo "Creating binary" $(NAME)
+			@$(CC) $(OBJ) -o $(NAME) $(LFLAGS)
 
 clean:
 			/bin/rm -f $(NAME)

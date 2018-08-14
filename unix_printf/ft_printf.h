@@ -21,17 +21,83 @@
 # include <wchar.h>
 # include "libft/libft.h"
 
+# define LEN_H 1
+# define LEN_HH 2
+# define LEN_L 3
+# define LEN_LL 4
+# define LEN_J 5
+# define LEN_Z 6
+
 typedef struct	s_printf
 {
-	int		leftalign; // -    left align the output, default is rightalign
-	int		prependplus; // +   prepend plus if number is positive
-	int		space; // prepend ' ' for positive number, overrided by prependplus
-	int		zero; // 0   prepend zero for numeric types instead of spaces for numeric types
-	int		hash; // #  0, 0x and 0X for ono-zero octal and hex values
-	int		minwidth; // (int)    minimum number of characters to output
-	int		precision; // (int)   limit number of output characters for string
-	int		length; // size of int, type basically
+	int		leftalign;
+	int		prependplus;
+	int		space;
+	int		zero;
+	int		hash;
+	int		minwidth;
+	int		precision;
+	int		length;
 	char	type;
 }				t_printf;
 
+char		*format_numbers(char *str, t_printf *info, va_list va);
+char		*format_characters(char *str, t_printf *info, va_list va);
+char		*ft_format(char *str, va_list va);
+int			ft_printf(const char *format, ...);
+char		get_type(char *str);
+char		*get_flags(char *str, t_printf *info);
+char		*get_minwidth(char *str, t_printf *info);
+char		*get_precision(char *str, t_printf *info);
+char		*get_length(char *str, t_printf *info);
+
 #endif
+
+/*
+	strategy for alignment is to add all flags, precision etc..
+	then pad either left or right if necessary
+
+	int		leftalign; // -    left align the output, default is rightalign
+	int		prependplus; // +   prepend plus if number is positive
+	int		space; // prepend ' ' for positive number, overrided by prependplus
+	int		zero; // 0   prepend zero instead of spaces for numeric types
+	int		hash; // #  0, 0x and 0X for octal and hex values
+	int		minwidth; // (int)    minimum number of characters to output
+	int		precision; // (int)  . limit number of output characters for string
+	int		length; // size of int, type basically
+	s		string
+	S		wide char string
+	c		char
+	C		widechar
+	numeric types
+	p		pointer
+	d		int
+	D		long int "ld"
+	u		
+	U
+	i		int
+	o		octal
+	O		octal with caps?? "lo	"
+	x		hex
+	X		hex with capital
+	• You must manage %%
+	• You must manage the flags #0-+ and space
+	• You must manage the minimum field-width
+	• You must manage the precision
+	• You must manage the flags 
+    Modifier          d, i           o, u, x, X            n
+	hh                signed char    unsigned char         signed char *
+    h                 short          unsigned short        short *      
+    l (ell)           long           unsigned long         long *       
+    ll (ell ell)      long long      unsigned long long    long long *  
+    j                 intmax_t       uintmax_t             intmax_t *   
+    t                 ptrdiff_t      (see note)            ptrdiff_t *  
+    z                 (see note)     size_t                (see note)  
+                                                                        
+    Note: the t modifier, when applied to a o, u, x, or X conversion, indicates
+    that the argument is of an unsigned type equivalent in size to a ptrdiff_t.
+    The z modifier, when applied to a d or i conversion, indicates that the    
+    argument is of a signed type equivalent in size to a size_t.  Similarly,   
+    when applied to an n conversion, it indicates that the argument is a       
+    pointer to a signed type equivalent in size to a size_t. 
+*/
