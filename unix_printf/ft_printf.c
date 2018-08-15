@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,65 +12,15 @@
 
 #include "ft_printf.h"
 
-char		*format_numbers(char *str, t_printf *info, va_list va)
-{
-	(void) info;
-	(void) va;
-	return (str);
-}
-
-void		format_normalchars(t_printf *info, va_list va)
-{
-	char		*buf;
-
-	if (info->type == 's')
-		buf = va_arg(va, char *);
-	else
-	{
-		buf = (char *)malloc(sizeof(char) * 2);
-		buf[0] = va_arg(va, int);
-		buf[1] = '\0';
-	}
-	while (*buf)
-	{
-		ft_putchar(*buf++);
-	}
-}
-
-void		format_widechars(t_printf *info, va_list va)
-{
-	int			i;
-	wchar_t		*wbuf;
-	
-	i = 0;
-	if (info->type == 'S')
-		wbuf = va_arg(va, wchar_t *);
-	else
-	{
-		wbuf = (wchar_t *)malloc(sizeof(wchar_t) * 2);
-		wbuf[0] = va_arg(va, int);
-		wbuf[1] = '\0';
-	} 
-	while (*wbuf)
-	{
-		if (info->precision != 0 && i >= info->precision)
-			break;
-		i++;
-		ft_putchar(*wbuf++);
-	}
-}
-
 char		*format_characters(char *str, t_printf *info, va_list va)
 {
 	int			i;
 
-
-
 	i = 0;
 	if (info->type == 's' || info->type == 'c')
-		format_normalchars(str, info, va);
+		format_normalchars(info, va);
 	else if (info->type == 'S' || info->type == 'C')
-		format_widechars(str, info, va);
+		format_widechars(info, va);
 	return (str + 1);
 }
 

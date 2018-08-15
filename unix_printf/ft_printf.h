@@ -43,6 +43,8 @@ typedef struct	s_printf
 
 char		*format_numbers(char *str, t_printf *info, va_list va);
 char		*format_characters(char *str, t_printf *info, va_list va);
+void		format_normalchars(t_printf *info, va_list va);
+void		format_widechars(t_printf *info, va_list va);
 char		*ft_format(char *str, va_list va);
 int			ft_printf(const char *format, ...);
 char		get_type(char *str);
@@ -63,7 +65,7 @@ char		*get_length(char *str, t_printf *info);
 	int		zero; // 0   prepend zero instead of spaces for numeric types
 	int		hash; // #  0, 0x and 0X for octal and hex values
 	int		minwidth; // (int)    minimum number of characters to output
-	int		precision; // (int)  . limit number of output characters for string
+	int		precision; // (int)  . limit number of output characters from string
 	int		length; // size of int, type basically
 	s		string
 	S		wide char string

@@ -21,7 +21,8 @@ char		get_type(char *str)
 
 char		*get_flags(char *str, t_printf *info)
 {
-	info->leftalign = 0;	info->prependplus = 0;
+	info->leftalign = 0;
+	info->prependplus = 0;
 	info->space = 0;
 	info->hash = 0;
 	info->zero = 0;
