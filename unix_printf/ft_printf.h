@@ -36,7 +36,7 @@ typedef struct	s_printf
 	int		zero;
 	int		hash;
 	int		minwidth;
-	int		precision;
+	int		prec;
 	int		length;
 	char	type;
 }				t_printf;
