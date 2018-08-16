@@ -28,54 +28,72 @@ void		format_normalchars(t_printf *info, va_list va)
 		buf[0] = va_arg(va, int);
 		buf[1] = '\0';
 	}
-	;
+	// split into different function starting here
+	if (info->prec == -1)
+		info->prec = ft_strlen(buf);
 	int test = info->minwidth - ft_strlen(buf);
-	if (info->minwidth - info->precision > test)
-		test = info->minwidth - info->precision;
+	if (info->minwidth - info->prec > test)
+		test = info->minwidth - info->prec;
 	while (!info->leftalign && i < test)
 	{
 		ft_putchar(' ');
 		i++;
 	}
-	while (*buf && p < info->precision)
+	while (*buf && p < info->prec && !(info->prec != -1 && i > info->prec))
 	{
-		if (info->precision != 0 && i > info->precision)
-			break;
 		i++;
 		p++;
 		ft_putchar(*buf++);
 	}
-	//ft_putnbr(i);
 	while (i < info->minwidth)
 	{
-		if (*buf && i - info->minwidth < info->precision && p < info->precision)
-		{
+		if (*buf && i - info->minwidth < info->prec && p++ < info->prec)
 			ft_putchar(*buf++);
-			p++;
-		}
 		else
 			ft_putchar(' ');
 		i++;
 	}
 }
 
+
 void		format_widechars(t_printf *info, va_list va)
 {
 	int			i;
-	wchar_t		*wbuf;
+	int			p;
+	wchar_t		*buf;
 	
 	i = 0;
+	p = 0;
 	if (info->type == 'S')
-		wbuf = va_arg(va, wchar_t *);
+		buf = va_arg(va, wchar_t *);
 	else
 	{
-		wbuf = (wchar_t *)malloc(sizeof(wchar_t) * 2);
-		wbuf[0] = va_arg(va, wchar_t);
-		wbuf[1] = '\0';
+		buf = (wchar_t *)malloc(sizeof(wchar_t) * 2);
+		buf[0] = va_arg(va, wchar_t);
+		buf[1] = '\0';
 	}
-	while (*wbuf)
+	if (info->prec == -1)
+		info->prec = ft_wstrlen(buf);
+	int test = info->minwidth - ft_wstrlen(buf);
+	if (info->minwidth - info->prec > test)
+		test = info->minwidth - info->prec;
+	while (!info->leftalign && i < test)
+	{
+		ft_putchar(' ');
+		i++;
+	}
+	while (*buf && p < info->prec && !(info->prec != -1 && i > info->prec))
 	{
 		i++;
-		ft_putchar(*wbuf++);
+		p++;
+		ft_putchar(*buf++);
+	}
+	while (i < info->minwidth)
+	{
+		if (*buf && i - info->minwidth < info->prec && p++ < info->prec)
+			ft_putchar(*buf++);
+		else
+			ft_putchar(' ');
+		i++;
 	}
 }

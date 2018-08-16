@@ -59,12 +59,13 @@ char		*get_minwidth(char *str, t_printf *info)
 
 char		*get_precision(char *str, t_printf *info)
 {
-	info->precision = 0;
+	info->prec = -1;
 	if (*str == '.')
 	{
+		info->prec = 0;
 		str++;
 		if (ft_isdigit(*str))
-			info->precision = ft_atoi(str);
+			info->prec = ft_atoi(str);
 		while (ft_isdigit(*str))
 			str++;
 		return (str);
