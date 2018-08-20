@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-float g = 0.0;
+float g = 50000.0;
 int		main_image(int x, int y, t_env *env)
 {
 	// define camera position and 
@@ -43,7 +43,7 @@ int		draw(void *p)
 	int				x;
 	int				y;
 
-	g += 0.1;
+	g += 10.1;
 	env = (t_env *)p;
 	img = get_img(&env->img, env->w, env->h);
 	clear_img(img, env->w, env->h, 0x00000000);
@@ -54,7 +54,6 @@ int		draw(void *p)
 		while (x < env->w)
 		{
 			img[x + y * env->w] = main_image(x, y, env);
-			//img[x + y * env->w] = ((int)(g*g + y) & (int)(g*g + x));
 			x++;
 		}
 		y++;
@@ -67,8 +66,8 @@ int		main(void)
 	t_env		*env;
 
 	env = malloc(sizeof(t_env));
-	env->w = 400;
-	env->h = 400;
+	env->w = 500;
+	env->h = 500;
 	env->img = NULL;
 	env->pt = get_micro_time();
 	if (!(env->mlx = get_mlx()))

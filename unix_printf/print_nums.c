@@ -12,56 +12,197 @@
 
 #include "ft_printf.h"
 
-char		*format_numbers(char *str, t_printf *info, va_list va)
+intmax_t		get_argnum(t_printf *info, va_list va)
 {
-	// probably need to split between signed and unsigned
-	long	n;
-	int			b;
-	char		out[40];
-	char		base[50] = "0123456789abcdef0123456789ABCDEF";
-	int			sign;
-	int			i;
+	intmax_t	n;
+	n = va_arg(va, intmax_t);
+	if (info->length == LEN_HH)
+		n = (char)n;
+	else if (info->length == LEN_H)
+		n = (short int)n;
+	else if (info->length == LEN_L)
+		n = (long int)n;
+	else if (info->length == LEN_LL)
+		n = (long long int)n;
+	else if (info->length == LEN_J)
+		n = (size_t)n;
+	else
+		n = (int)n;
+	return (n);	
+}
 
-	n = (long) va_arg(va, int);
+uintmax_t		get_argunum(t_printf *info, va_list va)
+{
+	uintmax_t	n;
+	n = va_arg(va, uintmax_t);
+	if (info->length == LEN_HH)
+		n = (char)n;
+	else if (info->length == LEN_H)
+		n = (short int)n;
+	else if (info->length == LEN_L)
+		n = (long int)n;
+	else if (info->length == LEN_LL)
+		n = (long long int)n;
+	else if (info->length == LEN_J)
+		n = (size_t)n;
+	else
+		n = (int)n;
+	return (n);	
+}
+
+char		*get_num_string(t_printf *info, intmax_t n)
+{
+	intmax_t	sign;
+	char		base[50] = "0123456789abcdef0123456789ABCDEF";
+	int			b;
+	int			i;
+	char		*out;
+
+	out = malloc(sizeof(char) * 50);
+	if ((sign = n) < 0)
+		n *= -1;
+	b = 10;
+	i = 0;
+	out[i++] = base[(n % b) + 16 * (info->type == 'X')];	
+	while ((n /= b) > 0)
+		out[i++] = base[(n % b) + 16 * (info->type == 'X')];
+	out[i] = '\0';
+	ft_strrev(&out);
+	return (out);
+}
+
+char		*get_unum_string(t_printf *info, uintmax_t n)
+{
+	intmax_t	sign;
+	char		base[50] = "0123456789abcdef0123456789ABCDEF";
+	int			b;
+	int			i;
+	char		*out;
+
+	out = malloc(sizeof(char) * 50);
 	if ((sign = n) < 0 && !(info->type == 'x' || info->type == 'X'
 		|| info->type == 'o' || info->type == 'O'))
 		n *= -1;
 	b = 10;
-	if (info->type == 'x' || info->type == 'X')
-	{
-		n = (unsigned int)n;
-		b = 16;
-		if (info->hash && info->type == 'x')
-			write(1, "0x", 2);
-		if (info->hash && info->type == 'X')
-			write(1, "0X", 2);
-	}
-	if (info->type == 'o' || info->type == 'O')
-	{
-		n = (unsigned int)n;
-		b = 8;
-		if (info->hash)
-			write(1, "0", 1);
-	}
 	i = 0;
-	out[i++] = base[(n % b) + 16 * (info->type == 'X')];
-	n /= b;
-	while (n > 0)
-	{
+	if (info->type == 'x' || info->type == 'X'
+		|| info->type == 'o' || info->type == 'O')
+		n = (uintmax_t)n;
+	if (info->type == 'x' || info->type == 'X')
+		b = 16;
+	if (info->type == 'o' || info->type == 'O')
+		b = 8;
+	out[i++] = base[(n % b) + 16 * (info->type == 'X')];	
+	while ((n /= b) > 0)
 		out[i++] = base[(n % b) + 16 * (info->type == 'X')];
-		n /= b;
+	out[i] = '\0';
+	ft_strrev(&out);
+	return (out);
+}
+
+void		format_d(t_printf *info, char *numstr)
+{
+	(void)info;
+	ft_putstr(numstr);
+}
+void		format_p(t_printf *info, char *numstr)
+{
+	(void)info;
+	ft_putstr(numstr);
+}
+void		format_u(t_printf *info, char *numstr)
+{
+	(void)info;
+	ft_putstr(numstr);
+}
+void		format_U(t_printf *info, char *numstr)
+{
+	(void)info;
+	ft_putstr(numstr);
+}
+void		format_oO(t_printf *info, char *numstr)
+{
+	(void)info;
+	ft_putstr(numstr);
+}
+void		format_xX(t_printf *info, char *numstr)
+{
+	(void)info;
+	ft_putstr(numstr);
+}
+
+char		*format_numbers(char *str, t_printf *info, va_list va)
+{
+	// split this into signed and unsigned check out:
+	// https://github.com/sploadie/ft-printf/blob/master/printf/get_conv_num.c
+	intmax_t	n;
+	char		*out;
+
+	n = get_argnum(info, va);
+	out = get_num_string(info, n); // split this up
+	if (info->type == 'd' || info->type == 'i')
+		format_d(info, out);
+	else if (info->type == 'p')
+		format_p(info, out);
+	else if (info->type == 'u')
+		format_u(info, out);
+	else if (info->type == 'U')
+		format_U(info, out);
+	else if (info->type == 'o' || info->type == 'O')
+		format_oO(info, out);
+	else if (info->type == 'x' || info->type == 'X')
+		format_xX(info, out);
+	return (str + 1);
+}
+
+
+
+
+
+
+/*
+
+	i = ft_strlen(out);
+	p = info->prec - i - info->prependplus - info->space;
+	if (info->type == 'x' || info->type == 'X')
+		p -= 1;
+	if (info->type == 'o' || info->type == 'O')
+		p -= 2;
+	while (p-- >= 0)
+		out[i++] = info->zero ? '0' : ' ';
+	if (info->hash)
+	{
+		if (info->type == 'x' || info->type == 'X')
+			out[i++] = info->type == 'x' ? 'x' : 'X';
+		out[i++] = '0';
 	}
-	// add zero/space here that conform to precision
+	//mprintf("[[min%d, prec%d, i%d, p%d]]\n", info->minwidth, info->prec, i, p);
+	while (!info->leftalign && info->prec == -1 && i < info->minwidth - info->prependplus - info->space)
+		out[i++] = info->zero ? '0' : ' ';
 	if (!(info->type == 'x' || info->type == 'X'
 		|| info->type == 'o' || info->type == 'O'))
 	{
-		if (sign < 0)
+		if (n < 0)
 			out[i++] = '-';
-		else if (sign >= 0 && info->prependplus)
+		else if (n >= 0 && info->prependplus)
 			out[i++] = '+';
+		else if (info->space)
+			out[i++] = ' ';
 	}
-	// add some kind of padding here, mindwidth
+	p = ft_max(info->minwidth, info->prec + info->prependplus) - i;
+	while (!info->leftalign && p-- > 0)
+		pf_cc(info, info->zero ? '0' : ' ');
 	while (i-- > 0)
-		write(1, &out[i], 1);
+		pf_cc(info, out[i]);
+	while (info->leftalign && p-- > 0)
+		pf_cc(info, ' ');
 	return (str + 1);
-}
+*/
+
+
+
+
+
+
+
+

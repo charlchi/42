@@ -1,4 +1,4 @@
-CC=gcc -Wall -Wextra -Werror
+CC=gcc
 
 ifeq ($(shell uname), Darwin)
 	LFLAGS = -lmlx -framework OpenGL -framework AppKit

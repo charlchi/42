@@ -14,113 +14,94 @@
 #include <stdio.h>
 #include <locale.h>
 
+
 int			main(void)
 {
-	wchar_t a[10] = L"\x3b1\x3b2\x3b1\x3b2\x3b1\x3b2\x3b1\x3b2";
-	wchar_t b = a[0];
-
-	setlocale(LC_ALL, "Chinese-simplified");
-	ft_printf("[%-10.5C] g\n", b);
-	ft_printf("[%-10.5S] g\n", a);
-	ft_printf("[%20.10s]\n", "testtesttesttest");
-	   printf("[%20.10s]\n\n", "testtesttesttest");
-	ft_printf("[%1.20s]\n", "testtesttest");
-	   printf("[%1.20s]\n\n", "testtesttest");
-	ft_printf("[%1.20s]\n", "testtesttest");
-	   printf("[%1.20s]\n\n", "testtesttest");
-	ft_printf("[%1.20s]\n", "testtest");
-	   printf("[%1.20s]\n\n", "testtest");
-	ft_printf("[%1.20s]\n", "testtest");
-	   printf("[%1.20s]\n\n", "testtest");
-	ft_printf("[%.1s]\n", "test");
-	   printf("[%.1s]\n\n", "test");
-	ft_printf("[%20.10s]\n", "test");
-	   printf("[%20.10s]\n\n", "test");
-	ft_printf("[%1.0s]\n", "test");
-	   printf("[%1.0s]\n\n", "test");
-	ft_printf("[%1.0s]\n", "test");
-	   printf("[%1.0s]\n\n", "test");
-	ft_printf("%S", L"我是一只猫。\n");
-	   printf("%S", L"我是一只猫。\n");
-	ft_printf("[%0#x][%#X][%#o][%#O]\n", 15234, 1455, 11252, 53);
-	   printf("[%0#x][%#X][%#o][%#O]\n", 15234, 1455, 11252, 53);
-	ft_printf("[%0#x][%#X][%#o][%#O]\n", -15234, -1455, -11252, -53);
-	   printf("[%0#x][%#X][%#o][%#O]\n", -15234, -1455, -11252, -53);
-	ft_printf("[%-+d]\n", 123456);
-	   printf("[%-+d]\n\n", 123456);
-	ft_printf("[%-#21.17X]\n", 123456);
-	   printf("[%-#21.17X]\n\n", 123456);
-	ft_printf("[%-#21.17o]\n", 123456);
-	   printf("[%-#21.17o]\n\n", 123456);
-	ft_printf("[%-+21.17d]\n", 123456);
-	   printf("[%-+21.17d]\n\n", 123456);
-	ft_printf("[%-+11.17d]\n", 123456);
-	   printf("[%-+11.17d]\n\n", 123456);
-	ft_printf("[%-+11.17d]\n", 123456);
-	   printf("[%-+11.17d]\n\n", 123456);
-	ft_printf("[%-+21.17d]\n", 123456);
-	   printf("[%-+21.17d]\n\n", 123456);
-	ft_printf("[%-+21.17d]\n", 123456);
-	   printf("[%-+21.17d]\n\n", 123456);
-	ft_printf("[%-+d]\n", 123456);
-	   printf("[%-+d]\n\n", 123456);
-	ft_printf("[%-#21.3X]\n", 123456);
-	   printf("[%-#21.3X]\n\n", 123456);
-	ft_printf("[%-#21.3o]\n", 123456);
-	   printf("[%-#21.3o]\n\n", 123456);
-	ft_printf("[%-21.3d]\n", 123456);
-	   printf("[%-21.3d]\n\n", 123456);
-	ft_printf("[%-+11.3d]\n", 123456);
-	   printf("[%-+11.3d]\n\n", 123456);
-	ft_printf("[%-11.3d]\n", 123456);
-	   printf("[%-11.3d]\n\n", 123456);
-	ft_printf("[%-+21.3d]\n", 123456);
-	   printf("[%-+21.3d]\n\n", 123456);
-	ft_printf("[%-+21.3d]\n", 123456);
-	   printf("[%-+21.3d]\n\n", 123456);
-	
-	printf("[%-x]   |-\n", 123456);
-	printf("[%-#x] |-#\n", 123456);
-	printf("[%-+d] |-+\n", 123456);
-	printf("[% -d] | -\n", 123456);
-	printf("[%-d]  |-\n", 123456);
-	printf("[%+-d] |+-\n", 123456);
-	printf("[% d] | \n", 123456);
-	printf("[%+0d] |+0\n", 123456);
-	printf("[% d] | \n", 123456);
-	printf("[%0+d] |0+\n", 123456);
-	printf("[% d] | \n", 123456);
-	printf("[%#x] |#\n", 123456);
-	printf("[% 0d] | 0\n", 123456);
-	printf("[%0d]  |0\n\n", 123456);
-
-	printf("[%-21.10x] |-21.10\n", 123456);
-	printf("[%-#21.10x] |-#21.10\n", 123456);
-	printf("[%-+21.10d] |-+21.10\n", 123456);
-	printf("[% -21d] | -21\n", 123456);
-	printf("[%-21d] |-21\n", 123456);
-	printf("[%+-21.10d] |+-21.10\n", 123456);
-	printf("[% 21.10d] | 21.10\n", 123456);
-	printf("[%+021.10d] |+021.10\n", 123456);
-	printf("[% 21.10d] | 21.10\n", 123456);
-	printf("[%0+21.10d] |0+21.10\n", 123456);
-	printf("[% 21.10d] | 21.10\n", 123456);
-	printf("[%#21.10x] |#21.10\n\n", 123456);
-
-	printf("[%-9.2x] |-9.2\n", 123456);
-	printf("[%-#9.2x] |-#9.2\n", 123456);
-	printf("[%-+9.2d] |-+9.2\n", 123456);
-	printf("[% -9d] | -9\n", 123456);
-	printf("[%-9d] |-9\n", 123456);
-	printf("[%+-9.2d] |+-9.2\n", 123456);
-	printf("[% 9.2d] | 9.2\n", 123456);
-	printf("[%+09.2d] |+09.2\n", 123456);
-	printf("[% 9.2d] | 9.2\n", 123456);
-	printf("[%0+9.2d] |0+9.2\n", 123456);
-	printf("[% 9.2d] | 9.2\n", 123456);
-	printf("[%#9.2x] |#9.2\n\n", 123456);
-	printf("[% 09d] | 09\n", 123456);
-	printf("[%09d] |09\n\n", 123456);
+	ft_printf("%5%\n");                             // "    %"
+	ft_printf("%-5%\n");                            // "%    "
+	ft_printf("%10d\n", 42);                        // "        2a"
+	ft_printf("%lx\n", 4294967296);                 // "100000000"
+	ft_printf("%llX\n", 4294967296);                // "100000000"
+	ft_printf("%jx\n", 4294967296);                 // "100000000"
+	ft_printf("%jx\n", -4294967296);                // "ffffffff00000000"
+	ft_printf("%jx\n", -4294967297);                // "fffffffeffffffff"
+	ft_printf("%llx\n", 9223372036854775807);       // "7fffffffffffffff"
+	ft_printf("%#llx\n", 9223372036854775807);      // "0x7fffffffffffffff"
+	ft_printf("%#x\n", 0);                          // "0"
+	ft_printf("%#8x\n", 42);                        // "    0x2a"
+	ft_printf("%#08x\n", 42);                       // "0x00002a"
+	ft_printf("@moulitest: %#.x %#.0x\n", 0, 0);    // "@moulitest:  "
+	ft_printf("@moulitest: %.x %.0x\n", 0, 0);      // "@moulitest:  "
+	ft_printf("@moulitest: %5.x %5.0x\n", 0, 0);    // "@moulitest:            "
+	ft_printf("@moulitest: %s\n", NULL);            // "@moulitest: (null)"
+	ft_printf("%.2c\n", NULL);                      // "^@"
+	ft_printf("%s %s\n", NULL, "string");             // "(null) string"
+	ft_printf("@moulitest: %c\n", 0);               // "@moulitest: ^@"
+	ft_printf("%2c\n", 0);                          // " ^@"
+	ft_printf("null %c and text\n", 0);             // "null ^@ and text"
+	ft_printf("% c\n", 0);                          // "^@"
+	ft_printf("%5o\n", 41);                         // "   51"
+	ft_printf("%#6o\n", 2500);                      // " 04704"
+	ft_printf("%-5.10o\n", 2500);                   // "0000004704"
+	ft_printf("%-10.5o\n", 2500);                   // "04704     "
+	ft_printf("@moulitest: %.o %.0o\n", 0, 0);      // "@moulitest:  "
+	ft_printf("@moulitest: %5.o %5.0o\n", 0, 0);    // "@moulitest:            "
+	ft_printf("@moulitest: %#.o %#.0o\n", 0, 0);    // "@moulitest: 0 0"
+	ft_printf("@moulitest: %.10o\n", 42);           // "@moulitest: 0000000052"
+	ft_printf("% d\n", -42);                        // "-42"
+	ft_printf("% +d\n", 42);                        // "+42"
+	ft_printf("% +d\n", -42);                       // "-42"
+	ft_printf("%+ d\n", 42);                        // "+42"
+	ft_printf("%+ d\n", -42);                       // "-42"
+	ft_printf("%  +d\n", 42);                       // "+42"
+	ft_printf("%  +d\n", -42);                      // "-42"
+	ft_printf("%+  d\n", 42);                       // "+42"
+	ft_printf("%+  d\n", -42);                      // "-42"
+	ft_printf("% ++d\n", 42);                       // "+42"
+	ft_printf("% ++d\n", -42);                      // "-42"
+	ft_printf("%++ d\n", 42);                       // "+42"
+	ft_printf("%5d\n", 42);                         // "   42"
+	ft_printf("%5d\n", -42);                        // "  -42"
+	ft_printf("%05d\n", -42);                       // "-0042"
+	ft_printf("%hd\n", 32767);                      // "32767"
+	ft_printf("%hd\n", 32768);                      // "-32768"
+	ft_printf("%hhd\n", 128);                       // "-128"
+	ft_printf("%hhd\n", -129);                      // "127"
+	ft_printf("%lld\n", 9223372036854775807);       // "9223372036854775807"
+	ft_printf("%jd\n", 9223372036854775807);        // "9223372036854775807"
+	ft_printf("%zd\n", 4294967295);                 // "4294967295"
+	ft_printf("%zd\n", 4294967296);                 // "4294967296"
+	ft_printf("%4.15d\n", 42);                      // "000000000000042"
+	ft_printf("%.10d\n", 4242);                     // "0000004242"
+	ft_printf("%10.5d\n", 4242);                    // "     04242"
+	ft_printf("%-10.5d\n", 4242);                   // "04242     "
+	ft_printf("%03.2d\n", 0);                       // " 00"
+	ft_printf("%03.2d\n", 1);                       // " 01"
+	ft_printf("%03.2d\n", -1);                      // "-01"
+	ft_printf("@moulitest: %.10d\n", -42);          // "@moulitest: -0000000042"
+	ft_printf("@moulitest: %.d %.0d\n", 0, 0);      // "@moulitest:  "
+	ft_printf("@moulitest: %5.d %5.0d\n", 0, 0);    // "@moulitest:            "
+	ft_printf("%u\n", 0);                           // "0"
+	ft_printf("%u\n", 1);                           // "1"
+	ft_printf("%u\n", -1);                          // "4294967295"
+	ft_printf("%u\n", 4294967295);                  // "4294967295"
+	ft_printf("%u\n", 4294967296);                  // "0"
+	ft_printf("%5u\n", 4294967295);                 // "4294967295"
+	ft_printf("%15u\n", 4294967295);                // "     4294967295"
+	ft_printf("%-15u\n", 4294967295);               // "4294967295     "
+	ft_printf("%015u\n", 4294967295);               // "000004294967295"
+	ft_printf("% u\n", 4294967295);                 // "4294967295"
+	ft_printf("%+u\n", 4294967295);                 // "4294967295"
+	ft_printf("%lu\n", 4294967295);                 // "4294967295"
+	ft_printf("%lu\n", 4294967296);                 // "4294967296"
+	ft_printf("%lu\n", -42);                        // "18446744073709551574"
+	ft_printf("%llu\n", 4999999999);                // "4999999999"
+	ft_printf("%ju\n", 4999999999);                 // "4999999999"
+ 	ft_printf("%ju\n", 4294967296);                 // "4294967296"
+ 	ft_printf("%U\n", 4294967295);                  // "4294967295"
+ 	ft_printf("%hU\n", 4294967296);                 // "4294967296"
+ 	ft_printf("%U\n", 4294967296);                  // "4294967296"
+ 	ft_printf("@moulitest: %.5u\n", 42);            // "@moulitest: 00042"
 
 	return (0);
 }

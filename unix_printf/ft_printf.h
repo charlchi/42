@@ -39,13 +39,18 @@ typedef struct	s_printf
 	int		prec;
 	int		length;
 	char	type;
+	int		cc;
 }				t_printf;
 
+void		pf_cc(t_printf *info, int c);
 char		*format_numbers(char *str, t_printf *info, va_list va);
-char		*format_characters(char *str, t_printf *info, va_list va);
-void		format_normalchars(t_printf *info, va_list va);
-void		format_widechars(t_printf *info, va_list va);
-char		*ft_format(char *str, va_list va);
+
+char		*format_sScC(char *str, t_printf *info, va_list va);
+int			*get_arg_wstring(t_printf *info, va_list va);
+int			*get_arg_string(t_printf *info, va_list va);
+void		print_buffer(t_printf *info, int *buf);
+
+char		*ft_format(char *str, t_printf *info, va_list va);
 int			ft_printf(const char *format, ...);
 char		get_type(char *str);
 char		*get_flags(char *str, t_printf *info);
@@ -93,11 +98,8 @@ char		*get_length(char *str, t_printf *info);
     l (ell)           long           unsigned long         long *       
     ll (ell ell)      long long      unsigned long long    long long *  
     j                 intmax_t       uintmax_t             intmax_t *   
-    t                 ptrdiff_t      (see note)            ptrdiff_t *  
     z                 (see note)     size_t                (see note)  
                                                                         
-    Note: the t modifier, when applied to a o, u, x, or X conversion, indicates
-    that the argument is of an unsigned type equivalent in size to a ptrdiff_t.
     The z modifier, when applied to a d or i conversion, indicates that the    
     argument is of a signed type equivalent in size to a size_t.  Similarly,   
     when applied to an n conversion, it indicates that the argument is a       
