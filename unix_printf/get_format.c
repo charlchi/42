@@ -14,7 +14,7 @@
 
 char		get_type(char *str)
 {
-	while (!ft_strchr("sSpcCdDioOxX", *str))
+	while (!ft_strchr("sSpuUcCdDioOxX", *str))
 		str++;
 	return *str;
 }
@@ -35,7 +35,11 @@ char		*get_flags(char *str, t_printf *info)
 		if (*str == '+' && (info->prependplus = 1))
 			str++;
 		if (*str == ' ' && (info->space = 1))
+		{
 			str++;
+			if (info->prependplus)
+				info->space = 0;
+		}
 		if (*str == '#' && (info->hash = 1))
 			str++;
 		if (*str == '0' && (info->zero = 1))
@@ -76,11 +80,11 @@ char		*get_precision(char *str, t_printf *info)
 char		*get_length(char *str, t_printf *info)
 {
 	info->length = 0;
-	if (str[0] == 'h' && str[1] == 'h' && (info->length = LEN_H))
+	if (str[0] == 'h' && str[1] == 'h' && (info->length = LEN_HH))
 		return (str + 2);
-	if (str[0] == 'h' && (info->length = LEN_HH))
+	if (str[0] == 'h' && (info->length = LEN_H))
 		return (str + 1);
-	if (str[0] == 'l' && str[1] == 'l' && (info->length = LEN_L))
+	if (str[0] == 'l' && str[1] == 'l' && (info->length = LEN_LL))
 		return (str + 2);
 	if (str[0] == 'l' && (info->length = LEN_LL))
 		return (str + 1);
