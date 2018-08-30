@@ -22,24 +22,20 @@ float	vec3angle(t_vec3 *u, t_vec3 *v)
 	return (acos(vec3dot(u, v) / (vec3len(u) * vec3len(v))));
 }
 
-t_vec3	vec3add(t_vec3 *f, t_vec3 *s)
+t_vec3	*vec3add(t_vec3 *a, t_vec3 *b, t_vec3 *out)
 {
-	t_vec3 ret;
-
-	ret.x = f->x + s->x;
-	ret.y = f->y + s->y;
-	ret.z = f->z + s->z;
-	return (ret);
+	out->x = a->x + b->x;
+	out->y = a->y + b->y;
+	out->z = a->z + b->z;
+	return (out);
 }
 
-t_vec3	vec3sub(t_vec3 *f, t_vec3 *s)
+t_vec3	*vec3sub(t_vec3 *a, t_vec3 *b, t_vec3 *out)
 {
-	t_vec3 ret;
-
-	ret.x = f->x - s->x;
-	ret.y = f->y - s->y;
-	ret.z = f->z - s->z;
-	return (ret);
+	out->x = a->x - b->x;
+	out->y = a->y - b->y;
+	out->z = a->z - b->z;
+	return (out);
 }
 
 float	vec3len(t_vec3 *p)

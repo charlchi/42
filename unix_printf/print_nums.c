@@ -14,40 +14,36 @@
 
 intmax_t		get_argnum(t_printf *info, va_list va)
 {
-	intmax_t	n;
-	n = va_arg(va, intmax_t);
 	if (info->length == LEN_HH)
-		n = (char)n;
-	else if (info->length == LEN_H)
-		n = (short int)n;
-	else if (info->length == LEN_L)
-		n = (long int)n;
-	else if (info->length == LEN_LL)
-		n = (long long int)n;
-	else if (info->length == LEN_J)
-		n = (size_t)n;
-	else
-		n = (int)n;
-	return (n);	
+		return ((char)va_arg(va, int));
+	if (info->length == LEN_H)
+		return ((short)va_arg(va, int));
+	if (info->length == LEN_L)
+		return (va_arg(va, long));
+	if (info->length == LEN_LL)
+		return (va_arg(va, long long));
+	if (info->length == LEN_J)
+		return (va_arg(va, intmax_t));
+	if (info->length == LEN_Z)
+		return (va_arg(va, ssize_t));
+	return (va_arg(va, int));
 }
 
 uintmax_t		get_argunum(t_printf *info, va_list va)
 {
-	uintmax_t	n;
-	n = va_arg(va, uintmax_t);
 	if (info->length == LEN_HH)
-		n = (char)n;
-	else if (info->length == LEN_H)
-		n = (short int)n;
-	else if (info->length == LEN_L)
-		n = (long int)n;
-	else if (info->length == LEN_LL)
-		n = (long long int)n;
-	else if (info->length == LEN_J)
-		n = (size_t)n;
-	else
-		n = (int)n;
-	return (n);	
+		return ((unsigned char)va_arg(va, unsigned int));
+	if (info->length == LEN_H)
+		return ((unsigned short)va_arg(va, unsigned int));
+	if (info->length == LEN_L)
+		return (va_arg(va, unsigned long));
+	if (info->length == LEN_LL)
+		return (va_arg(va, unsigned long long));
+	if (info->length == LEN_J)
+		return (va_arg(va, uintmax_t));
+	if (info->length == LEN_Z)
+		return (va_arg(va, size_t));
+	return (va_arg(va, unsigned int));
 }
 
 char		*get_num_string(t_printf *info, intmax_t n)
@@ -73,21 +69,14 @@ char		*get_num_string(t_printf *info, intmax_t n)
 
 char		*get_unum_string(t_printf *info, uintmax_t n)
 {
-	intmax_t	sign;
 	char		base[50] = "0123456789abcdef0123456789ABCDEF";
 	int			b;
 	int			i;
 	char		*out;
 
 	out = malloc(sizeof(char) * 50);
-	if ((sign = n) < 0 && !(info->type == 'x' || info->type == 'X'
-		|| info->type == 'o' || info->type == 'O'))
-		n *= -1;
 	b = 10;
 	i = 0;
-	if (info->type == 'x' || info->type == 'X'
-		|| info->type == 'o' || info->type == 'O')
-		n = (uintmax_t)n;
 	if (info->type == 'x' || info->type == 'X')
 		b = 16;
 	if (info->type == 'o' || info->type == 'O')
@@ -136,10 +125,19 @@ char		*format_numbers(char *str, t_printf *info, va_list va)
 	// split this into signed and unsigned check out:
 	// https://github.com/sploadie/ft-printf/blob/master/printf/get_conv_num.c
 	intmax_t	n;
+	uintmax_t	un;
 	char		*out;
 
-	n = get_argnum(info, va);
-	out = get_num_string(info, n); // split this up
+	if (info->type == 'd' || info->type == 'i')
+	{
+		n = get_argnum(info, va);
+		out = get_num_string(info, n);
+	}
+	else
+	{
+		un = get_argunum(info, va);
+		out = get_unum_string(info, un);
+	}
 	if (info->type == 'd' || info->type == 'i')
 		format_d(info, out);
 	else if (info->type == 'p')

@@ -12,101 +12,45 @@
 
 #include "rtv1.h"
 
-void		handle_input(t_env *env)
-{
-	float				oldx;
-	float				oldy;
-
-	oldx = env->x;
-	oldy = env->y;
-	/*
-	if (env->keys[XK_w] || env->keys[XK_s])
-	{
-		env->x += 0.004 * cos(env->rot) *
-			env->dt * (env->keys[XK_s] ? -1 : 1);
-		env->y += 0.004 * sin(env->rot) *
-			env->dt * (env->keys[XK_s] ? -1 : 1);
-	}
-	if (env->keys[XK_d] || env->keys[XK_a])
-	{
-		env->x += 0.004 * cos(env->rot + 1.7) *
-			env->dt * (env->keys[XK_a] ? -1 : 1);
-		env->y += 0.004 * sin(env->rot + 1.7) *
-			env->dt * (env->keys[XK_a] ? -1 : 1);
-	}
-	env->x = env->map[(int)oldy][(int)env->x] > 0 ? oldx : env->x;
-	env->y = env->map[(int)env->y][(int)oldx] > 0 ? oldy : env->y;
-	env->rot -= ((env->keys[XK_Left]) ? 0.004 : 0.0) * env->dt;
-	env->rot += ((env->keys[XK_Right]) ? 0.004 : 0.0) * env->dt;
-	env->focal -= env->keys[XK_r] ? 0.1 / env->dt : 0.0;
-	env->focal += env->keys[XK_f] ? 0.1 / env->dt : 0.0;*/
+void keysdown(unsigned char key, int x, int y) {
+	env->keys[(int)key] = 1;
 }
 
-int		draw_loop(void *p)
+void keysup(unsigned char key, int x, int y) {
+	env->keys[(int)key] = 0;
+}
+
+void mouse(int button, int state, int x, int y) {
+
+}
+
+void		handle_input(void)
 {
-	t_env		*env;
+	if (env->keys['r']) env->cam->ro->y += 2.0;
+	if (env->keys['f']) env->cam->ro->y -= 2.0;
+	if (env->keys['a']) env->cam->ro->x += 2.0;
+	if (env->keys['d']) env->cam->ro->x -= 2.0;
+	if (env->keys['w']) env->cam->ro->z += 2.0;
+	if (env->keys['s']) env->cam->ro->z -= 2.0;
+	if (env->keys['g']) env->cam->la->y += 2.0;
+	if (env->keys['j']) env->cam->la->y -= 2.0;
+	if (env->keys['y']) env->cam->la->x += 2.0;
+	if (env->keys['h']) env->cam->la->x -= 2.0;
+	if (env->keys['i']) env->cam->la->z += 2.0;
+	if (env->keys['k']) env->cam->la->z -= 2.0;
+	update_cam(env->cam);
+}
+
+void		draw_loop(void)
+{
 	long		micro;
 
-	env = (t_env *)p;
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	micro = get_micro_time();
 	env->dt = (micro - env->pt) / 1000.0;
 	env->pt = micro;
-	handle_input(env);
-	draw(p);
-	mlx_put_image_to_window(get_mlx(), env->win, env->img, 0, 0);
-	return (0);
-}
-
-int		key_up_hook(int key, void *p)
-{
-	t_env		*env;
-
-	env = (t_env *)p;
-	env->keys[key] = 0;
-	if (key == 13)
-		env->keys[XK_w] = 0;
-	if (key == 0)
-		env->keys[XK_a] = 0;
-	if (key == 1)
-		env->keys[XK_s] = 0;
-	if (key == 2)
-		env->keys[XK_d] = 0;
-	if (key == 15)
-		env->keys[XK_r] = 0;
-	if (key == 3)
-		env->keys[XK_f] = 0;
-	if (key == 123)
-		env->keys[XK_Left] = 0;
-	if (key == 124)
-		env->keys[XK_Right] = 0;
-	if (key == XK_Escape || key == 53)
-		exit(0);
-	return (0);
-}
-
-int		key_down_hook(int key, void *p)
-{
-	t_env		*env;
-
-	env = (t_env *)p;
-	env->keys[key] = 1;
-	if (key == 13)
-		env->keys[XK_w] = 1;
-	if (key == 0)
-		env->keys[XK_a] = 1;
-	if (key == 1)
-		env->keys[XK_s] = 1;
-	if (key == 2)
-		env->keys[XK_d] = 1;
-	if (key == 15)
-		env->keys[XK_r] = 1;
-	if (key == 3)
-		env->keys[XK_f] = 1;
-	if (key == 123)
-		env->keys[XK_Left] = 1;
-	if (key == 124)
-		env->keys[XK_Right] = 1;
-	if (key == XK_Escape || key == 53)
-		exit(0);
-	return (0);
+	handle_input();
+	draw();
+	glutSwapBuffers();
+	glFlush();
 }

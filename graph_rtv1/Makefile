@@ -1,9 +1,15 @@
 CC=gcc
 
-ifeq ($(shell uname), Darwin)
-	LFLAGS = -lmlx -framework OpenGL -framework AppKit
+ifeq ($(OS),Windows_NT)
+	LFLAGS = -lglut -lGL -lm
 else
-	LFLAGS = -lmlx -lXext -lX11 -lm
+	UNAME_S = $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		LFLAGS = -lglut -lGL -lm
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		LFLAGS = -framework GLUT -framework OpenGL
+	endif
 endif
 
 NAME= rtv1
@@ -11,7 +17,7 @@ SRC = $(wildcard *.c) $(wildcard libft/*.c)
 OBJ = $(SRC:.c=.o)
 
 %.o:		%.c
-			@$(CC) $(FLAGS) -c $< -o $@ -I/opt/X11/include
+			@$(CC) $(FLAGS) -c $< -o $@
 			@echo "Compiling" $<
 
 all	:$(NAME)
