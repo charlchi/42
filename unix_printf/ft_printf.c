@@ -12,16 +12,42 @@
 
 #include "ft_printf.h"
 
-void		pf_cc(t_printf *info, int c)
+void		pf_putbyte(t_printf *info, int c)
 {
 	info->cc++;
 	if (c == 0)
 	{
-		ft_putchar('^');
-		ft_putchar('@');
+		write(1, "^", 1);
+		write(1, "@", 1);
 	}
 	else
-		ft_putchar(c);
+		write(1, &c, 1);
+}
+
+void		pf_cc(t_printf *info, int c)
+{
+	if (c <= 0x7F)
+	{
+		pf_putbyte(info, c);
+	}
+	else if (c <= 0x7FF)
+	{
+		pf_putbyte(info, 0xC0 | (c >> 6));
+		pf_putbyte(info, 0x80 | (c & 0x3F));
+	}
+	else if (c <= 0xFFFF)
+	{
+		pf_putbyte(info, 0xE0 | (c >> 12));
+		pf_putbyte(info, 0x80 | ((c >> 6) & 0x3F));
+		pf_putbyte(info, 0x80 | (c & 0x3F));
+	}
+	else if (c <= 0x10FFFF)
+	{
+		pf_putbyte(info, 0xF0 | (c >> 18));
+		pf_putbyte(info, 0x80 | ((c >> 12) & 0x3F));
+		pf_putbyte(info, 0x80 | ((c >> 6) & 0x3F));
+		pf_putbyte(info, 0x80 | (c & 0x3F));
+	}
 }
 
 char		*ft_format(char *str, t_printf *info, va_list va)

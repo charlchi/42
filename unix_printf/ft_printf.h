@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <limits.h>
+# include <inttypes.h>
 # include <wchar.h>
 # include "libft/libft.h"
 

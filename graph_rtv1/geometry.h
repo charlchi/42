@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   scene.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2018/07/17 16:44:51 by cmoller           #+#    #+#             */
+/*   Updated: 2018/08/09 12:56:16 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#ifndef SCENE_H
+# define SCENE_H
 
-long		get_micro_time(void)
+# include "rtv1.h"
+
+/* shape has an ID type, and then arbitrary property fields 
+ * circle - c:center f1:radius
+ * plane  - c:center vec1:normal f1:halfwidth
+ */
+typedef struct	s_shape
 {
-	struct timeval		currenttime;
+	int		type;
+	t_vec3	c;
+	t_vec3	vec1;
+	t_vec3	vec2;
+	float	f1;
+	float	f2;
+	float	f3;
+}				t_shape;
 
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
-}
+#endif
