@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2018/05/21 13:21:18 by cmoller           #+#    #+#             */
+/*   Updated: 2018/05/22 12:22:18 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-float rando(void)
+int			ft_memcmp(const void *v1, const void *v2, size_t n)
 {
-	return ((float)rand()/(float)(RAND_MAX));
-}
+	unsigned char	*s1;
+	unsigned char	*s2;
+	int				i;
 
-long		get_micro_time(void)
-{
-	struct timeval		currenttime;
-
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
+	s1 = (unsigned char *)v1;
+	s2 = (unsigned char *)v2;
+	i = 0;
+	while (n--)
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
 }

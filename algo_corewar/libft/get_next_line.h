@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2018/05/22 13:15:54 by cmoller           #+#    #+#             */
+/*   Updated: 2018/06/18 14:22:44 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-float rando(void)
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
+
+# define BUFF_SIZE 8
+
+typedef struct	s_fd
 {
-	return ((float)rand()/(float)(RAND_MAX));
-}
+	int		fd;
+	char	b[BUFF_SIZE + 1];
+}				t_fd;
 
-long		get_micro_time(void)
-{
-	struct timeval		currenttime;
+int				get_next_line(const int fd, char **l);
 
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
-}
+#endif

@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2018/05/16 14:43:11 by cmoller           #+#    #+#             */
+/*   Updated: 2018/05/28 12:34:48 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-float rando(void)
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
 {
-	return ((float)rand()/(float)(RAND_MAX));
-}
+	unsigned char	*dmem;
+	unsigned char	*smem;
 
-long		get_micro_time(void)
-{
-	struct timeval		currenttime;
-
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
+	dmem = (unsigned char *)dst;
+	smem = (unsigned char *)src;
+	while (n--)
+	{
+		*dmem++ = *smem;
+		if ((*smem++) == (unsigned char)(c))
+			return ((void *)dmem);
+	}
+	return (NULL);
 }

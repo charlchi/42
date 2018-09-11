@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   ft_strwordchr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2018/05/18 10:13:52 by cmoller           #+#    #+#             */
+/*   Updated: 2018/05/18 10:17:18 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-float rando(void)
+char	*ft_strwordchr(char const *s, char c)
 {
-	return ((float)rand()/(float)(RAND_MAX));
-}
+	char	*ret;
+	int		len;
 
-long		get_micro_time(void)
-{
-	struct timeval		currenttime;
-
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
+	len = 0;
+	while (s[len] && s[len] != c)
+		len++;
+	if (!(ret = (char *)malloc(len)))
+		return (NULL);
+	ret[len] = '\0';
+	while (len--)
+		ret[len] = s[len];
+	return (ret);
 }

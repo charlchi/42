@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2018/02/19 12:31:30 by cmoller           #+#    #+#             */
+/*   Updated: 2018/05/28 09:49:04 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-float rando(void)
+char		*ft_strncat(char *dest, const char *src, size_t n)
 {
-	return ((float)rand()/(float)(RAND_MAX));
-}
+	int s;
+	int d;
 
-long		get_micro_time(void)
-{
-	struct timeval		currenttime;
-
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
+	s = 0;
+	d = 0;
+	while (dest[d])
+		d++;
+	while (n > 0 && (dest[d] = src[s]))
+	{
+		d++;
+		s++;
+		n--;
+	}
+	if (n == 0)
+		dest[d] = '\0';
+	return (dest);
 }

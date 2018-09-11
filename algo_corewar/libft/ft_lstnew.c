@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2018/05/24 13:10:59 by cmoller           #+#    #+#             */
+/*   Updated: 2018/05/24 14:29:07 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-float rando(void)
+t_list		*ft_lstnew(void *content)
 {
-	return ((float)rand()/(float)(RAND_MAX));
-}
+	t_list	*new;
 
-long		get_micro_time(void)
-{
-	struct timeval		currenttime;
-
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
+	if (!(new = (t_list *)malloc(sizeof(t_list))))
+		return (NULL);
+	if (!content)
+	{
+		new->content = NULL;
+	}
+	else
+	{
+		new->content = content;
+	}
+	new->next = NULL;
+	return (new);
 }

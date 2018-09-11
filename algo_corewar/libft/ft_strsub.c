@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2018/05/17 17:14:54 by cmoller           #+#    #+#             */
+/*   Updated: 2018/05/28 14:14:48 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-float rando(void)
+char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	return ((float)rand()/(float)(RAND_MAX));
-}
+	char				*str;
+	unsigned int		i;
 
-long		get_micro_time(void)
-{
-	struct timeval		currenttime;
-
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
+	if (s)
+	{
+		if (!(str = (char *)malloc(len + 1)))
+			return (NULL);
+		i = 0;
+		while (i < len)
+		{
+			str[i] = s[i + start];
+			i++;
+		}
+		str[i] = '\0';
+		return (str);
+	}
+	return (NULL);
 }

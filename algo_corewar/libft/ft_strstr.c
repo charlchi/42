@@ -1,26 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2018/02/19 13:01:52 by cmoller           #+#    #+#             */
+/*   Updated: 2018/05/21 14:45:46 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-float rando(void)
+char	*ft_strstr(const char *str, const char *to_find)
 {
-	return ((float)rand()/(float)(RAND_MAX));
-}
+	int		fsize;
+	int		i;
+	int		s;
 
-long		get_micro_time(void)
-{
-	struct timeval		currenttime;
-
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
+	i = 0;
+	s = 0;
+	fsize = ft_strlen(to_find);
+	if (fsize == 0)
+		return ((char *)str);
+	while (str[i])
+	{
+		while (str[i + s] == to_find[s])
+		{
+			if (s == fsize - 1)
+				return ((char *)&str[i]);
+			s++;
+		}
+		s = 0;
+		i++;
+	}
+	return (NULL);
 }

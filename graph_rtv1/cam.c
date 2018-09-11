@@ -28,9 +28,9 @@ void	set_raydir(float x, float y, t_cam *cam)
 	t_vec3	up;
 	t_vec3	right;
 
-	uvx = (float)x / (float)env->w - 0.5;
-	uvx *= (float)env->w / (float)env->h;
-	uvy = (float)y / (float)env->h - 0.5;
+	uvx = (float)(x) / (float)g_env->w - 0.5;
+	uvx *= (float)g_env->w / (float)g_env->h;
+	uvy = (float)(y) / (float)g_env->h - 0.5;
 	vec3scale(cam->r, &right, uvx);
 	vec3scale(cam->u, &up, uvy);
 	vec3add(cam->c, &right, cam->rd);
