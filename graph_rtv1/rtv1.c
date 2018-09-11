@@ -21,17 +21,18 @@ int		isectplane(t_vec3 *ro, t_vec3 *rd, t_shape *s, t_hit *hit)
 	t_vec3	u;
 	t_vec3	dir;
 
- 	if (vec3dot(rd, &s->vec1) > 0) // check that line isn't paralell to plane
- 	{
- 		vec3sub(ro, &s->c, &u);
- 		d = -vec3dot(&u, &s->vec1) / vec3dot(rd, &s->vec1);
- 		vec3add(&u, vec3scale(rd, &dir, d), &u);
- 		if (fabs(u.x) < s->f1 && fabs(u.y) < s->f1 && fabs(u.z) < s->f1)
- 		{
- 			hit->d = vec3dot(vec3sub(&s->c, ro, &dir), &s->vec1) / vec3dot(rd, &s->vec1);
- 			vec3cpy(&u, &hit->u);
- 			return (1);
- 		}
+	if (vec3dot(rd, &s->vec1) > 0.001) // check that line isn't paralell to plane
+	{
+		vec3sub(ro, &s->c, &u);
+		d = -vec3dot(&u, &s->vec1) / vec3dot(rd, &s->vec1);
+		vec3add(&u, vec3scale(rd, &dir, d), &u);
+		if (vec3len(&u) < 50)
+		{
+			hit->d = vec3dot(vec3sub(&s->c, ro, &dir), &s->vec1) / vec3dot(rd, &s->vec1);
+			vec3add(ro, vec3scale(rd, &u, hit->d), &hit->u);
+			vec3cpy(&s->vec1, &hit->n);
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -50,12 +51,14 @@ int		isectsphere(t_vec3 *ro, t_vec3 *rd, t_shape *s, t_hit *hit)
 	b = 2.0 * vec3dot(&oc, rd);
 	c = vec3dot(&oc, &oc) - s->f1 * s->f1;
 	d = (b * b) - (4 * a * c);
-	if (d > 0)
+	if (d > 0.01)
 	{
 		hit->d = (-b - sqrt(d)) / (2.0 * a);
-		vec3add(ro, vec3scale(rd, &u, hit->d), &u);
-		vec3sub(&u, &(s->c), &u);
-		vec3scale(&u, &(hit->u), 1.0/s->f1);
+		if (hit->d < 0.001 && hit->d < 500.0)
+			return (0);
+		vec3add(ro, vec3scale(rd, &hit->u, hit->d), &hit->u);
+		vec3sub(&hit->u, &s->c, &hit->n);
+		vec3scale(&hit->n, &hit->n, 1.0/s->f1);
 		return (1);
 	}
 	return (0);
@@ -66,177 +69,173 @@ int		vec3_to_color(t_vec3 c)
 	int		ret;
 
 	ret = 0;
-	ret = ((int)(c.x * 255) << 0)
+	ret = ((int)(c.x * 255) << 16)
 		+ ((int)(c.y * 255) << 8)
-		+ ((int)(c.z * 255) << 16);
+		+ ((int)(c.z * 255) << 0);
 	return (ret);
 }
 
-t_vec3	isect(t_vec3 *ro, t_vec3 *rd, t_shape *scene)
+t_vec3	color_to_vec3(int c)
 {
-	int		hit = 0;
-	int j = 0;
-	int i = -1;
-	t_hit	closest;
-	t_hit	current;
-	closest.d = 500000.0;
+	t_vec3		ret;
 
-	//printf("%f %f %f\n",scene[0].c.x,scene[0].c.y,(&(scene[0]))->c.z);
-	update_cam(env->cam);
-	//printf("isect rd %f %f %f\n", rd->x, rd->y, rd->z);
-	while (j < env->nshapes)
+	ret.x = (float)((c >> 16) & 0xff) / 255.0;
+	ret.y = (float)((c >>  8) & 0xff) / 255.0;
+	ret.z = (float)((c >>  0) & 0xff) / 255.0;
+	return (ret);
+}
+
+int		isect(t_vec3 *ro, t_vec3 *rd, t_shape *scene, t_hit *ret)
+{
+	int		ir;
+	int		i;
+	int		j;
+	t_hit	curr;
+
+	ret->d = 500000.0;
+	ir = 0;
+	j = 0;
+	while (j < g_env->nshapes)
 	{
-		//printf("poop\n");
+		i = 0;
 		if (scene[j].type == 0)
-			hit = isectsphere(ro, rd, &(scene[j]), &current);
+			i = isectsphere(ro, rd, &scene[j], &curr);
 		else if (scene[j].type == 1)
-			hit = isectplane(ro, rd, &(scene[j]), &current);
-		if (hit && current.d < closest.d)
+			i = isectplane(ro, rd, &scene[j], &curr);
+		if (i && curr.d < ret->d)
 		{
-			i = j;
-			closest.d = current.d;
-			vec3cpy(&current.u, &closest.u);
+			ir = 1;
+			ret->d = curr.d;
+			ret->shape = &scene[j];
+			vec3cpy(&curr.n, &ret->n);
+			vec3cpy(&curr.u, &ret->u);
+			vec3add(&ret->u, vec3scale(&curr.n, &curr.n, 0.005), &ret->u);
+			
 		}
-		hit = 0;
 		j++;
 	}
-	if (i > -1 && i < env->nshapes)
-	{
-		vec3norm(&closest.u, &closest.u);
-		vec3fadd(&closest.u, &closest.u, 1.0, 1.0, 1.0);
-		vec3scale(&closest.u, &closest.u, 0.5);
-		return (closest.u);
-	}
-	//return (0x00000000);
-	return ((t_vec3){0.0, 0.0, 0.0});
+	return (ir);
 }
 
 t_vec3		main_image(float x, float y)
 {
-	t_cam	*cam;
-	t_shape	*scene;
+	t_hit		isect1;	
+	t_hit		isect2;
+	t_vec3		ro;
+	t_vec3		rd;
+	t_vec3		object;
+	t_vec3		retcol;
 
-	// setup camera
-	cam = env->cam;
-	scene = env->scene;
-
-	vec3set(env->cam->ro, 10*cos(g/4), -5.0+sin(g), 25.0);
-	vec3set(&scene[0].c, 0.0, -fabs(5.0*sin(g)), 0.0);
-	vec3set(&scene[1].c, 5.0*sin(g), 0.0, 5.0*cos(g));
-	vec3set(&scene[2].c, 2.0*sin(g), 2.0*cos(g), 0.0);
-	vec3add(&scene[1].c, &scene[2].c, &scene[2].c);
-	//vec3set(&scene[4].c, 0.0, -5.0+5.0*sin(g), -10.0);
-	//vec3set(&scene[4].vec1, 0.0, 0.5+0.5*sin(g), -1.0);
-	//update_cam(cam);
-	set_raydir(x, y, cam);
-	// do intersections
-	return (isect(cam->ro, cam->rd, scene));
+	vec3set(&retcol, 0.0, 0.0, 0.0);
+	set_raydir(x, y, g_env->cam);
+	if (isect(g_env->cam->ro, g_env->cam->rd, g_env->scene, &isect1))
+	{
+		vec3set(&object, -45.0, -50.0, 50.0);
+		vec3sub(&object, &isect1.u, &rd);
+		vec3norm(&rd, &rd);
+		vec3fadd(&rd, &rd, rando()*0.5-0.25, rando()*0.5-0.25, rando()*0.5-0.25);
+		if (isect(&isect1.u, &rd, g_env->scene, &isect2))
+		{
+			vec3cpy(&isect1.shape->vec2, &retcol);
+			vec3scale(&retcol, &retcol, 0.2);
+			return (retcol);
+		}
+		vec3cpy(&isect1.shape->vec2, &retcol);
+		vec3scale(&retcol, &retcol, 0.8 + 0.2 * vec3dot(&isect1.n, &rd));
+		return (retcol);
+	}
+	return (retcol);
 }
 
 int		draw(void)
 {
+	int				i;
 	int				x;
 	int				y;
-	int  			imgdata[400 * 400];
+	int				s;
+	int				sn;
 
 	g += 0.1;
+	//g = 1.2;
+	sn = 25;
+	//vec3set(&g_env->scene[0].c, -5,-1.0-fabs(8*cos(g+0.1)), 0.0);
+	//vec3set(&g_env->scene[3].c, 0, -1.0-fabs(8*cos(g+0.3)), 0.0);
+	//vec3set(&g_env->scene[4].c, 5, -1.0-fabs(8*cos(g+0.5)), 0.0);
+	update_cam(g_env->cam);
+	printf("%f %f %f\n", g_env->cam->ro->x, g_env->cam->ro->y, g_env->cam->ro->z);
+	srand((unsigned)get_micro_time());
 	y = 0;
-	while (y < env->h)
+	while (y < g_env->h)
 	{
+		//printf("%.2f%%\n\r\r\r", (x+y*600.0)/(400.0*600.0) * 100.0);
 		x = 0;
-		while (x < env->w)
+		while (x < g_env->w)
 		{
+			i = x + (g_env->h - 1 - y) * g_env->w;
 			t_vec3 col;
 			t_vec3 ret;
-
+			s = 0;	
 			vec3set(&col, 0.0, 0.0, 0.0);
-
-			ret = main_image((float)x, (float)y);
-			vec3add(&col, &ret, &col);
-			ret = main_image((float)x+0.5, (float)y);
-			vec3add(&col, &ret, &col);
-			ret = main_image((float)x, (float)y+0.5);
-			vec3add(&col, &ret, &col);
-			ret = main_image((float)x+0.5, (float)y+0.5);
-			vec3add(&col, &ret, &col);
-			vec3scale(&col, &col, 0.25);
-			//imgdata[x + (env->h - 1 - y) * env->w] = vec3_to_color(col);
-			imgdata[x + (y) * env->w] = vec3_to_color(col);
+			while (s < sn)
+			{
+				ret = main_image((float)x+rando(), (float)y+rando());
+				//ret = main_image((float)x, (float)y);
+				vec3add(&col, &ret, &col);
+				s++;
+			}
+			vec3scale(&col, &col, 1.0/sn);
+			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			//glDrawPixels(g_env->w, g_env->h, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, g_env->imgdata);
+			//glutSwapBuffers();
+			//glFlush();
+			//glDrawPixels(g_env->w, g_env->h, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, g_env->imgdata);			
+			g_env->imgdata[i] = vec3_to_color(col);
+			//g_env->imgdata[x + (y) * g_env->w] = vec3_to_color(col);
 			x++;
 		}
 		y++;
 	}
-	//glPixelZoom(2.0, 2.0);
-	fwrite((unsigned char *)imgdata, 1, env->w*env->h*4, pipeout);
-	if (g > 10.0)
-	{
-		 fflush(pipeout);
- 		fclose(pipeout);
- 		exit(0);
-	}
-	//glDrawPixels(env->w, env->h, GL_RGBA, GL_UNSIGNED_BYTE, (unsigned char *)imgdata);
+	//fwrite((unsigned char *)g_env->imgdata, 1, g_env->w*g_env->h*4, pipeout);
+	//if (g > 3.1415)
+	//{
+	//	fflush(pipeout);
+ 	//	fclose(pipeout);
+ 	//	exit(0);
+	//}
 	return (0);
 }
 
 int		main(int argc, char **argv)
 {
-
-    pipeout = popen("ffmpeg -y -f rawvideo -vcodec rawvideo -pix_fmt rgb32 -s 400x400 -r 25 -i - -f mp4 -q:v 5 -an -vcodec mpeg4 output.mp4", "w");
-
-
+    //pipeout = popen("ffmpeg -y -f rawvideo -vcodec rawvideo -pix_fmt rgb32 -s 600x400 -r 10 -i - -f mp4 -q:v 5 -an -vcodec mpeg4 output.mp4", "w");
 	t_shape		*scene;
 	t_cam		*cam;
 
-	env = (t_env *)malloc(sizeof(t_env));
-	env->w = 400;
-	env->h = 400;
+	g_env = (t_env *)malloc(sizeof(t_env));
+	g_env->w = 600;
+	g_env->h = 400;
+	g_env->imgdata = (int *)malloc(sizeof(int) * g_env->w * g_env->h);
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
-	glutInitWindowSize(env->w, env->h - 1);
-	env->wd = glutCreateWindow("RTV1");
+	glutInitWindowSize(g_env->w, g_env->h - 1);
+	g_env->wd = glutCreateWindow("RTV1");
 	glDisable(GL_DEPTH_TEST);
 	glutDisplayFunc(draw_loop);
 	glutIdleFunc(draw_loop);
 	glutKeyboardFunc(keysdown);
 	glutKeyboardUpFunc(keysup);
-	env->pt = get_micro_time();
+	g_env->pt = get_micro_time();
 	/* setup camera */
-	env->cam = (t_cam *)malloc(sizeof(t_cam));
-	env->cam->ro = vec3new(0.0, -3.0, 25.0);
-	env->cam->rd = vec3new(0.0, 0.0, 0.0);
-	env->cam->la = vec3new(0.0, 0.0, 0.0);
-	env->cam->c = vec3new(0.0, 1.0, 0.0);
-	env->cam->u = vec3new(0.0, 1.0, 0.0);
-	env->cam->f = vec3new(0.0, 0.0, 0.0);
-	env->cam->r = vec3new(0.0, 0.0, 0.0);
-	update_cam(env->cam); // setup forward, right vectors
-	/* setup scene */
-	env->nshapes = 5;
-	env->scene = malloc(sizeof(t_shape) * env->nshapes);
-	env->scene[0].c = (t_vec3){5.0, -5.0, 2.0};
-	env->scene[0].f1 = 1.0;
-	env->scene[0].type = 0;
-	env->scene[1].c = (t_vec3){1.0, -5.0, 5.0};
-	env->scene[1].f1 = 2.0;
-	env->scene[1].type = 0;
-	env->scene[2].c = (t_vec3){3.0, -5.0, 8.0};
-	env->scene[2].f1 = 1.0;
-	env->scene[2].type = 0;
-	env->scene[3].c = (t_vec3){0.0, 0.0, 0.0};
-	env->scene[3].vec1 = (t_vec3){0.0, 1.0, 0.0};
-	env->scene[3].f1 = 10.0;
-	env->scene[3].type = 1;
-	env->scene[4].c = (t_vec3){0.0, -10.0, -10.0};
-	env->scene[4].vec1 = (t_vec3){0.0, 0.0, -1.0};
-	env->scene[4].f1 = 10.0;
-	env->scene[4].type = 1;
-	printf("test1\n");
+	init_cam();
+	init_scene();
+	printf("test\n");
 	glutMainLoop();
-	if (env)
+	if (g_env)
 	{
-		free(env);
-		free(env->cam);
-		free(env->scene);
+		free(g_env->imgdata);
+		free(g_env->cam);
+		free(g_env->scene);
+		free(g_env);
 	}
 	exit(0);
 }

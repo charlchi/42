@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
+/*   Updated: 2013/11/06 14:44:35 by zaz              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#ifndef
+# define COREWAR_H
 
-float rando(void)
-{
-	return ((float)rand()/(float)(RAND_MAX));
-}
+# include "op.h"
 
-long		get_micro_time(void)
-{
-	struct timeval		currenttime;
-
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
-}
+#endif

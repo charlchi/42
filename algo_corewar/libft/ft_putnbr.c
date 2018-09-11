@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2018/05/23 11:28:42 by cmoller           #+#    #+#             */
+/*   Updated: 2018/05/28 13:04:29 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-float rando(void)
+void	ft_putnbr(int val)
 {
-	return ((float)rand()/(float)(RAND_MAX));
-}
+	long	n;
+	char	str[30];
+	int		sign;
+	int		i;
 
-long		get_micro_time(void)
-{
-	struct timeval		currenttime;
-
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
+	i = 0;
+	n = (long)val;
+	if ((sign = n) < 0)
+		n *= -1;
+	str[i++] = (n % 10) + '0';
+	n /= 10;
+	while (n > 0)
+	{
+		str[i++] = (n % 10) + '0';
+		n /= 10;
+	}
+	if (sign < 0)
+		str[i++] = '-';
+	while (i-- > 0)
+		write(1, &str[i], 1);
 }

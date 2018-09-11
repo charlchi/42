@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/17 16:45:05 by cmoller           #+#    #+#             */
-/*   Updated: 2018/08/09 13:22:01 by cmoller          ###   ########.fr       */
+/*   Created: 2018/05/15 12:49:11 by cmoller           #+#    #+#             */
+/*   Updated: 2018/05/21 12:55:47 by cmoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-float rando(void)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	return ((float)rand()/(float)(RAND_MAX));
-}
+	void			*ret;
+	unsigned char	*mem;
 
-long		get_micro_time(void)
-{
-	struct timeval		currenttime;
-
-	gettimeofday(&currenttime, NULL);
-	return (currenttime.tv_sec * (int)1e6 + currenttime.tv_usec);
+	ret = b;
+	mem = (unsigned char *)b;
+	while (len--)
+		*mem++ = (unsigned char)c;
+	return (ret);
 }

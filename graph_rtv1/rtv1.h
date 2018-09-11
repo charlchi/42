@@ -30,6 +30,9 @@ typedef struct	s_hit
 {
 	float	d;
 	t_vec3	u;
+	t_vec3	n;
+	t_shape	*shape;
+	int		hit;
 }				t_hit;
 
 typedef struct	s_cam
@@ -54,16 +57,20 @@ typedef struct	s_env
 	int			wd;
 	long		pt;
 	float		dt;
+	int			*imgdata;
 }				t_env;
 
-t_env			*env;
+t_env			*g_env;
 
+void			init_cam(void);
+void			init_scene(void);
 void			keysdown(unsigned char key, int x, int y);
 void			keysup(unsigned char key, int x, int y);
 void			mouse(int button, int state, int x, int y);
 void			handle_input(void);
 void			draw_loop(void);
 long			get_micro_time(void);
+float			rando(void);
 int				draw(void);
 void			update_cam(t_cam *cam);
 void			set_raydir(float x, float y, t_cam *cam);
