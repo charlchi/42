@@ -16,7 +16,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
-# include "mlx.h"
 # include "get_next_line.h"
 
 # ifndef LONG_MAX
