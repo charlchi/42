@@ -6,7 +6,7 @@
 #    By: cmoller <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/18 13:23:13 by cmoller           #+#    #+#              #
-#    Updated: 2018/09/11 11:58:23 by cmoller          ###   ########.fr        #
+#    Updated: 2018/09/12 15:09:46 by cmoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,7 @@ clean:
 
 fclean: 	clean
 			/bin/rm -f *.o
-			/bin/rm -f ../libft/*.o
+			/bin/rm -f libft/*.o
 
 re: 		fclean all
 	
-
-0b68 0100 0f00 0106 6401 0000 0000 0101
-0000 0001 09ff fb
