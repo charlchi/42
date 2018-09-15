@@ -110,7 +110,6 @@ int		isect(t_vec3 *ro, t_vec3 *rd, t_shape *scene, t_hit *ret)
 			vec3cpy(&curr.n, &ret->n);
 			vec3cpy(&curr.u, &ret->u);
 			vec3add(&ret->u, vec3scale(&curr.n, &curr.n, 0.005), &ret->u);
-			
 		}
 		j++;
 	}
@@ -133,7 +132,7 @@ t_vec3		main_image(float x, float y)
 		vec3set(&object, -45.0, -50.0, 50.0);
 		vec3sub(&object, &isect1.u, &rd);
 		vec3norm(&rd, &rd);
-		vec3fadd(&rd, &rd, rando()*0.5-0.25, rando()*0.5-0.25, rando()*0.5-0.25);
+		//vec3fadd(&rd, &rd, rando()*0.5-0.25, rando()*0.5-0.25, rando()*0.5-0.25);
 		if (isect(&isect1.u, &rd, g_env->scene, &isect2))
 		{
 			vec3cpy(&isect1.shape->vec2, &retcol);
@@ -141,7 +140,7 @@ t_vec3		main_image(float x, float y)
 			return (retcol);
 		}
 		vec3cpy(&isect1.shape->vec2, &retcol);
-		vec3scale(&retcol, &retcol, 0.8 + 0.2 * vec3dot(&isect1.n, &rd));
+		vec3scale(&retcol, &retcol, 0.5 + 0.5 * vec3dot(&isect1.n, &rd));
 		return (retcol);
 	}
 	return (retcol);
@@ -157,7 +156,7 @@ int		draw(void)
 
 	g += 0.1;
 	//g = 1.2;
-	sn = 25;
+	sn = 1;
 	//vec3set(&g_env->scene[0].c, -5,-1.0-fabs(8*cos(g+0.1)), 0.0);
 	//vec3set(&g_env->scene[3].c, 0, -1.0-fabs(8*cos(g+0.3)), 0.0);
 	//vec3set(&g_env->scene[4].c, 5, -1.0-fabs(8*cos(g+0.5)), 0.0);
