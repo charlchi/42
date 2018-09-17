@@ -77,6 +77,7 @@ typedef struct		s_parser
 	int				program[8000];
 	int				line;
 	int				col;
+	t_labels		*list;
 }					t_parser;
 
 #endif

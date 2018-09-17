@@ -52,18 +52,12 @@ void		add_label(char *str, int i, t_labels *list)
 		list = label;
 }
 
-int			instruction_val(t_parser *parser, char *str)
+int			instruction_val(t_parser *parser, char *str, int k)
 {
-	int i;
-
-	i = -1;
-	while (++i < 17)
-		if (ft_strnequ(str, parser->op_tab[i].name, ft_strlen(str)))
-			return (parser->op_tab[i].acb ? 2 : 1);
 	if (str[0] == 'r')
 		return (1);
 	if (str[0] == '%')
-		return (DIR_SIZE);
+		return (op_tab[k].label_size == 0 ? DIR_SIZE : DIR_SIZE / 2);
 	return (IND_SIZE);
 }
 
@@ -72,21 +66,40 @@ int			create_labels(t_parser *parser, char *asml, int i, t_labels *list)
 	char	*r;
 	char	**instructions;
 	int		j;
+	int		k;
 
 	j = 0;
 	while ((r = ft_strchr(asml, SEPARATOR_CHAR)))
 		*r = ' ';
 	instructions = ft_strsplit(asml, ' ');
-	while (instructions[j])
-	{
-		if (is_label(instructions[j]))
-			add_label(instructions[j], i, list);
-		else
-			i += instruction_val(parser, instructions[j]);
-		j++;
-	}
+	if (is_label(instructions[j]))
+		add_label(instructions[j++], i, list);
+	k = -1;
+	while (++k < 17)
+		if (ft_strequ(instructions[j], parser->op_tab[k].name))
+		{
+			i += (parser->op_tab[k].acb ? 2 : 1);
+			break ;
+		}
+	while (instructions[++j])
+		i += instruction_val(parser, instructions[j], k);
 	free_split(instructions);
 	return (i);
+}
+
+int			get_label_index(t_labels *list, char *label)
+{
+	t_labels	*curr;
+
+	curr = list;
+	while (curr)
+	{
+		if (ft_strequ(curr->name, label))
+			return (label->index);
+		curr = curr->next;
+	}
+	return (-1);
+
 }
 
 void		first_pass(t_parser *parser, t_labels *list)
