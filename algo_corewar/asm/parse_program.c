@@ -32,50 +32,47 @@ void	parse_acb(t_parser *parser, char **tokens, int i)
 		j++;
 	}
 	add_byte(parser, (char)opcode);
+	parser->pc++;
 }
 
 void	parse_params(t_parser *parser, char **tokens, int i)
 {
+	int		num;
 	int		r;
 	int		j;
 	int		startpc;
 
 	startpc = parser->pc - 1;
 	if (parser->op_tab[i - 1].acb)
-	{
 		parse_acb(parser, tokens, i);
-		parser->pc++;
-	}
 	j = 0;
+	if (i == 1) // live for some reason is special...
+	{
+		add_bytes(num_to_4bytestr(ft_atoi(&tokens[j][1])), 4);
+		return ;
+	}
 	while (j < parser->op_tab[i - 1].nargs)
 	{
 		if (tokens[j][0] == 'r')
+			add_byte(parser, ft_atoi(&tokens[j][1]));
+		else if (tokens[j][0] == DIRECT_CHAR) // direct
 		{
-			r = ft_atoi(tokens[j] + 1);
-			add_bytes(parser, "\x00", 1);
-			add_byte(parser, r);
-			parser->pc += 2;
-		}
-		else if (tokens[j][0] == DIRECT_CHAR)
-		{
-			if (tokens[j][1] == LABEL_CHAR)
+			if (tokens[j][1] == LABEL_CHAR) // direct label value
 			{
-				// get label value
-				// put_label_value()?
-				parser->pc += 2;
-				printf("test\n");
+				num = get_label_index(parser->list, &tokens[j][2]);
+				num = startpc + ((num < startpc) ? PROGRAM_SIZE - num : num);
+				add_bytes(num_to_2bytestr(num), 2);
 			}
-			else
+			else // direct raw number = indirect
 			{
-				// use value of number
+				add_bytes(num_to_2bytestr(ft_atoi(&tokens[j][1])), 2);
 			}
-			add_bytes(parser, "\x00\x00", 2);
 		}
-		else if (tokens[j][0] == LABEL_CHAR)
+		else if (tokens[j][0] == LABEL_CHAR) // indirect ???
 		{
-			// calculate label value
-			add_bytes(parser, "\x00\x00", IND_SIZE);
+			add_bytes(num_to_2bytestr(ft_atoi(&tokens[j][1])), 2);
 		}
+		parser->pc += instruction_val(parser, tokens[j]);
 		j++;
 	}
 }
@@ -186,6 +183,7 @@ void	parse_champion(char *ifile)
 	get_asm_line(parser);
 	get_asm_line(parser);
 	first_pass(parser, list);
+	parser->list = list->next;
 	close(parser->ifd);
 
 	// reopen to do the parsing
