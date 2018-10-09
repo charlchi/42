@@ -22,7 +22,7 @@ typedef struct	s_process
 	int			live_flag;
 	int			pc;
 	int			carry;
-	int			reg[REG_NUMBER];
+	char		reg[REG_NUMBER][REG_SIZE];
 	void		*next;
 }				t_process;
 
@@ -31,15 +31,15 @@ typedef struct	s_player
 	int			number;
 	int			lives;
 	int			last_live;
+	int			prog_size;
 	char		name[PROG_NAME_LENGTH];
 	char		comment[COMMENT_LENGTH];
 }				t_player;
 
 typedef struct	s_env
 {
-
 	int			numplayers;
-	t_player	players[MAX_PLAYERS + 1];
+	t_player	players[MAX_PLAYERS];
 	t_process	*first;
 	char		vm[MEM_SIZE];
 	int			cycles;

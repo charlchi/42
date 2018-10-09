@@ -15,11 +15,14 @@
 void	parse_args(t_env *env)
 {
 	int			i;
+	int			split;
 
 	env->argv++;
 	env->argc--;
+	split = 0;
 	if (env->argc == 1)
 	{
+		split = 1;
 		env->argv = ft_strsplit(env->argv[0], ' ');
 		env->argc = ft_strstrlen(env->argv);
 	}
@@ -33,10 +36,9 @@ void	parse_args(t_env *env)
 	init_stack(env->b, env->argc + 1);
 	i = env->argc - 1;
 	while (i >= 0)
-	{
-		st_push(env->a, ft_atoi(env->argv[i]));
-		i--;
-	}
+		st_push(env->a, ft_atoi(env->argv[i--]));
+	if (split == 1)
+		free_args(env->argv);
 }
 
 int		valid_nums(t_env *env)
@@ -83,4 +85,18 @@ int		valid_dups(t_env *env)
 		i++;
 	}
 	return (1);
+}
+
+void	free_args(char **argv)
+{
+	int		i;
+
+	i = 0;
+	while (argv[i])
+	{
+		free(argv[i]);
+		i++;
+	}
+	if (argv)
+		free(argv);
 }
