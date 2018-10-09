@@ -67,6 +67,7 @@ void			st_rot(t_stack *stack, int rev);
 void			parse_args(t_env *env);
 int				valid_nums(t_env *env);
 int				valid_dups(t_env *env);
+void			free_args(char **argv);
 
 void			run_checker(t_stack *a, t_stack *b);
 int				get_cmd(char *l, char **cmds);

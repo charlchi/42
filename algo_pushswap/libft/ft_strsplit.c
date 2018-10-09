@@ -13,29 +13,46 @@
 #include "libft.h"
 #include <stdio.h>
 
-char	**ft_strsplit(char const *s, char c)
+static int		get_word_len(char const *str, char c)
 {
-	char	**ret;
-	char	**str;
-	int		nwords;
+	int	i;
+	int	len;
 
-	if (*s)
+	i = 0;
+	len = 0;
+	while (str[i] == c)
+		i++;
+	while (str[i] != c && str[i] != '\0')
 	{
-		nwords = ft_strwordcnt(s, c);
-		if (!(str = (char **)malloc((nwords + 1) * sizeof(char *))))
-			return (NULL);
-		ret = str;
-		while (*s && nwords--)
-		{
-			while (*s == c)
-				s++;
-			*str = ft_strwordchr(s, c);
-			while (*s && *s != c)
-				s++;
-			str++;
-		}
-		*str = NULL;
-		return (ret);
+		i++;
+		len++;
 	}
-	return (NULL);
+	return (len);
+}
+
+char			**ft_strsplit(char const *s, char c)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	**str2;
+
+	if (!s || !(str2 = (char **)malloc(sizeof(*str2) *
+		(ft_countwords(s, c) + 1))))
+		return (NULL);
+	i = -1;
+	j = 0;
+	while (++i < ft_countwords(s, c))
+	{
+		k = 0;
+		if (!(str2[i] = ft_strnew(get_word_len(&s[j], c) + 1)))
+			str2[i] = NULL;
+		while (s[j] == c)
+			j++;
+		while (s[j] != c && s[j])
+			str2[i][k++] = s[j++];
+		str2[i][k] = '\0';
+	}
+	str2[i] = 0;
+	return (str2);
 }
