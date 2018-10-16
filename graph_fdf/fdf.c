@@ -97,12 +97,12 @@ void	draw_points(t_env *env)
 	}
 }
 
-int		main(void)
+int		main(int argc, char **argv)
 {
 	t_env		*env;
 
 	env = (t_env *)malloc(sizeof(t_env));
-	parse_args(env);
+	parse_args(argc, argv, env);
 	init_env(env);
 	if (!(env->mlx = get_mlx()))
 		exit_error("mlx error");

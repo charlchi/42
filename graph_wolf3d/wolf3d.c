@@ -74,52 +74,6 @@ void	draw_floor(t_env *env, t_cam *cam, int *img, int x)
 	}
 }
 
-//norm this
-void kernel_blur(t_env *env, int *img)
-{
-	int temp[env->w * env->h];
-	int offset[9] = {-env->w-1,-env->w,-env->w+1,-1,0,1,env->w-1,env->w,env->w+1};
-	int ke[9] = {0, -5, 0, -2, 2, 0, 1, 2, 10};
-	int denominator= ke[0]+ke[1]+ke[2]+ke[3]+ke[4]+ke[5]+ke[6]+ke[7]+ke[8];
-	if (denominator == 0) denominator = 1;
-	int r, g, b;
-	int i, j, k;
-	i = 1;
-	while (i < env->h - 1)
-	{
-		j = 1;
-		while (j < env->w - 1)
-		{
-			r = g = b = k = 0;
-			while (k < 9)
-			{
-				r += ((img[(j + i * env->w) + offset[k]] & 0x00FF0000) >> 16) * ke[k];
-				g += ((img[(j + i * env->w) + offset[k]] & 0x0000FF00) >> 8) * ke[k];
-				b += ((img[(j + i * env->w) + offset[k]] & 0x000000FF) >> 0) *  ke[k];
-				k++;
-			}
-			r /= denominator;
-			g /= denominator;
-			b /= denominator;
-			temp[j + i * env->w] = (0 << 24) + (r << 16) + (g << 8) + (b << 0); 
-			j++;
-		}
-		i++;
-	}
-	i = 1;
-	while (i < env->h - 1)
-	{
-		j = 1;
-		while (j < env->w - 1)
-		{
-			img[j + i * env->w] = temp[j + i * env->w];
-			j++;
-		}
-		i++;
-	}
-
-}
-
 int		draw(void *p)
 {
 	t_env			*env;
@@ -139,12 +93,11 @@ int		draw(void *p)
 		draw_floor(env, cam, img, x);
 		x++;
 	}
-	//kernel_blur(env, img);
 	draw_minimap(env, img, 2);
 	return (0);
 }
 
-int		main(void)
+int		main(int argc, char **argv)
 {
 	t_env		*env;
 	t_cam		*cam;
@@ -152,7 +105,7 @@ int		main(void)
 	env = malloc(sizeof(t_env));
 	cam = malloc(sizeof(t_cam));
 	env->cam = cam;
-	parse_args(env);
+	parse_args(argc, argv, env);
 	load_images(env, "walls.xpm", "floor.xpm");
 	env->w = 1000;
 	env->h = 1000;

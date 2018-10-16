@@ -48,7 +48,7 @@ typedef struct	s_env
 	t_vec3		*points;
 }				t_env;
 
-void			parse_args(t_env *env);
+void			parse_args(int argc, char **argv, t_env *env);
 void			parse(t_list *argvlst, t_env *env);
 void			init_env(t_env *env);
 int				draw_loop(void *p);

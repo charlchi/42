@@ -44,7 +44,7 @@ typedef struct	s_env
 	int			**map;
 	int			mapw;
 	int			maph;
-	int			keys[80000];
+	char		keys[8000000];
 	int			w;
 	int			h;
 	float		x;
@@ -62,7 +62,7 @@ typedef struct	s_env
 }				t_env;
 
 long			get_micro_time(void);
-void			parse_args(t_env *env);
+void			parse_args(int argc, char **argv, t_env *env);
 void			parse(t_list *argvlst, t_env *env);
 int				draw_loop(void *p);
 void			handle_input(t_env *env);

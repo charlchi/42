@@ -12,18 +12,21 @@
 
 #include "wolf3d.h"
 
-void	parse_args(t_env *env)
+void	parse_args(int argc, char **argv, t_env *env)
 {
 	t_list	*argvlst;
 	char	**str;
 	char	*l;
+	int		fd;
 
-	get_next_line(0, &l);
+	if (argc != 2 || (fd = open(argv[1], O_RDONLY)) < 0)
+		exit(0);
+	get_next_line(fd, &l);
 	str = ft_strsplit(l, ' ');
 	argvlst = ft_lstnew(str);
 	env->mapw = ft_strstrlen(str);
 	env->maph = 1;
-	while (get_next_line(0, &l))
+	while (get_next_line(fd, &l))
 	{
 		str = ft_strsplit(l, ' ');
 		ft_lstappend(&argvlst, ft_lstnew(str));
