@@ -37,7 +37,7 @@ int		*get_img(void **img, int w, int h)
 	int				sl;
 	int				endian;
 
-	if (!*img)
+	if (*img == NULL)
 		*img = mlx_new_image(get_mlx(), w, h);
 	data = mlx_get_data_addr(*img, &bpp, &sl, &endian);
 	return ((int *)data);

@@ -76,7 +76,7 @@ int		get_next_line(const int fd, char **l)
 
 	if (l == NULL || fd < 0 || BUFF_SIZE < 1)
 		return (-1);
-	if (!(*l = (char *)malloc(5000000)))
+	if (!(*l = (char *)malloc(5000)))
 		return (-1);
 	r = gnl_getfdbuff(&b, fd);
 	(*l)[0] = 0;

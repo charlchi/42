@@ -40,25 +40,13 @@ int		key_hook(int key, void *p)
 	t_env		*env;
 
 	env = (t_env *)p;
-	if (key == 113 || key == 12)
-		env->x += 2.0;
-	if (key == 97 || key == 0)
-		env->x -= 2.0;
-	if (key == 119 || key == 13)
-		env->y -= 2.0;
-	if (key == 115 || key == 1)
-		env->y += 2.0;
-	if (key == 101 || key == 14)
-		env->z -= 2.0;
-	if (key == 100 || key == 2)
-		env->z += 2.0;
 	if (key == 114 || key == 15)
 		env->rotx += 22.0 / 7.0 / 8.0;
 	if (key == 102 || key == 3)
 		env->roty += 22.0 / 7.0 / 8.0;
 	if (key == 118 || key == 9)
 		env->rotz += 22.0 / 7.0 / 8.0;
-	if (key == 53)
+	if (key == XK_Escape || key == 53)
 		exit(0);
 	return (0);
 }
@@ -68,9 +56,9 @@ int		mouse_hook(int button, int x, int y, void *p)
 	t_env		*env;
 
 	env = (t_env *)p;
-	if (button == 4)
+	if (button == 4 && env->scale < 2.0)
 		env->scale += 0.2 + x - x;
-	if (button == 5)
+	if (button == 5 && env->scale > -2.0)
 		env->scale -= 0.2 + y - y;
 	return (0);
 }

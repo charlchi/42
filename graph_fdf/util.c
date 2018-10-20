@@ -18,7 +18,7 @@ void	init_env(t_env *env)
 	env->h = 800;
 	env->x = 0.0;
 	env->y = 0.0;
-	env->z = -(env->mapw > env->maph ? env->mapw : env->maph);
+	env->z = -(env->mapw > env->maph ? env->mapw : env->maph) / 2.0;
 	env->img = NULL;
 	env->scale = 0.01;
 	env->rotx = 22.0 / 7.0;

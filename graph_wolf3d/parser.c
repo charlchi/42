@@ -26,6 +26,7 @@ void	parse_args(int argc, char **argv, t_env *env)
 	argvlst = ft_lstnew(str);
 	env->mapw = ft_strstrlen(str);
 	env->maph = 1;
+	free(l);
 	while (get_next_line(fd, &l))
 	{
 		str = ft_strsplit(l, ' ');
@@ -35,6 +36,7 @@ void	parse_args(int argc, char **argv, t_env *env)
 		env->maph++;
 		free(l);
 	}
+	free(l);
 	parse(argvlst, env);
 }
 

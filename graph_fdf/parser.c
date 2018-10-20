@@ -24,6 +24,7 @@ void	parse_args(int argc, char **argv, t_env *env)
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 		exit(0);
 	get_next_line(fd, &l);
+	free(l);
 	str = ft_strsplit(l, ' ');
 	argvlst = ft_lstnew(str);
 	env->mapw = ft_strstrlen(str);

@@ -27,6 +27,7 @@
 #  define LONG_MIN ((long)(~LONG_MAX))
 # endif
 
+char			*ft_strctrim(char const *s, char c);
 int				ft_strstrlen(char **ss);
 void			ft_strstrfree(char **strstr);
 void			*ft_memset(void *s, int c, size_t n);

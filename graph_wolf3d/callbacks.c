@@ -32,7 +32,7 @@ int		key_up_hook(int key, void *p)
 	t_env		*env;
 
 	env = (t_env *)p;
-	env->keys[key] = 0;
+	env->keys[abs(key)] = 0;
 	if (key == 13)
 		env->keys[XK_w] = 0;
 	if (key == 0)
@@ -59,7 +59,7 @@ int		key_down_hook(int key, void *p)
 	t_env		*env;
 
 	env = (t_env *)p;
-	env->keys[key] = 1;
+	env->keys[abs(key)] = 1;
 	if (key == 13)
 		env->keys[XK_w] = 1;
 	if (key == 0)

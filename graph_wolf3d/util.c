@@ -61,6 +61,13 @@ void		handle_input(t_env *env)
 
 void		load_images(t_env *env, char *walls, char *ceil)
 {
+	int					i;
+
+	env->img = NULL;
+	i = 0;
+	while (i < 8000000)
+		env->keys[i++] = 0;
+	env->rot = 0;
 	env->tex = (int **)malloc(640 * sizeof(int *));
 	env->ftex = (int **)malloc(640 * sizeof(int *));
 	load_image(walls, &env->tex);
@@ -89,4 +96,6 @@ void		load_image(char *file, int ***tex)
 		}
 		i++;
 	}
+	free(data);
+	free(img);
 }

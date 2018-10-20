@@ -13,74 +13,27 @@
 #include "libft.h"
 #include <stdio.h>
 
-static size_t	get_tab_len(char const *s, char c)
+char	*ft_strctrim(char const *s, char c)
 {
-	int		i;
-	size_t	len;
+	int					start;
+	int					end;
+	char				*res;
 
-	i = 0;
-	len = 1;
-	while (s[i] != 0)
+	start = 0;
+	while (s[start] == c)
+		start++;
+	if (start == ft_strlen(s))
 	{
-		if (s[i] == c)
-		{
-			while (s[i] == c)
-				i++;
-			len++;
-		}
-		i++;
+		res = ft_strnew(1);
+		return (res);
 	}
-	return (len + 1);
-}
-
-static size_t	get_str_len(char const *s, char c)
-{
-	size_t		res;
-	const char	*sp;
-
-	sp = s;
-	res = 0;
-	while (*sp != c && *sp != 0)
-	{
-		sp++;
-		res++;
-	}
-	return (res + 1);
-}
-
-static char		**actual_strplit(char **tab, char c, char *fs)
-{
-	int x;
-	int y;
-
-	y = 0;
-	x = 0;
-	while (*fs)
-	{
-		if (*fs == c)
-		{
-			while (*fs == c)
-				fs++;
-			tab[y++][x] = 0;
-			x = 0;
-		}
-		if (x == 0)
-			tab[y] = ft_strnew(get_str_len(fs, c));
-		tab[y][x++] = *fs++;
-	}
-	tab[++y] = 0;
-	return (tab);
-}
-
-char			**ft_strsplit(char const *s, char c)
-{
-	char	**tab;
-	char	*fs;
-
-	fs = ft_strctrim(s, c);
-	if (!(tab = (char **)malloc(sizeof(char *) * get_tab_len(fs, c))) || !*fs)
+	end = ft_strlen(s) - 1;
+	while (s[end] == c)
+		end--;
+	end++;
+	res = ft_strsub(s, start, end - start);
+	if (res == NULL)
 		return (NULL);
-	tab = actual_strplit(tab, c, fs);
-	free(fs);
-	return (tab);
+	res[end - start] = 0;
+	return (res);
 }
