@@ -1,3 +1,3 @@
 # 42
 
-We Think Code
+Old 42 repo before restructuring everything into seperate repo's
